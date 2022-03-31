@@ -1,17 +1,43 @@
 locals {
   lambda_functions = {
-    your-lambda-1 = {
-      function_name = format("%s-%s", var.project_name, "your-lambda-1")
-      description   = "Your lambda function 1"
+    company = {
+      function_name = format("%s-%s", var.project_name, "company")
+      description   = "Company resources"
       runtime       = "go1.x"
       env_vars = {
         ENV = "prod"
       }
-    },
+    }
 
-    your-lambda-2 = {
-      function_name = format("%s-%s", var.project_name, "your-lambda-2")
-      description   = "Your lambda function 2"
+    favorites = {
+      function_name = format("%s-%s", var.project_name, "favorites")
+      description   = "Favorites resources"
+      runtime       = "go1.x"
+      env_vars = {
+        ENV = "prod"
+      }
+    }
+
+    orders = {
+      function_name = format("%s-%s", var.project_name, "orders")
+      description   = "Orders resources"
+      runtime       = "go1.x"
+      env_vars = {
+        ENV = "prod"
+      }
+    }
+
+    session = {
+      function_name = format("%s-%s", var.project_name, "session")
+      description   = "Session resources"
+      runtime       = "go1.x"
+      env_vars = {
+        ENV = "prod"
+      }
+    }
+    user = {
+      function_name = format("%s-%s", var.project_name, "user")
+      description   = "User resources"
       runtime       = "go1.x"
       env_vars = {
         ENV = "prod"
