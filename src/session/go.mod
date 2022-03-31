@@ -1,4 +1,4 @@
-module github.com/startup-of-zero-reais/SZR-application-templates/src/your-lambda-3
+module github.com/startup-of-zero-reais/API-customer-experience/src/your-lambda-3
 
 go 1.17
 
