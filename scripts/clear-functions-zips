@@ -1,0 +1,11 @@
+#!/bin/sh
+
+cd terraforms/lambdas/functions
+
+ZIPS=$(ls -d ./*.zip)
+
+for ZIP_FILE in $ZIPS; do
+    if [ -f $ZIP_FILE ]; then
+        rm $ZIP_FILE
+    fi
+done

@@ -1,0 +1,3 @@
+#!/bin/sh
+
+cp ./terraforms/lambdas/locals.tf ./terraforms/iam/locals.tf

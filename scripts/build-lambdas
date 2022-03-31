@@ -1,0 +1,30 @@
+#!/bin/sh
+
+LAMBDA=$1
+
+cd ./src/$LAMBDA
+
+if [ ! -f "Dockerfile" ]; then
+    echo "ERROR: Cannot build $LAMBDA. Dockerfile not found"
+    exit 1
+fi
+
+docker build -t lambdas/$LAMBDA .
+printf "Creatting intermediate container\n"
+ID=$(docker create lambdas/$LAMBDA)
+printf "Intermediate container $ID\n"
+printf "Copying $LAMBDA to $PWD\n"
+docker cp $ID:/go/src/$LAMBDA .
+printf "Removing intermediate container $LAMBDA to $PWD\n"
+docker rm -v $ID
+printf "Removing built image\n"
+docker rmi lambdas/$LAMBDA
+
+printf "Zipping binary\n"
+# IF HAS NO LAMBDA FUNCTIONS FOLDER
+if [ ! -d "lambda_functions" ]; then
+    mkdir -p ../../terraforms/lambdas/functions
+fi
+zip -r ../../terraforms/lambdas/functions/$LAMBDA.zip $LAMBDA
+printf "Removing binary generated\n"
+rm $LAMBDA

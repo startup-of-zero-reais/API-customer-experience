@@ -1,0 +1,2 @@
+**/.terraform**
+terraforms/lambdas/functions/*.zip

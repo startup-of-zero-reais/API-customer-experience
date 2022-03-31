@@ -1,0 +1,13 @@
+#!/bin/sh
+
+LAMBDAS=$(ls -d ./src/*)
+
+for LAMBDA_PATH in $LAMBDAS; do
+    LAMBDA=$(echo "$LAMBDA_PATH" | awk '{split($0,a,"/"); print a[3]}')
+    printf "Building $LAMBDA...\n"
+
+    ./scripts/build-lambdas $LAMBDA
+
+
+    printf "End build $LAMBDA...\n"
+done
