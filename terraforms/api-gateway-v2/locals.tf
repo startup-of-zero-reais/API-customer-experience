@@ -2,7 +2,16 @@ locals {
   api_stage = "api"
 
   routes = {
-    user = {
+    create_user = {
+      version     = "v1"
+      prefix      = "customer-experience/"
+      path        = "user"
+      method      = "POST"
+      invoke_arn  = data.aws_lambda_function.user.invoke_arn
+      description = "User resources lambda"
+    }
+
+    get_user = {
       version     = "v1"
       prefix      = "customer-experience/"
       path        = "user"
