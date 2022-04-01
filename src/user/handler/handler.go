@@ -21,6 +21,7 @@ func (h *Handler) Post(body string) domain.Response {
 
 func (h *Handler) Get() domain.Response {
 	response := domain.NewResponse()
+	response.SetData("Hello World Local!")
 
 	return *response
 }

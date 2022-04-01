@@ -4,11 +4,6 @@ ENV GOOS=linux
 ENV GOARCH=amd64
 ENV CGO_ENABLED=0
 
-# ENV GIT_TERMINAL_PROMPT=1
-
-# RUN go env -w GOPRIVATE="github.com/startup-of-zero-reais/*"
-# RUN go env -w GOPROXY=https://proxy.golang.org/ GOSUMDB=off
-
 ARG github_token
 
 WORKDIR /go/src
@@ -20,5 +15,3 @@ COPY . .
 
 RUN go mod tidy
 RUN go build .
-
-ENTRYPOINT [ "echo", "'done'" ]

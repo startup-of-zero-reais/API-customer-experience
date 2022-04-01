@@ -13,12 +13,12 @@ func main() {
 	lambda.Start(handleRoutes)
 }
 
-func handleRoutes(event events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
+func handleRoutes(event events.APIGatewayProxyRequest) (events.APIGatewayV2HTTPResponse, error) {
 	h := handler.Handler{}
 
 	request := ParseRequest(event)
 
-	switch request.RequestContext.HTTP.Method {
+	switch event.HTTPMethod {
 	case "GET":
 		return WrapResponse(h.Get())
 	case "POST":
@@ -32,8 +32,8 @@ func handleRoutes(event events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTP
 	}
 }
 
-func ParseRequest(request events.APIGatewayV2HTTPRequest) events.APIGatewayV2HTTPRequest {
-	if request.Headers["Content-Type"] != "application/json" {
+func ParseRequest(request events.APIGatewayProxyRequest) events.APIGatewayProxyRequest {
+	if content := request.Headers["Content-Type"]; content != "application/json" {
 		decodedBody, err := base64.StdEncoding.DecodeString(request.Body)
 		if err != nil {
 			panic(err)

@@ -1,0 +1,18 @@
+GET http://127.0.0.1:3000/user
+Content-Type: application/json
+
+###
+POST http://127.0.0.1:3000/user
+Content-Type: application/json
+
+{
+	"name": "John",
+	"lastname": "Doe",
+	"email": "john@doe.com",
+	"phone": "+5562982622387",
+	"password": "123456",
+	"confirm_password": "123456",
+	"avatar": "https://randomuser.me/api/portraits/men/24.jpg"
+}
+
+###
