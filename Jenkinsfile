@@ -80,8 +80,8 @@ pipeline {
 
             steps {
                 script {
-                    withCredentials([string(credentialsId: "ghp_token")]) {
-                        sh "./scripts/generate-lambda-zips"
+                    withCredentials([string(credentialsId: "ghp_token", variable: 'GITHUB_TOKEN')]) {
+                        sh "./scripts/generate-lambda-zips $GITHUB_TOKEN"
                     }
                 }
             }
