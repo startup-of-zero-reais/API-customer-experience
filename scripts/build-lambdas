@@ -9,7 +9,10 @@ if [ ! -f "Dockerfile" ]; then
     exit 1
 fi
 
-docker build -t lambdas/$LAMBDA .
+# GHP_TOKEN=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
+GHP_TOKEN=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
+
+docker build --build-arg github_token=$GHP_TOKEN -t lambdas/$LAMBDA .
 printf "Creatting intermediate container\n"
 ID=$(docker create lambdas/$LAMBDA)
 printf "Intermediate container $ID\n"
@@ -22,9 +25,11 @@ docker rmi lambdas/$LAMBDA
 
 printf "Zipping binary\n"
 # IF HAS NO LAMBDA FUNCTIONS FOLDER
-if [ ! -d "lambda_functions" ]; then
+if [ ! -d "../../terraforms/lambdas/functions" ]; then
     mkdir -p ../../terraforms/lambdas/functions
 fi
 zip -r ../../terraforms/lambdas/functions/$LAMBDA.zip $LAMBDA
 printf "Removing binary generated\n"
-rm $LAMBDA
+if [ -f "$LAMBDA" ]; then
+    rm $LAMBDA
+fi
