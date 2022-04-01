@@ -34,7 +34,9 @@ func handleRoutes(event events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTP
 
 func ParseRequest(request events.APIGatewayV2HTTPRequest) events.APIGatewayV2HTTPRequest {
 	if request.Headers["Content-Type"] != "application/json" {
-		request.Body = base64.StdEncoding.EncodeToString([]byte(request.Body))
+		var body []byte
+		base64.StdEncoding.Decode(body, []byte(request.Body))
+		request.Body = string(body)
 	}
 
 	return request

@@ -23,7 +23,7 @@ type (
 		Phone     string
 		Password  Password
 		Avatar    string
-		Addresses []Address
+		Addresses *[]Address
 	}
 )
 
@@ -57,12 +57,13 @@ func NewUser(id, name, lastname, email, phone, avatar string, password Password)
 	}
 
 	return &User{
-		ID:       id,
-		Name:     name,
-		Lastname: lastname,
-		Email:    email,
-		Phone:    phone,
-		Avatar:   avatar,
-		Password: password.Hash(),
+		ID:        id,
+		Name:      name,
+		Lastname:  lastname,
+		Email:     email,
+		Phone:     phone,
+		Avatar:    avatar,
+		Password:  password.Hash(),
+		Addresses: &[]Address{},
 	}
 }
