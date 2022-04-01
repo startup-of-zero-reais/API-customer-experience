@@ -29,7 +29,8 @@ func handleRoutes(request events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HT
 
 func WrapResponse(response domain.Response) (events.APIGatewayV2HTTPResponse, error) {
 	return events.APIGatewayV2HTTPResponse{
-		StatusCode: response.StatusCode,
-		Body:       response.Body.ToJson(),
+		StatusCode:      response.StatusCode,
+		Body:            response.Body.ToJson(),
+		IsBase64Encoded: false,
 	}, nil
 }

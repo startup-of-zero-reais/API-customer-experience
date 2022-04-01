@@ -1,12 +1,13 @@
 #!/bin/sh
 
+GHP_TOKEN=$1
 LAMBDAS=$(ls -d ./src/*)
 
 for LAMBDA_PATH in $LAMBDAS; do
     LAMBDA=$(echo "$LAMBDA_PATH" | awk '{split($0,a,"/"); print a[3]}')
     printf "Building $LAMBDA...\n"
 
-    ./scripts/build-lambdas $LAMBDA
+    ./scripts/build-lambdas $LAMBDA $GHP_TOKEN
 
 
     printf "End build $LAMBDA...\n"

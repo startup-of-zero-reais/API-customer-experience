@@ -80,7 +80,9 @@ pipeline {
 
             steps {
                 script {
-                    sh "./scripts/generate-lambda-zips"
+                    withCredentials([string(credentialsId: "ghp_token")]) {
+                        sh "./scripts/generate-lambda-zips"
+                    }
                 }
             }
         }
