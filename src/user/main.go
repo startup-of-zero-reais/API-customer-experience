@@ -1,6 +1,8 @@
 package main
 
 import (
+	"encoding/base64"
+
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/common/domain"
@@ -11,8 +13,11 @@ func main() {
 	lambda.Start(handleRoutes)
 }
 
-func handleRoutes(request events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
+func handleRoutes(event events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
 	h := handler.Handler{}
+
+	request := ParseRequest(event)
+
 	switch request.RequestContext.HTTP.Method {
 	case "GET":
 		return WrapResponse(h.Get())
@@ -25,6 +30,14 @@ func handleRoutes(request events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HT
 	default:
 		return WrapResponse(h.Get())
 	}
+}
+
+func ParseRequest(request events.APIGatewayV2HTTPRequest) events.APIGatewayV2HTTPRequest {
+	if request.Headers["Content-Type"] != "application/json" {
+		request.Body = base64.StdEncoding.EncodeToString([]byte(request.Body))
+	}
+
+	return request
 }
 
 func WrapResponse(response domain.Response) (events.APIGatewayV2HTTPResponse, error) {
