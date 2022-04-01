@@ -10,9 +10,6 @@ if [ ! -f "Dockerfile" ]; then
     exit 1
 fi
 
-# GHP_TOKEN=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
-# GHP_TOKEN=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
-
 docker build --build-arg github_token=$GHP_TOKEN -t lambdas/$LAMBDA .
 printf "Creatting intermediate container\n"
 ID=$(docker create lambdas/$LAMBDA)
