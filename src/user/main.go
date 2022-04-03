@@ -16,11 +16,11 @@ func main() {
 func handleRoutes(event events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
 	h := handler.NewHandler()
 
-	request := ParseRequest(event)
+	request := ParseRequestHeaders(event)
 
 	switch event.RequestContext.HTTP.Method {
 	case "GET":
-		return WrapResponse(h.Get())
+		return WrapResponse(h.Get(request.Headers))
 	case "POST":
 		return WrapResponse(h.Post(request.Body))
 	case "PUT":
@@ -28,11 +28,11 @@ func handleRoutes(event events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTP
 	case "DELETE":
 		return WrapResponse(h.Delete())
 	default:
-		return WrapResponse(h.Get())
+		panic("Method not implemented")
 	}
 }
 
-func ParseRequest(request events.APIGatewayV2HTTPRequest) events.APIGatewayV2HTTPRequest {
+func ParseRequestHeaders(request events.APIGatewayV2HTTPRequest) events.APIGatewayV2HTTPRequest {
 	if content := request.Headers["Content-Type"]; content != "application/json" {
 		decodedBody, err := base64.StdEncoding.DecodeString(request.Body)
 		if err != nil {

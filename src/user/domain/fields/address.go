@@ -1,5 +1,7 @@
 package fields
 
+import "encoding/json"
+
 type (
 	// Address struct represents a address
 	Address struct {
@@ -12,9 +14,19 @@ type (
 	}
 
 	// AddressRepository is a interface to access the address
-	Addresses *[]Address
+	Addresses []Address
 )
 
 func NewAddress() *Address {
 	return &Address{}
+}
+
+func (a *Addresses) String() string {
+	bytes, err := json.Marshal(a)
+
+	if err != nil {
+		return ""
+	}
+
+	return string(bytes)
 }

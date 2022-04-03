@@ -17,6 +17,7 @@ type (
 		response *domain.Response
 
 		createUser *service.CreateUser
+		getUser    *service.GetUser
 	}
 )
 
@@ -27,6 +28,7 @@ func NewHandler() Handler {
 		response: domain.NewResponse(),
 
 		createUser: service.NewCreateUser(userRepository),
+		getUser:    service.NewGetUser(userRepository),
 	}
 }
 
@@ -43,20 +45,43 @@ func (h *Handler) Post(body string) domain.Response {
 	return *h.response
 }
 
-func (h *Handler) Get() domain.Response {
-	h.response.SetData("Hello World Local!")
+func (h *Handler) Get(headers map[string]string) domain.Response {
+	if len(headers) <= 0 {
+		h.response.SetStatusCode(http.StatusBadRequest)
+		h.response.SetMetadata(map[string]string{"error": "Header 'Authorization' é obrigatório"})
+
+		return *h.response
+	}
+
+	id := headers["User-Id"]
+	email := headers["User-Email"]
+	if id == "" || email == "" {
+		h.response.SetStatusCode(http.StatusBadRequest)
+		h.response.SetMetadata(map[string]string{"error": "Header 'Authorization' é obrigatório"})
+
+		return *h.response
+	}
+
+	user, err := h.getUser.Execute(id, email)
+	if err != nil {
+		h.response.SetStatusCode(http.StatusNotFound)
+		h.response.SetMetadata(map[string]string{"error": err.Error()})
+	} else {
+		h.response.SetStatusCode(http.StatusOK)
+		h.response.SetData(user)
+	}
 
 	return *h.response
 }
 
 func (h *Handler) Put() domain.Response {
-	response := domain.NewResponse()
+	h.response.SetStatusCode(http.StatusCreated)
 
-	return *response
+	return *h.response
 }
 
 func (h *Handler) Delete() domain.Response {
-	response := domain.NewResponse()
+	h.response.SetStatusCode(http.StatusCreated)
 
-	return *response
+	return *h.response
 }

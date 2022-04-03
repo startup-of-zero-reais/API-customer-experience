@@ -1,5 +1,7 @@
 GET http://127.0.0.1:3000/user
 Content-Type: application/json
+User-ID: d707b00c-9fa4-49a6-b6dc-c63f58201cbf
+User-Email: john@doe.com
 
 ###
 POST http://127.0.0.1:3000/user
