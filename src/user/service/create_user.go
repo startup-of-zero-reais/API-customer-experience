@@ -2,6 +2,9 @@ package service
 
 import (
 	"encoding/json"
+	"errors"
+
+	"github.com/startup-of-zero-reais/API-customer-experience/src/user/domain/validation"
 
 	"github.com/google/uuid"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/user/data"
@@ -39,6 +42,18 @@ func (c *CreateUser) Execute(body string) error {
 	err := json.Unmarshal([]byte(body), &receivedUser)
 	if err != nil {
 		return err
+	}
+
+	userAlreadyExists, err := c.Repository.FindByEmail(receivedUser.Email)
+	if err != nil {
+		var notFound *validation.NotFound
+		if !errors.As(err, &notFound) {
+			return err
+		}
+	}
+
+	if userAlreadyExists != nil {
+		return validation.EntityAlreadyExistsError("usuário com este e-mail já cadastrado")
 	}
 
 	user, err := domain.NewUser(

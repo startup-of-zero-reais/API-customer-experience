@@ -43,19 +43,6 @@ func NewHandler() Handler {
 	}
 }
 
-func (h *Handler) Post(r Request) domain.Response {
-	h.response.SetStatusCode(http.StatusCreated)
-
-	err := h.createUser.Execute(r.Body)
-	var fv *validation.FieldValidator
-	if err != nil && errors.As(err, &fv) {
-		h.response.SetStatusCode(http.StatusBadRequest)
-		h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
-	}
-
-	return *h.response
-}
-
 func (h *Handler) validateAuth(r Request) error {
 	authorization := r.Headers["Authorization"]
 	if authorization == "" {
@@ -68,6 +55,30 @@ func (h *Handler) validateAuth(r Request) error {
 
 	_, err := h.jwtService.ValidateToken(authorization)
 	return err
+}
+
+func (h *Handler) Post(r Request) domain.Response {
+	h.response.SetStatusCode(http.StatusCreated)
+
+	err := h.createUser.Execute(r.Body)
+	if err != nil {
+		h.response.SetStatusCode(http.StatusInternalServerError)
+		h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
+
+		var fv *validation.FieldValidator
+		if errors.As(err, &fv) {
+			h.response.SetStatusCode(http.StatusBadRequest)
+			h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
+		}
+
+		var alreadyExists *validation.EntityAlreadyExists
+		if errors.As(err, &alreadyExists) {
+			h.response.SetStatusCode(http.StatusConflict)
+			h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
+		}
+	}
+
+	return *h.response
 }
 
 func (h *Handler) Get(r Request) domain.Response {
@@ -85,8 +96,14 @@ func (h *Handler) Get(r Request) domain.Response {
 
 	user, err := h.getUser.Execute(id, email)
 	if err != nil {
-		h.response.SetStatusCode(http.StatusNotFound)
+		h.response.SetStatusCode(http.StatusInternalServerError)
 		h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
+
+		var notFound *validation.NotFound
+		if errors.As(err, &notFound) {
+			h.response.SetStatusCode(http.StatusNotFound)
+			h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
+		}
 	} else {
 		h.response.SetStatusCode(http.StatusOK)
 		h.response.SetData(user)

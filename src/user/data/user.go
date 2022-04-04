@@ -2,11 +2,12 @@ package data
 
 import (
 	"context"
-	"errors"
+	"log"
 
 	"github.com/startup-of-zero-reais/dynamo-for-lambda/expressions"
 
 	"github.com/startup-of-zero-reais/API-customer-experience/src/user/domain"
+	"github.com/startup-of-zero-reais/API-customer-experience/src/user/domain/validation"
 	domayn "github.com/startup-of-zero-reais/dynamo-for-lambda/domain"
 	"github.com/startup-of-zero-reais/dynamo-for-lambda/drivers"
 	"github.com/startup-of-zero-reais/dynamo-for-lambda/table"
@@ -15,6 +16,7 @@ import (
 type (
 	// UserRepository is a interface to access the user data
 	UserRepository interface {
+		FindByEmail(email string) (*UserModel, error)
 		FindByUser(id, email string) (*UserModel, error)
 		Save(user *domain.User) error
 	}
@@ -59,6 +61,26 @@ func NewUserRepository() UserRepository {
 	}
 }
 
+func (r *UserRepositoryImpl) FindByEmail(email string) (*UserModel, error) {
+	keyCondition := expressions.NewKeyCondition("Email", email)
+	sql := r.modelDynamo.NewExpressionBuilder().Where(keyCondition).SetIndex("EmailIndex")
+
+	var result []UserModel
+	err := r.modelDynamo.Perform(drivers.QUERY, sql, &result)
+	if err != nil {
+		return nil, err
+	}
+
+	// TODO : Remover log
+	log.Println("RESULT", result)
+
+	if len(result) == 0 {
+		return nil, validation.NotFoundError("usuário não encontrado")
+	}
+
+	return &result[0], nil
+}
+
 func (r *UserRepositoryImpl) FindByUser(id, email string) (*UserModel, error) {
 	keyCondition := expressions.NewKeyCondition("ID", id)
 	sortKeyCondition := expressions.NewSortKeyCondition("Email").Equal(email)
@@ -71,7 +93,7 @@ func (r *UserRepositoryImpl) FindByUser(id, email string) (*UserModel, error) {
 	}
 
 	if result.ID == "" {
-		return &UserModel{}, errors.New("usuário não encontrado")
+		return &UserModel{}, validation.NotFoundError("usuário não encontrado")
 	}
 
 	return &result, nil

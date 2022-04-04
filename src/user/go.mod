@@ -6,7 +6,7 @@ require (
 	github.com/aws/aws-lambda-go v1.28.0
 	github.com/google/uuid v1.3.0
 	github.com/startup-of-zero-reais/API-customer-experience/src/common v0.0.0-20220404041850-2870a85f0a3c
-	github.com/startup-of-zero-reais/dynamo-for-lambda v0.0.0-20220404031122-29145e3b3af5
+	github.com/startup-of-zero-reais/dynamo-for-lambda v0.0.0-20220404210441-dea58ae5beb9
 	golang.org/x/crypto v0.0.0-20220331220935-ae2d96664a29
 )
 
