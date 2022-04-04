@@ -6,6 +6,7 @@ require (
 	github.com/aws/aws-sdk-go-v2 v1.16.2
 	github.com/aws/aws-sdk-go-v2/config v1.15.3
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.15.3
+	github.com/golang-jwt/jwt v3.2.2+incompatible
 )
 
 require (
