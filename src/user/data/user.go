@@ -2,6 +2,7 @@ package data
 
 import (
 	"context"
+	"errors"
 
 	"github.com/startup-of-zero-reais/dynamo-for-lambda/expressions"
 
@@ -60,13 +61,17 @@ func NewUserRepository() UserRepository {
 
 func (r *UserRepositoryImpl) FindByUser(id, email string) (*UserModel, error) {
 	keyCondition := expressions.NewKeyCondition("ID", id)
-	sortKeyCondition := expressions.NewSortKeyCondition("Email", email)
+	sortKeyCondition := expressions.NewSortKeyCondition("Email").Equal(email)
 	sql := r.modelDynamo.NewExpressionBuilder().Where(keyCondition).AndWhere(sortKeyCondition)
 
 	var result UserModel
 	err := r.modelDynamo.Perform(drivers.GET, sql, &result)
 	if err != nil {
 		return &UserModel{}, err
+	}
+
+	if result.ID == "" {
+		return &UserModel{}, errors.New("usuário não encontrado")
 	}
 
 	return &result, nil

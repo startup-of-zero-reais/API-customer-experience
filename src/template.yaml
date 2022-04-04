@@ -11,101 +11,6 @@ Globals:
     Timeout: 5
 
 Resources:
-  UserEvent: 
-    Type: AWS::DynamoDB::Table
-    Properties: 
-      AttributeDefinitions: 
-        - 
-          AttributeName: "Key"
-          AttributeType: "S"
-        - 
-          AttributeName: "EventID"
-          AttributeType: "N"
-        - 
-          AttributeName: "EventType"
-          AttributeType: "S"
-        - 
-          AttributeName: "Data"
-          AttributeType: "B"
-        - 
-          AttributeName: "Timestamp"
-          AttributeType: "N"
-      KeySchema: 
-        - 
-          AttributeName: "Key"
-          KeyType: "HASH"
-        - 
-          AttributeName: "EventID"
-          KeyType: "RANGE"
-      ProvisionedThroughput: 
-        ReadCapacityUnits: "5"
-        WriteCapacityUnits: "5"
-      TableName: "UserEvent"
-      GlobalSecondaryIndexes: 
-        - 
-          IndexName: "EventTypeIndex"
-          KeySchema: 
-            - 
-              AttributeName: "EventType"
-              KeyType: "HASH"
-            - 
-              AttributeName: "EventID"
-              KeyType: "RANGE"
-          Projection: 
-            ProjectionType: "ALL"
-          ProvisionedThroughput: 
-            ReadCapacityUnits: "5"
-            WriteCapacityUnits: "5"
-        - 
-          IndexName: "TimestampIndex"
-          KeySchema: 
-            - 
-              AttributeName: "Key"
-              KeyType: "HASH"
-            - 
-              AttributeName: "Timestamp"
-              KeyType: "RANGE"
-          Projection: 
-            ProjectionType: "ALL"
-          ProvisionedThroughput: 
-            ReadCapacityUnits: "5"
-            WriteCapacityUnits: "5"
-  UserModel: 
-    Type: AWS::DynamoDB::Table
-    Properties: 
-      AttributeDefinitions: 
-        - 
-          AttributeName: "ID"
-          AttributeType: "S"
-        - 
-          AttributeName: "Email"
-          AttributeType: "S"
-      KeySchema: 
-        - 
-          AttributeName: "ID"
-          KeyType: "HASH"
-        - 
-          AttributeName: "Email"
-          KeyType: "RANGE"
-      ProvisionedThroughput: 
-        ReadCapacityUnits: "5"
-        WriteCapacityUnits: "5"
-      TableName: "UserModel"
-      GlobalSecondaryIndexes: 
-        - 
-          IndexName: "EmailIndex"
-          KeySchema: 
-            - 
-              AttributeName: "Email"
-              KeyType: "HASH"
-            - 
-              AttributeName: "ID"
-              KeyType: "RANGE"
-          Projection: 
-            ProjectionType: "ALL"
-          ProvisionedThroughput: 
-            ReadCapacityUnits: "5"
-            WriteCapacityUnits: "5"
   UserFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
@@ -121,9 +26,6 @@ Resources:
           Properties:
             Path: /user
             Method: ANY
-      Policies:
-        - DynamoDBCrudPolicy:
-          TableName: !Ref UserModel
       Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
         Variables:
-          PARAM1: VALUE
+          JWT_SERVICE: DEV

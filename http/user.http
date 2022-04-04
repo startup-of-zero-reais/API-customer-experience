@@ -1,7 +1,7 @@
 GET http://127.0.0.1:3000/user
 Content-Type: application/json
-User-ID: d707b00c-9fa4-49a6-b6dc-c63f58201cbf
-User-Email: john@doe.com
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDkxMzE2MTIsImp0aSI6ImpvaG5AZG9lLmNvbSIsInN1YiI6ImFhZGQ0M2E3LTZlNzAtNDMzOS1hY2Y4LTc3MDQyOTNmMzJlYyJ9.WVHU-T2sI7KNMiBWBGf6fOE1qMGBckmrKfyljLE--FI
+Cookie: usess=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDkxMzE2MTIsImp0aSI6ImpvaG5AZG9lLmNvbSIsInN1YiI6ImFhZGQ0M2E3LTZlNzAtNDMzOS1hY2Y4LTc3MDQyOTNmMzJlYyJ9.WVHU-T2sI7KNMiBWBGf6fOE1qMGBckmrKfyljLE--FI;
 
 ###
 POST http://127.0.0.1:3000/user

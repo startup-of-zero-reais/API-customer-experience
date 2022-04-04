@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/base64"
+	"strings"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -16,13 +17,13 @@ func main() {
 func handleRoutes(event events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
 	h := handler.NewHandler()
 
-	request := ParseRequestHeaders(event)
+	request := ParseRequest(event)
 
 	switch event.RequestContext.HTTP.Method {
 	case "GET":
-		return WrapResponse(h.Get(request.Headers))
+		return WrapResponse(h.Get(request))
 	case "POST":
-		return WrapResponse(h.Post(request.Body))
+		return WrapResponse(h.Post(request))
 	case "PUT":
 		return WrapResponse(h.Put())
 	case "DELETE":
@@ -32,7 +33,14 @@ func handleRoutes(event events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTP
 	}
 }
 
-func ParseRequestHeaders(request events.APIGatewayV2HTTPRequest) events.APIGatewayV2HTTPRequest {
+func ParseRequest(request events.APIGatewayV2HTTPRequest) handler.Request {
+	cookies := map[string]string{}
+
+	for _, cookie := range request.Cookies {
+		cookieSlices := strings.Split(cookie, "=")
+		cookies[cookieSlices[0]] = cookieSlices[1]
+	}
+
 	if content := request.Headers["Content-Type"]; content != "application/json" {
 		decodedBody, err := base64.StdEncoding.DecodeString(request.Body)
 		if err != nil {
@@ -42,7 +50,15 @@ func ParseRequestHeaders(request events.APIGatewayV2HTTPRequest) events.APIGatew
 		request.Body = string(decodedBody)
 	}
 
-	return request
+	if request.Headers["Authorization"] != "" {
+		request.Headers["Authorization"] = strings.Replace(request.Headers["Authorization"], "Bearer ", "", 1)
+	}
+
+	return handler.Request{
+		Headers: request.Headers,
+		Cookies: cookies,
+		Body:    request.Body,
+	}
 }
 
 func WrapResponse(response domain.Response) (events.APIGatewayV2HTTPResponse, error) {
