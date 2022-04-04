@@ -36,11 +36,22 @@ make
 
 **Invoking function locally through local API Gateway**
 
+Generating local network
+
 ```bash
-sam local start-api
+docker network create lambda-local
 ```
 
-If the previous command ran successfully you should now be able to hit the following local endpoint to invoke your function `http://localhost:3000/hello`
+```bash
+sam local start-api --docker-network lambda-local
+```
+
+Enabling hot reload
+```bash
+reflex -r '\.go$' -s -- sh -c 'sam build'
+```
+
+If the previous command ran successfully you should now be able to hit the following local endpoint to invoke your function `http://localhost:3000/user`
 
 **SAM CLI** is used to emulate both Lambda and API Gateway locally and uses our `template.yaml` to understand how to bootstrap this environment (runtime, where the source code is, etc.) - The following excerpt is what the CLI will read in order to initialize an API and its routes:
 
