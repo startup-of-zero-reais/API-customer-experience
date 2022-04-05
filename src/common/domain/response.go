@@ -7,10 +7,10 @@ import (
 
 type (
 	Body struct {
-		StatusCode int                    `json:"statusCode"`
-		Message    string                 `json:"message"`
-		Data       interface{}            `json:"data,omitempty"`
-		Metadata   map[string]interface{} `json:"metadata,omitempty"`
+		StatusCode int         `json:"statusCode"`
+		Message    string      `json:"message"`
+		Data       interface{} `json:"data,omitempty"`
+		Metadata   interface{} `json:"metadata,omitempty"`
 	}
 
 	// Response struct represents a response
