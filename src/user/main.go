@@ -25,7 +25,7 @@ func handleRoutes(event events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTP
 	case "POST":
 		return WrapResponse(h.Post(request))
 	case "PUT":
-		return WrapResponse(h.Put())
+		return WrapResponse(h.Put(request))
 	case "DELETE":
 		return WrapResponse(h.Delete())
 	default:

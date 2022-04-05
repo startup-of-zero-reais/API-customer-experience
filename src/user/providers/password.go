@@ -1,4 +1,4 @@
-package service
+package providers
 
 import (
 	"github.com/startup-of-zero-reais/API-customer-experience/src/user/domain/fields"

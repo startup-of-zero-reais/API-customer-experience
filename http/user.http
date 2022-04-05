@@ -1,7 +1,6 @@
 GET http://127.0.0.1:3000/user
 Content-Type: application/json
-# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDkxMzE2MTIsImp0aSI6ImpvaG5AZG9lLmNvbSIsInN1YiI6ImFhZGQ0M2E3LTZlNzAtNDMzOS1hY2Y4LTc3MDQyOTNmMzJlYyJ9.WVHU-T2sI7KNMiBWBGf6fOE1qMGBckmrKfyljLE--FI
-Cookie: usess=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDkxMzE2MTIsImp0aSI6ImpvaG5AZG9lLmNvbSIsInN1YiI6ImFhZGQ0M2E3LTZlNzAtNDMzOS1hY2Y4LTc3MDQyOTNmMzJlYyJ9.WVHU-T2sI7KNMiBWBGf6fOE1qMGBckmrKfyljLE--FI;
+Cookie: usess=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDkyMTUzODIsImp0aSI6ImpvaG5AZG9lLmNvbSIsInN1YiI6ImNkMzA1NTE2LTlmMzUtNDYxYy04YWY0LTZmOGE1MzI3ODM5OCJ9.Q4TxZRWPWAguVF_GANio9sYjqoeOjWuKzfoIg8m8CXE;
 
 ###
 POST http://127.0.0.1:3000/user
@@ -15,6 +14,19 @@ Content-Type: application/json
 	"password": "123456",
 	"confirm_password": "123456",
 	"avatar": "https://randomuser.me/api/portraits/men/24.jpg"
+}
+
+###
+PUT http://127.0.0.1:3000/user
+Content-Type: application/json
+Cookie: usess=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDkyMTUzODIsImp0aSI6ImpvaG5AZG9lLmNvbSIsInN1YiI6ImNkMzA1NTE2LTlmMzUtNDYxYy04YWY0LTZmOGE1MzI3ODM5OCJ9.Q4TxZRWPWAguVF_GANio9sYjqoeOjWuKzfoIg8m8CXE;
+
+{
+	"name": "Johnny",
+	"password": "123456",
+	"confirm_password": "123456",
+	"new_password": "123456",
+	"confirm_new_password": "123456"
 }
 
 ###

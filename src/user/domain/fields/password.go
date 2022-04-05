@@ -1,6 +1,10 @@
 package fields
 
-import "errors"
+import (
+	"errors"
+
+	"github.com/startup-of-zero-reais/API-customer-experience/src/user/domain/validation"
+)
 
 type (
 	// EncryptProvider is a interface to encrypt and decrypt data
@@ -19,10 +23,14 @@ type (
 
 // NewPassword is the constructor of Password
 func NewPassword(e EncryptProvider, password string) *Password {
-	return &Password{
+	p := &Password{
 		EncryptProvider: e,
 		password:        password,
 	}
+
+	p.encrypt()
+
+	return p
 }
 
 // IsValid is a method that checks if the password is valid
@@ -39,7 +47,7 @@ func (p *Password) IsValid() []string {
 	return errs
 }
 
-func (p *Password) Encrypt() *Password {
+func (p *Password) encrypt() *Password {
 	p.hash = p.EncryptProvider.Hash(p.password)
 	return p
 }
@@ -49,14 +57,24 @@ func (p *Password) Hash() string {
 	return p.hash
 }
 
+// PassToHash is a method to inverse the password and hash values
+func (p *Password) PassToHash() *Password {
+	p.hash = p.password
+	p.password = ""
+
+	return p
+}
+
 // Compare is a method that compares the password with the encrypted password
 func (p *Password) Compare(password string) error {
 	if password == "" {
-		return errors.New("o campo de senha é obrigatório")
+		fieldValidator := validation.NewFieldValidator()
+		fieldValidator.AddError("password", "o campo de senha é obrigatório")
+		return fieldValidator
 	}
 
 	if err := p.EncryptProvider.Compare(password, p.hash); err != nil {
-		return errors.New("credenciais inválidas")
+		return validation.UnauthorizedError("credenciais inválidas")
 	}
 
 	return nil

@@ -19,6 +19,7 @@ type (
 
 		createUser *service.CreateUser
 		getUser    *service.GetUser
+		updateUser service.UpdateUser
 
 		jwtService s.JwtService
 	}
@@ -38,6 +39,7 @@ func NewHandler() Handler {
 
 		createUser: service.NewCreateUser(userRepository),
 		getUser:    service.NewGetUser(userRepository),
+		updateUser: service.NewUpdateUser(userRepository),
 
 		jwtService: s.NewJwtService(),
 	}
@@ -82,6 +84,12 @@ func (h *Handler) Post(r Request) domain.Response {
 }
 
 func (h *Handler) Get(r Request) domain.Response {
+	// log.Println(
+	// 	h.jwtService.GenerateToken(
+	// 		"cd305516-9f35-461c-8af4-6f8a53278398",
+	// 		"john@doe.com",
+	// 	),
+	// )
 	err := h.validateAuth(r)
 
 	if err != nil {
@@ -112,8 +120,47 @@ func (h *Handler) Get(r Request) domain.Response {
 	return *h.response
 }
 
-func (h *Handler) Put() domain.Response {
-	h.response.SetStatusCode(http.StatusCreated)
+func (h *Handler) Put(r Request) domain.Response {
+	err := h.validateAuth(r)
+	if err != nil {
+		h.response.SetStatusCode(http.StatusUnauthorized)
+		h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
+
+		return *h.response
+	}
+
+	id := h.jwtService.DecodedToken("id").(string)
+	email := h.jwtService.DecodedToken("email").(string)
+
+	err = h.updateUser.Update(id, email, r.Body)
+	if err != nil {
+		h.response.SetStatusCode(http.StatusInternalServerError)
+		h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
+
+		var notFound *validation.NotFound
+		if errors.As(err, &notFound) {
+			h.response.SetStatusCode(http.StatusNotFound)
+			h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
+		}
+
+		var fv *validation.FieldValidator
+		if errors.As(err, &fv) {
+			h.response.SetStatusCode(http.StatusBadRequest)
+			h.response.SetMetadata(err)
+		}
+
+		var alreadyExists *validation.EntityAlreadyExists
+		if errors.As(err, &alreadyExists) {
+			h.response.SetStatusCode(http.StatusConflict)
+			h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
+		}
+
+		var unauthorized *validation.Unauthorized
+		if errors.As(err, &unauthorized) {
+			h.response.SetStatusCode(http.StatusUnauthorized)
+			h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
+		}
+	}
 
 	return *h.response
 }

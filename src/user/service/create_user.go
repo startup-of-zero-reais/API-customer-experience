@@ -3,8 +3,10 @@ package service
 import (
 	"encoding/json"
 	"errors"
+	"log"
 
 	"github.com/startup-of-zero-reais/API-customer-experience/src/user/domain/validation"
+	"github.com/startup-of-zero-reais/API-customer-experience/src/user/providers"
 
 	"github.com/google/uuid"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/user/data"
@@ -64,7 +66,7 @@ func (c *CreateUser) Execute(body string) error {
 		receivedUser.Phone,
 		receivedUser.Avatar,
 		fields.NewPassword(
-			NewEncryptProvider(),
+			providers.NewEncryptProvider(),
 			receivedUser.Password,
 		),
 	)
@@ -78,12 +80,12 @@ func (c *CreateUser) Execute(body string) error {
 		return err
 	}
 
-	user.Password.Encrypt()
-
 	err = c.Repository.Save(user)
 	if err != nil {
 		return err
 	}
+
+	log.Println("[USER UID]:", user.ID)
 
 	return nil
 }
