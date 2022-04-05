@@ -53,7 +53,7 @@ func (r *Response) SetData(data interface{}) *Response {
 	return r
 }
 
-func (r *Response) SetMetadata(metadata map[string]interface{}) *Response {
+func (r *Response) SetMetadata(metadata interface{}) *Response {
 	r.Body.Data = nil
 	r.Body.Metadata = metadata
 
