@@ -15,9 +15,15 @@ import (
 )
 
 type (
+	CreateUser interface {
+		Execute(body string) error
+	}
+
 	// User struct represents a user
-	CreateUser struct {
+	CreateUserImpl struct {
 		Repository data.UserRepository
+
+		EventEmitter domain.EventEmitter
 	}
 
 	// User struct represents a user
@@ -33,13 +39,17 @@ type (
 	}
 )
 
-func NewCreateUser(repository data.UserRepository) *CreateUser {
-	return &CreateUser{
+func NewCreateUser(repository data.UserRepository) *CreateUserImpl {
+	return &CreateUserImpl{
 		Repository: repository,
+
+		EventEmitter: domain.NewEventEmitter(
+			data.NewEventRepository(),
+		),
 	}
 }
 
-func (c *CreateUser) Execute(body string) error {
+func (c *CreateUserImpl) Execute(body string) error {
 	var receivedUser User
 	err := json.Unmarshal([]byte(body), &receivedUser)
 	if err != nil {
@@ -80,12 +90,11 @@ func (c *CreateUser) Execute(body string) error {
 		return err
 	}
 
-	err = c.Repository.Save(user)
-	if err != nil {
-		return err
-	}
+	// err = c.Repository.Save(user)
+	// if err != nil {
+	// 	return err
+	// }
 
 	log.Println("[USER UID]:", user.ID)
-
-	return nil
+	return c.EventEmitter.Emit(user.ID, domain.UserCreated, user)
 }

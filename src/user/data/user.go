@@ -26,25 +26,11 @@ type (
 
 	// UserRepositoryImpl is a implementation of UserRepository
 	UserRepositoryImpl struct {
-		eventsDynamo *drivers.DynamoClient
-		modelDynamo  *drivers.DynamoClient
+		modelDynamo *drivers.DynamoClient
 	}
 )
 
 func NewUserRepository() UserRepository {
-	eventsDynamo := drivers.NewDynamoClient(
-		context.TODO(),
-		&domayn.Config{
-			TableName: "UserEvent",
-			Table: table.NewTable(
-				"UserEvent",
-				UserEvent{},
-			),
-			Endpoint: "http://customer_experience-db:8000",
-		},
-	)
-	eventsDynamo.Migrate()
-
 	modelDynamo := drivers.NewDynamoClient(
 		context.TODO(),
 		&domayn.Config{
@@ -60,8 +46,7 @@ func NewUserRepository() UserRepository {
 	// defer modelDynamo.FlushDb()
 
 	return &UserRepositoryImpl{
-		eventsDynamo: eventsDynamo,
-		modelDynamo:  modelDynamo,
+		modelDynamo: modelDynamo,
 	}
 }
 

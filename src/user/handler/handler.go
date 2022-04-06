@@ -4,9 +4,7 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/startup-of-zero-reais/API-customer-experience/src/user/data"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/user/domain/validation"
-	"github.com/startup-of-zero-reais/API-customer-experience/src/user/service"
 
 	"github.com/startup-of-zero-reais/API-customer-experience/src/common/domain"
 	s "github.com/startup-of-zero-reais/API-customer-experience/src/common/service"
@@ -17,9 +15,7 @@ type (
 	Handler struct {
 		response *domain.Response
 
-		createUser *service.CreateUser
-		getUser    *service.GetUser
-		updateUser service.UpdateUser
+		app *Application
 
 		jwtService s.JwtService
 	}
@@ -32,14 +28,10 @@ type (
 )
 
 func NewHandler() Handler {
-	userRepository := data.NewUserRepository()
-
 	return Handler{
 		response: domain.NewResponse(),
 
-		createUser: service.NewCreateUser(userRepository),
-		getUser:    service.NewGetUser(userRepository),
-		updateUser: service.NewUpdateUser(userRepository),
+		app: NewApplication(),
 
 		jwtService: s.NewJwtService(),
 	}
@@ -62,7 +54,7 @@ func (h *Handler) validateAuth(r Request) error {
 func (h *Handler) Post(r Request) domain.Response {
 	h.response.SetStatusCode(http.StatusCreated)
 
-	err := h.createUser.Execute(r.Body)
+	err := h.app.CreateUser.Execute(r.Body)
 	if err != nil {
 		h.response.SetStatusCode(http.StatusInternalServerError)
 		h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
@@ -102,7 +94,7 @@ func (h *Handler) Get(r Request) domain.Response {
 	id := h.jwtService.DecodedToken("id").(string)
 	email := h.jwtService.DecodedToken("email").(string)
 
-	user, err := h.getUser.Execute(id, email)
+	user, err := h.app.GetUser.Execute(id, email)
 	if err != nil {
 		h.response.SetStatusCode(http.StatusInternalServerError)
 		h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
@@ -132,7 +124,7 @@ func (h *Handler) Put(r Request) domain.Response {
 	id := h.jwtService.DecodedToken("id").(string)
 	email := h.jwtService.DecodedToken("email").(string)
 
-	err = h.updateUser.Update(id, email, r.Body)
+	err = h.app.UpdateUser.Update(id, email, r.Body)
 	if err != nil {
 		h.response.SetStatusCode(http.StatusInternalServerError)
 		h.response.SetMetadata(map[string]interface{}{"error": err.Error()})

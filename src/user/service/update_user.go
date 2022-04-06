@@ -20,6 +20,8 @@ type (
 	// UpdateUserImpl is a implementation of UpdateUser
 	UpdateUserImpl struct {
 		Repository data.UserRepository
+
+		EventEmitter domain.EventEmitter
 	}
 
 	// User struct represents a user
@@ -39,6 +41,10 @@ type (
 func NewUpdateUser(repository data.UserRepository) UpdateUser {
 	return &UpdateUserImpl{
 		Repository: repository,
+
+		EventEmitter: domain.NewEventEmitter(
+			data.NewEventRepository(),
+		),
 	}
 }
 
@@ -83,6 +89,7 @@ func (u *UpdateUserImpl) Update(id, email, body string) error {
 			return nil, err
 		}
 
+		u.EventEmitter.Emit(user.ID, domain.UserUpdated, user)
 		return user, nil
 	})
 }
