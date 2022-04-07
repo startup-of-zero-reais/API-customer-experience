@@ -21,12 +21,6 @@ type (
 
 		jwtService s.JwtService
 	}
-
-	Request struct {
-		Headers map[string]string
-		Cookies map[string]string
-		Body    string
-	}
 )
 
 func NewHandler() Handler {
