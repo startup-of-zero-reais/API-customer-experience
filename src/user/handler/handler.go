@@ -33,7 +33,7 @@ func NewHandler() Handler {
 	}
 }
 
-func (h *Handler) validateAuth(r Request) error {
+func (h *Handler) validateAuth(r domain.Request) error {
 	authorization := r.Headers["Authorization"]
 	if authorization == "" {
 		authorization = r.Cookies["usess"]
@@ -47,7 +47,7 @@ func (h *Handler) validateAuth(r Request) error {
 	return err
 }
 
-func (h *Handler) Post(r Request) domain.Response {
+func (h *Handler) Post(r domain.Request) domain.Response {
 	h.response.SetStatusCode(http.StatusCreated)
 
 	err := h.app.CreateUser.Execute(r.Body)
@@ -71,7 +71,7 @@ func (h *Handler) Post(r Request) domain.Response {
 	return *h.response
 }
 
-func (h *Handler) Get(r Request) domain.Response {
+func (h *Handler) Get(r domain.Request) domain.Response {
 	// log.Println(
 	// 	h.jwtService.GenerateToken(
 	// 		"cd305516-9f35-461c-8af4-6f8a53278398",
@@ -108,7 +108,7 @@ func (h *Handler) Get(r Request) domain.Response {
 	return *h.response
 }
 
-func (h *Handler) Put(r Request) domain.Response {
+func (h *Handler) Put(r domain.Request) domain.Response {
 	err := h.validateAuth(r)
 	if err != nil {
 		h.response.SetStatusCode(http.StatusUnauthorized)
@@ -153,7 +153,7 @@ func (h *Handler) Put(r Request) domain.Response {
 	return *h.response
 }
 
-func (h *Handler) Delete(r Request) domain.Response {
+func (h *Handler) Delete(r domain.Request) domain.Response {
 	err := h.validateAuth(r)
 	if err != nil {
 		h.response.SetStatusCode(http.StatusUnauthorized)
