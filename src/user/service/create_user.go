@@ -5,7 +5,7 @@ import (
 	"errors"
 	"log"
 
-	"github.com/startup-of-zero-reais/API-customer-experience/src/user/domain/validation"
+	"github.com/startup-of-zero-reais/API-customer-experience/src/common/validation"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/user/providers"
 
 	"github.com/google/uuid"

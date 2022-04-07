@@ -5,7 +5,7 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/startup-of-zero-reais/API-customer-experience/src/user/domain/validation"
+	"github.com/startup-of-zero-reais/API-customer-experience/src/common/validation"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/user/service"
 
 	"github.com/startup-of-zero-reais/API-customer-experience/src/common/domain"

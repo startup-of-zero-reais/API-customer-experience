@@ -3,7 +3,7 @@ package fields
 import (
 	"errors"
 
-	"github.com/startup-of-zero-reais/API-customer-experience/src/user/domain/validation"
+	"github.com/startup-of-zero-reais/API-customer-experience/src/common/validation"
 )
 
 type (
