@@ -27,7 +27,7 @@ func handleRoutes(event events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTP
 	case "PUT":
 		return WrapResponse(h.Put(request))
 	case "DELETE":
-		return WrapResponse(h.Delete())
+		return WrapResponse(h.Delete(request))
 	default:
 		panic("Method not implemented")
 	}

@@ -9,6 +9,7 @@ type (
 	Commands struct {
 		CreateUser service.CreateUser
 		UpdateUser service.UpdateUser
+		DeleteUser service.DeleteUser
 	}
 
 	Queries struct {
@@ -28,6 +29,7 @@ func NewApplication() *Application {
 		Commands: Commands{
 			CreateUser: service.NewCreateUser(usrRepository),
 			UpdateUser: service.NewUpdateUser(usrRepository),
+			DeleteUser: service.NewDeleteUser(usrRepository),
 		},
 		Queries: Queries{
 			GetUser: service.NewGetUser(usrRepository),

@@ -64,7 +64,7 @@ func DataToMap(data interface{}) string {
 	for i := 0; i < v.NumField(); i++ {
 		field := v.Field(i)
 
-		if field.Kind() == reflect.Ptr {
+		if field.Kind() == reflect.Ptr && !field.IsZero() {
 			if p, ok := field.Interface().(*fields.Password); ok {
 				mapped[v.Type().Field(i).Name] = p.Hash()
 			} else {

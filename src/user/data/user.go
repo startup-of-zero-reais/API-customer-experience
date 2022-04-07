@@ -22,6 +22,7 @@ type (
 		FindByUser(id, email string) (*UserModel, error)
 		Save(user *domain.User) error
 		Update(id, email string, updateFn func(user *domain.User) (*domain.User, error)) error
+		Delete(id, email string) error
 	}
 
 	// UserRepositoryImpl is a implementation of UserRepository
@@ -78,11 +79,11 @@ func (r *UserRepositoryImpl) FindByUser(id, email string) (*UserModel, error) {
 	var result UserModel
 	err := r.modelDynamo.Perform(drivers.GET, sql, &result)
 	if err != nil {
-		return &UserModel{}, err
+		return nil, err
 	}
 
 	if result.ID == "" {
-		return &UserModel{}, validation.NotFoundError("usuário não encontrado")
+		return nil, validation.NotFoundError("usuário não encontrado")
 	}
 
 	return &result, nil
@@ -164,4 +165,21 @@ func (r *UserRepositoryImpl) Update(id, email string, updateFn func(user *domain
 	)
 
 	return r.modelDynamo.Perform(drivers.UPDATE, item, &UserModel{})
+}
+
+func (r *UserRepositoryImpl) Delete(id, email string) error {
+	userExists, err := r.FindByUser(id, email)
+	if err != nil {
+		return err
+	}
+
+	if userExists == nil {
+		return validation.NotFoundError("usuário não encontrado")
+	}
+
+	keyCondition := expressions.NewKeyCondition("ID", id)
+	sortKeyCondition := expressions.NewSortKeyCondition("Email").Equal(email)
+	sql := r.modelDynamo.NewExpressionBuilder().Where(keyCondition).AndWhere(sortKeyCondition)
+
+	return r.modelDynamo.Perform(drivers.DELETE, sql, &UserModel{})
 }

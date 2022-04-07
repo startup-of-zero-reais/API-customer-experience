@@ -30,3 +30,12 @@ Cookie: usess=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDkyMTUzODIsImp0a
 }
 
 ###
+
+DELETE  http://127.0.0.1:3000/user
+Content-Type: application/json
+Cookie: usess=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDkyMTUzODIsImp0aSI6ImpvaG5AZG9lLmNvbSIsInN1YiI6ImNkMzA1NTE2LTlmMzUtNDYxYy04YWY0LTZmOGE1MzI3ODM5OCJ9.Q4TxZRWPWAguVF_GANio9sYjqoeOjWuKzfoIg8m8CXE;
+
+{
+	"password": "123456",
+	"confirm_password": "123456"
+}
