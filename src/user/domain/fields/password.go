@@ -3,26 +3,21 @@ package fields
 import (
 	"errors"
 
+	"github.com/startup-of-zero-reais/API-customer-experience/src/common/providers"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/common/validation"
 )
 
 type (
-	// EncryptProvider is a interface to encrypt and decrypt data
-	EncryptProvider interface {
-		Hash(password string) string
-		Compare(password string, hashedPassword string) error
-	}
-
 	// Password is a struct that contains the password and the EncrypyProvider
 	Password struct {
-		EncryptProvider
+		providers.EncryptProvider
 		password string
 		hash     string
 	}
 )
 
 // NewPassword is the constructor of Password
-func NewPassword(e EncryptProvider, password string) *Password {
+func NewPassword(e providers.EncryptProvider, password string) *Password {
 	p := &Password{
 		EncryptProvider: e,
 		password:        password,
