@@ -8,6 +8,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/config v1.15.3
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.15.3
 	github.com/golang-jwt/jwt v3.2.2+incompatible
+	golang.org/x/crypto v0.0.0-20220331220935-ae2d96664a29
 )
 
 require (
