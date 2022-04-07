@@ -3,11 +3,11 @@ package service
 import (
 	"errors"
 
+	"github.com/startup-of-zero-reais/API-customer-experience/src/common/providers"
+	"github.com/startup-of-zero-reais/API-customer-experience/src/common/validation"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/user/data"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/user/domain"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/user/domain/fields"
-	"github.com/startup-of-zero-reais/API-customer-experience/src/common/validation"
-	"github.com/startup-of-zero-reais/API-customer-experience/src/user/providers"
 )
 
 type (

@@ -5,7 +5,7 @@ go 1.17
 require (
 	github.com/aws/aws-lambda-go v1.29.0
 	github.com/google/uuid v1.3.0
-	github.com/startup-of-zero-reais/API-customer-experience/src/common v0.0.0-20220407012554-dbc2d7d33fa8
+	github.com/startup-of-zero-reais/API-customer-experience/src/common v0.0.0-20220407013407-70ee51f60f53
 	github.com/startup-of-zero-reais/dynamo-for-lambda v0.0.0-20220407002538-5d9a3bb95f24
 	golang.org/x/crypto v0.0.0-20220331220935-ae2d96664a29
 )

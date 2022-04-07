@@ -5,8 +5,8 @@ import (
 	"errors"
 	"log"
 
+	"github.com/startup-of-zero-reais/API-customer-experience/src/common/providers"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/common/validation"
-	"github.com/startup-of-zero-reais/API-customer-experience/src/user/providers"
 
 	"github.com/google/uuid"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/user/data"
