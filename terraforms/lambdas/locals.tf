@@ -41,6 +41,7 @@ locals {
       runtime       = "go1.x"
       env_vars = {
         ENV = "prod"
+		JWT_SERVICE = "DEV"
       }
     }
   }

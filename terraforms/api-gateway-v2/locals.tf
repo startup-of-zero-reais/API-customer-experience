@@ -8,7 +8,7 @@ locals {
       path        = "user"
       method      = "POST"
       invoke_arn  = data.aws_lambda_function.user.invoke_arn
-      description = "User resources lambda"
+      description = "User resources lambda - Method: POST"
     }
 
     get_user = {
@@ -17,7 +17,25 @@ locals {
       path        = "user"
       method      = "GET"
       invoke_arn  = data.aws_lambda_function.user.invoke_arn
-      description = "User resources lambda"
+      description = "User resources lambda - Method: GET"
+    }
+
+    put_user = {
+      version     = "v1"
+      prefix      = "customer-experience/"
+      path        = "user"
+      method      = "PUT"
+      invoke_arn  = data.aws_lambda_function.user.invoke_arn
+      description = "User resources lambda - Method: PUT"
+    }
+
+    delete_user = {
+      version     = "v1"
+      prefix      = "customer-experience/"
+      path        = "user"
+      method      = "DELETE"
+      invoke_arn  = data.aws_lambda_function.user.invoke_arn
+      description = "User resources lambda - Method: DELETE"
     }
 
     # route-2 = {
