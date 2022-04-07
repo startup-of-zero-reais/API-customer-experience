@@ -72,12 +72,6 @@ func (h *Handler) Post(r domain.Request) domain.Response {
 }
 
 func (h *Handler) Get(r domain.Request) domain.Response {
-	// log.Println(
-	// 	h.jwtService.GenerateToken(
-	// 		"cd305516-9f35-461c-8af4-6f8a53278398",
-	// 		"john@doe.com",
-	// 	),
-	// )
 	err := h.validateAuth(r)
 
 	if err != nil {
