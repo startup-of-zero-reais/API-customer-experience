@@ -6,8 +6,6 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/startup-of-zero-reais/API-customer-experience/src/common/domain/fields"
-
 	"github.com/startup-of-zero-reais/API-customer-experience/src/common/domain"
 	domayn "github.com/startup-of-zero-reais/dynamo-for-lambda/domain"
 	"github.com/startup-of-zero-reais/dynamo-for-lambda/drivers"
@@ -65,11 +63,11 @@ func DataToMap(data interface{}) string {
 		field := v.Field(i)
 
 		if field.Kind() == reflect.Ptr && !field.IsZero() {
-			if p, ok := field.Interface().(*fields.Password); ok {
-				mapped[v.Type().Field(i).Name] = p.Hash()
-			} else {
-				mapped[v.Type().Field(i).Name] = field.Elem().Interface()
-			}
+			// if p, ok := field.Interface().(*fields.Password); ok {
+			// 	mapped[v.Type().Field(i).Name] = p.Hash()
+			// } else {
+			mapped[v.Type().Field(i).Name] = field.Elem().Interface()
+			// }
 		} else {
 			mapped[v.Type().Field(i).Name] = fmt.Sprintf("%v", field.Interface())
 		}

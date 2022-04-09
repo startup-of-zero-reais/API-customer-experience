@@ -1,6 +1,6 @@
 package data
 
-import "github.com/startup-of-zero-reais/API-customer-experience/src/user/domain"
+import "github.com/startup-of-zero-reais/API-customer-experience/src/common/domain"
 
 type (
 	UserEvent struct {
