@@ -37,5 +37,5 @@ func (p *PasswordImpl) Hash() string {
 }
 
 func (p *PasswordImpl) Validate(password string) error {
-	return p.encryptProvider.Compare(p.hash, password)
+	return p.encryptProvider.Compare(password, p.hash)
 }

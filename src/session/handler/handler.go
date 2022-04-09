@@ -23,12 +23,16 @@ type (
 )
 
 func NewHandler() Handler {
+	jwt := s.NewJwtService()
+
 	return Handler{
 		response: domain.NewResponse(),
 
-		app: NewApplication(),
+		app: NewApplication(
+			jwt,
+		),
 
-		jwtService: s.NewJwtService(),
+		jwtService: jwt,
 	}
 }
 
@@ -42,7 +46,7 @@ func (h *Handler) SignIn(r domain.Request) domain.Response {
 		return *h.response
 	}
 
-	user, err := h.app.Queries.GetUser.Find(authInput.Email)
+	session, err := h.app.Commands.SignIn.SignIn(authInput.Email, authInput.Password)
 	if err != nil {
 		h.response.SetStatusCode(http.StatusInternalServerError)
 		h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
@@ -50,23 +54,44 @@ func (h *Handler) SignIn(r domain.Request) domain.Response {
 		return *h.response
 	}
 
-	token, err := h.jwtService.GenerateToken(user.ID, user.Email)
-	if err != nil {
-		h.response.SetStatusCode(http.StatusInternalServerError)
-		h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
-	}
-
-	tokenCookie := fmt.Sprintf("usess=%s", token)
+	tokenCookie := fmt.Sprintf("usess=%s", session.SessionToken)
 	h.response.MultiValueHeaders["Set-Cookie"] = []string{tokenCookie}
 	h.response.MultiValueHeaders["set-Cookie"] = []string{tokenCookie}
 	h.response.Cookies = []string{tokenCookie}
 
-	log.Printf("\n\n\nAuth Token:\n\n%s\n\n", token)
+	log.Printf("\n\n\nAuth Token:\n\n%s\n\n", session.SessionToken)
 
 	return *h.response
 }
 
 func (h *Handler) SignOut(r domain.Request) domain.Response {
+	isValid, err := h.jwtService.ValidateToken(r.Cookies["usess"])
+
+	if err != nil {
+		h.response.SetStatusCode(http.StatusInternalServerError)
+		h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
+
+		return *h.response
+	}
+
+	if !isValid {
+		h.response.SetStatusCode(http.StatusBadRequest)
+		h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
+
+		return *h.response
+	}
+
+	id := h.jwtService.DecodedToken("id").(string)
+	err = h.app.SignOut.ClearSession(id)
+	if err != nil {
+		h.response.SetStatusCode(http.StatusBadRequest)
+		h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
+
+		return *h.response
+	}
+
+	h.response.SetStatusCode(http.StatusNoContent)
+
 	return *h.response
 }
 

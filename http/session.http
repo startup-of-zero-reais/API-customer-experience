@@ -10,7 +10,7 @@ Content-Type: application/json
 ###
 POST http://127.0.0.1:3000/session/sign-out
 Content-Type: application/json
-Cookie: usess=;
+Cookie: usess=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDk2MjM3ODMsImp0aSI6ImpvaG5AZG9lLmNvbSIsInN1YiI6ImNkMzA1NTE2LTlmMzUtNDYxYy04YWY0LTZmOGE1MzI3ODM5OCJ9.OwnFIUQqh3iWHLPhk5pJfi2s48qaT5qL491QcjgsOac;
 
 ###
 POST http://127.0.0.1:3000/session/recover-password
