@@ -5,6 +5,8 @@ import (
 	"errors"
 	"log"
 
+	dt "github.com/startup-of-zero-reais/API-customer-experience/src/common/data"
+	d "github.com/startup-of-zero-reais/API-customer-experience/src/common/domain"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/common/providers"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/common/validation"
 
@@ -23,7 +25,7 @@ type (
 	CreateUserImpl struct {
 		Repository data.UserRepository
 
-		EventEmitter domain.EventEmitter
+		EventEmitter d.EventEmitter
 	}
 
 	// User struct represents a user
@@ -43,8 +45,8 @@ func NewCreateUser(repository data.UserRepository) *CreateUserImpl {
 	return &CreateUserImpl{
 		Repository: repository,
 
-		EventEmitter: domain.NewEventEmitter(
-			data.NewEventRepository(),
+		EventEmitter: d.NewEventEmitter(
+			dt.NewEventRepository(),
 		),
 	}
 }
@@ -90,11 +92,11 @@ func (c *CreateUserImpl) Execute(body string) error {
 		return err
 	}
 
-	// err = c.Repository.Save(user)
-	// if err != nil {
-	// 	return err
-	// }
+	err = c.Repository.Save(user)
+	if err != nil {
+		return err
+	}
 
 	log.Println("[USER UID]:", user.ID)
-	return c.EventEmitter.Emit(user.ID, domain.UserCreated, user)
+	return c.EventEmitter.Emit(user.ID, d.UserCreated, user)
 }

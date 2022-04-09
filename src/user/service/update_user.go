@@ -4,11 +4,13 @@ import (
 	"encoding/json"
 	"log"
 
+	dt "github.com/startup-of-zero-reais/API-customer-experience/src/common/data"
+	d "github.com/startup-of-zero-reais/API-customer-experience/src/common/domain"
+	"github.com/startup-of-zero-reais/API-customer-experience/src/common/providers"
+	"github.com/startup-of-zero-reais/API-customer-experience/src/common/validation"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/user/data"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/user/domain"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/user/domain/fields"
-	"github.com/startup-of-zero-reais/API-customer-experience/src/common/validation"
-	"github.com/startup-of-zero-reais/API-customer-experience/src/common/providers"
 )
 
 type (
@@ -21,7 +23,7 @@ type (
 	UpdateUserImpl struct {
 		Repository data.UserRepository
 
-		EventEmitter domain.EventEmitter
+		EventEmitter d.EventEmitter
 	}
 
 	// User struct represents a user
@@ -42,8 +44,8 @@ func NewUpdateUser(repository data.UserRepository) UpdateUser {
 	return &UpdateUserImpl{
 		Repository: repository,
 
-		EventEmitter: domain.NewEventEmitter(
-			data.NewEventRepository(),
+		EventEmitter: d.NewEventEmitter(
+			dt.NewEventRepository(),
 		),
 	}
 }
@@ -89,7 +91,7 @@ func (u *UpdateUserImpl) Update(id, email, body string) error {
 			return nil, err
 		}
 
-		u.EventEmitter.Emit(user.ID, domain.UserUpdated, user)
+		u.EventEmitter.Emit(user.ID, d.UserUpdated, user)
 		return user, nil
 	})
 }

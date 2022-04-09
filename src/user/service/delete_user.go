@@ -3,6 +3,8 @@ package service
 import (
 	"errors"
 
+	dt "github.com/startup-of-zero-reais/API-customer-experience/src/common/data"
+	cd "github.com/startup-of-zero-reais/API-customer-experience/src/common/domain"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/common/providers"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/common/validation"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/user/data"
@@ -20,7 +22,7 @@ type (
 	DeleteUserImpl struct {
 		Repository data.UserRepository
 
-		EventEmitter domain.EventEmitter
+		EventEmitter cd.EventEmitter
 	}
 )
 
@@ -29,8 +31,8 @@ func NewDeleteUser(repository data.UserRepository) DeleteUser {
 	return &DeleteUserImpl{
 		Repository: repository,
 
-		EventEmitter: domain.NewEventEmitter(
-			data.NewEventRepository(),
+		EventEmitter: cd.NewEventEmitter(
+			dt.NewEventRepository(),
 		),
 	}
 }
@@ -68,7 +70,7 @@ func (d *DeleteUserImpl) Execute(id, email, password, confirmPassword string) er
 		return err
 	}
 
-	err = d.EventEmitter.Emit(id, domain.UserDeleted, email)
+	err = d.EventEmitter.Emit(id, cd.UserDeleted, email)
 	if err != nil {
 		return err
 	}

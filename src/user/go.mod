@@ -5,9 +5,8 @@ go 1.17
 require (
 	github.com/aws/aws-lambda-go v1.29.0
 	github.com/google/uuid v1.3.0
-	github.com/startup-of-zero-reais/API-customer-experience/src/common v0.0.0-20220407013951-ff83f3ee5108
-	github.com/startup-of-zero-reais/dynamo-for-lambda v0.0.0-20220407002538-5d9a3bb95f24
-	golang.org/x/crypto v0.0.0-20220331220935-ae2d96664a29
+	github.com/startup-of-zero-reais/API-customer-experience/src/common v0.0.0-20220409213911-56fdf09c44ce
+	github.com/startup-of-zero-reais/dynamo-for-lambda v0.0.0-20220409204618-22cd1bc20870
 )
 
 require (
@@ -29,4 +28,5 @@ require (
 	github.com/aws/smithy-go v1.11.2 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
+	golang.org/x/crypto v0.0.0-20220331220935-ae2d96664a29 // indirect
 )
