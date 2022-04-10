@@ -26,10 +26,7 @@ resource "aws_iam_role" "iam_for_lambda" {
 "Version": "2012-10-17",
 "Statement": [
     {
-    "Action": [
-		"sts:AssumeRole",
-		"sns:Publish"
-	],
+    "Action": "sts:AssumeRole",
     "Principal": {
         "Service": "lambda.amazonaws.com"
     },
@@ -104,9 +101,9 @@ resource "aws_iam_policy" "lambda_sns" {
   "Statement": [
     {
       "Action": [
-        "sns:Publish"
+        "sns:*"
       ],
-      "Resource": "arn:aws:sns:*:599981017555:*",
+      "Resource": "*",
       "Effect": "Allow"
     }
   ]
