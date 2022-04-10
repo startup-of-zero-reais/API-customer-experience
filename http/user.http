@@ -1,9 +1,11 @@
-GET http://127.0.0.1:3000/user
+# GET http://127.0.0.1:3000/user
+GET https://api.zero-reais-lab.cloud/v1/customer-experience/user
 Content-Type: application/json
 Cookie: usess=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDk2MjU4MDgsImp0aSI6ImpvaG5AZG9lLmNvbSIsInN1YiI6ImNkMzA1NTE2LTlmMzUtNDYxYy04YWY0LTZmOGE1MzI3ODM5OCJ9.Z_wdS0Y5Nn1WgWXQGmpwQgaY_byYlfz_ibhJ5l620_8;
 
 ###
-POST http://127.0.0.1:3000/user
+# POST http://127.0.0.1:3000/user
+POST https://api.zero-reais-lab.cloud/v1/customer-experience/user
 Content-Type: application/json
 
 {

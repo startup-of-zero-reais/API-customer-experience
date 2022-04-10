@@ -69,9 +69,35 @@ resource "aws_iam_policy" "lambda_logging" {
 EOF
 }
 
+resource "aws_iam_policy" "lambda_db" {
+  name        = "lambda_dynamodb_access"
+  path        = "/"
+  description = "IAM policy for dynamodb access from a lambda"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "dynamodb:*"
+      ],
+      "Resource": "arn:aws:dynamodb:*:*:table/*",
+      "Effect": "Allow"
+    }
+  ]
+}
+EOF
+}
+
 resource "aws_iam_role_policy_attachment" "lambda_logs" {
   role       = aws_iam_role.iam_for_lambda.name
   policy_arn = aws_iam_policy.lambda_logging.arn
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_logs" {
+  role       = aws_iam_role.iam_for_lambda.name
+  policy_arn = aws_iam_policy.lambda_db.arn
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_policy" {
