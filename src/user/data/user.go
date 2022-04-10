@@ -41,8 +41,11 @@ func NewUserRepository() UserRepository {
 		),
 	}
 
-	if os.Getenv("ENVIRONMENT") == "local" {
+	if os.Getenv("ENVIRONMENT") != "" {
 		config.Environment = domayn.Environment(os.Getenv("ENVIRONMENT"))
+	}
+
+	if os.Getenv("ENDPOINT") != "" {
 		config.Endpoint = os.Getenv("ENDPOINT")
 	}
 
