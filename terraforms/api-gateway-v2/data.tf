@@ -14,9 +14,9 @@ data "aws_apigatewayv2_api" "this" {
 #   function_name = format("%s-%s", var.project_name, "orders")
 # }
 
-# data "aws_lambda_function" "session" {
-#   function_name = format("%s-%s", var.project_name, "session")
-# }
+data "aws_lambda_function" "session" {
+  function_name = format("%s-%s", var.project_name, "session")
+}
 
 data "aws_lambda_function" "user" {
   function_name = format("%s-%s", var.project_name, "user")

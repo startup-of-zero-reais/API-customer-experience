@@ -38,6 +38,43 @@ locals {
       description = "User resources lambda - Method: DELETE"
     }
 
+    sign_in = {
+      version     = "v1"
+      prefix      = ""
+      path        = "sign-in"
+      method      = "POST"
+      invoke_arn  = data.aws_lambda_function.session.invoke_arn
+      description = "SignIn resource lambda - Method: POST"
+    }
+
+    sign_out = {
+      version     = "v1"
+      prefix      = ""
+      path        = "sign-out"
+      method      = "POST"
+      invoke_arn  = data.aws_lambda_function.session.invoke_arn
+      description = "SignOut resource lambda - Method: POST"
+    }
+
+    recover_password = {
+      version     = "v1"
+      prefix      = ""
+      path        = "recover-password"
+      method      = "POST"
+      invoke_arn  = data.aws_lambda_function.session.invoke_arn
+      description = "Recover pass resource lambda - Method: POST"
+    }
+
+    reset_password = {
+      version     = "v1"
+      prefix      = ""
+      path        = "reset-password"
+      method      = "POST"
+      invoke_arn  = data.aws_lambda_function.session.invoke_arn
+      description = "Reset pass resource lambda - Method: POST"
+    }
+
+
     # route-2 = {
     #   version       = "v1"
     #   prefix        = "application-resource/"
