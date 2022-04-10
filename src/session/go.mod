@@ -7,7 +7,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/config v1.15.3
 	github.com/aws/aws-sdk-go-v2/service/sns v1.17.4
 	github.com/google/uuid v1.3.0
-	github.com/startup-of-zero-reais/dynamo-for-lambda v0.0.0-20220410181214-827914c0771d
+	github.com/startup-of-zero-reais/dynamo-for-lambda v0.0.0-20220410183112-58d3c9aa7ab6
 )
 
 require (

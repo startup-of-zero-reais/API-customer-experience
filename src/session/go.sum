@@ -82,6 +82,8 @@ github.com/startup-of-zero-reais/dynamo-for-lambda v0.0.0-20220410175934-3db7221
 github.com/startup-of-zero-reais/dynamo-for-lambda v0.0.0-20220410175934-3db7221db0cf/go.mod h1:MgPoDMzTqRojlnA925RKElWvzwsd3XPfIagjyZskfNs=
 github.com/startup-of-zero-reais/dynamo-for-lambda v0.0.0-20220410181214-827914c0771d h1:DRWS3YUooUZhvaZQYwPNWRvbhWRN041TgPhCP9sFYpQ=
 github.com/startup-of-zero-reais/dynamo-for-lambda v0.0.0-20220410181214-827914c0771d/go.mod h1:MgPoDMzTqRojlnA925RKElWvzwsd3XPfIagjyZskfNs=
+github.com/startup-of-zero-reais/dynamo-for-lambda v0.0.0-20220410183112-58d3c9aa7ab6 h1:4jm6ffzuIrXytjaMR4XL/fZIZVk9Ut9yu++G8gYrek4=
+github.com/startup-of-zero-reais/dynamo-for-lambda v0.0.0-20220410183112-58d3c9aa7ab6/go.mod h1:MgPoDMzTqRojlnA925RKElWvzwsd3XPfIagjyZskfNs=
 github.com/stretchr/objx v0.1.0 h1:4G4v2dO3VZwixGIRoQ5Lfboy6nUhCyYzaqnIAPPhYs4=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.6.1/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
