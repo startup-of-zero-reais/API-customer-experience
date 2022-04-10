@@ -32,7 +32,7 @@ locals {
       description   = "Session resources"
       runtime       = "go1.x"
       env_vars = {
-        ENV         = "prod"
+        ENV         = "development"
         ENDPOINT    = "https://dynamodb.us-east-1.amazonaws.com"
         JWT_SERVICE = "DEV"
       }
@@ -42,7 +42,7 @@ locals {
       description   = "User resources"
       runtime       = "go1.x"
       env_vars = {
-        ENV         = "prod"
+        ENV         = "development"
         ENDPOINT    = "https://dynamodb.us-east-1.amazonaws.com"
         JWT_SERVICE = "DEV"
       }
