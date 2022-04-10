@@ -32,7 +32,7 @@ locals {
       description   = "Session resources"
       runtime       = "go1.x"
       env_vars = {
-        ENV         = "development"
+        ENV         = "prod"
         JWT_SERVICE = "DEV"
       }
     }
@@ -41,7 +41,7 @@ locals {
       description   = "User resources"
       runtime       = "go1.x"
       env_vars = {
-        ENV         = "development"
+        ENV         = "prod"
         JWT_SERVICE = "DEV"
       }
     }
