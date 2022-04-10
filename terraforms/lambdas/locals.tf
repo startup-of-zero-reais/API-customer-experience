@@ -33,6 +33,7 @@ locals {
       runtime       = "go1.x"
       env_vars = {
         ENV         = "prod"
+        ENDPOINT    = "https://dynamodb.us-east-1.amazonaws.com"
         JWT_SERVICE = "DEV"
       }
     }
@@ -42,6 +43,7 @@ locals {
       runtime       = "go1.x"
       env_vars = {
         ENV         = "prod"
+        ENDPOINT    = "https://dynamodb.us-east-1.amazonaws.com"
         JWT_SERVICE = "DEV"
       }
     }
