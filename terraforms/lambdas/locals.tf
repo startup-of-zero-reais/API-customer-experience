@@ -32,9 +32,9 @@ locals {
       description   = "Session resources"
       runtime       = "go1.x"
       env_vars = {
-        ENV         = "prod"
-        ENDPOINT    = "https://dynamodb.us-east-1.amazonaws.com"
+        ENVIRONMENT = "prod"
         JWT_SERVICE = "DEV"
+        LOG_LEVEL   = 2
       }
     }
     user = {
@@ -42,9 +42,9 @@ locals {
       description   = "User resources"
       runtime       = "go1.x"
       env_vars = {
-        ENV         = "prod"
-        ENDPOINT    = "https://dynamodb.us-east-1.amazonaws.com"
+        ENVIRONMENT = "prod"
         JWT_SERVICE = "DEV"
+        LOG_LEVEL   = 2
       }
     }
   }

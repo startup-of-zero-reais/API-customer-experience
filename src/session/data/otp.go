@@ -4,9 +4,10 @@ import (
 	"context"
 	"log"
 	"math/rand"
-	"os"
 	"time"
 
+	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/startup-of-zero-reais/dynamo-for-lambda/expressions"
 
 	"github.com/startup-of-zero-reais/API-customer-experience/src/common/validation"
@@ -24,6 +25,14 @@ type (
 )
 
 func NewOTPRepository() domain.OTPRepository {
+	var awsConfs []func(*config.LoadOptions) error
+	awsConf := append(awsConfs, config.WithRegion("us-east-1"))
+
+	cfg, err := config.LoadDefaultConfig(context.TODO(), awsConf...)
+	if err != nil {
+		log.Fatalf("unable to load SDK config, %v", err)
+	}
+
 	dynamo := drivers.NewDynamoClient(
 		context.TODO(),
 		&domayn.Config{
@@ -32,12 +41,11 @@ func NewOTPRepository() domain.OTPRepository {
 				"PassTokens",
 				PassTokens{},
 			),
-			Environment: domayn.Environment(os.Getenv("ENVIRONMENT")),
-			Endpoint:    os.Getenv("ENDPOINT"),
+			Client: dynamodb.NewFromConfig(cfg),
 		},
 	)
 
-	err := dynamo.Migrate()
+	err = dynamo.Migrate()
 	if err != nil {
 		panic(err)
 	}

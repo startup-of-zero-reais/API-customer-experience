@@ -4,9 +4,11 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"os"
+	"log"
 	"reflect"
 
+	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/common/domain"
 	domayn "github.com/startup-of-zero-reais/dynamo-for-lambda/domain"
 	"github.com/startup-of-zero-reais/dynamo-for-lambda/drivers"
@@ -20,6 +22,14 @@ type (
 )
 
 func NewEventRepository() domain.EventRepository {
+	var awsConfs []func(*config.LoadOptions) error
+	awsConf := append(awsConfs, config.WithRegion("us-east-1"))
+
+	cfg, err := config.LoadDefaultConfig(context.TODO(), awsConf...)
+	if err != nil {
+		log.Fatalf("unable to load SDK config, %v", err)
+	}
+
 	eventsDynamo := drivers.NewDynamoClient(
 		context.TODO(),
 		&domayn.Config{
@@ -28,10 +38,10 @@ func NewEventRepository() domain.EventRepository {
 				"UserEvent",
 				UserEvent{},
 			),
-			Environment: domayn.Environment(os.Getenv("ENVIRONMENT")),
-			Endpoint:    os.Getenv("ENDPOINT"),
+			Client: dynamodb.NewFromConfig(cfg),
 		},
 	)
+
 	eventsDynamo.Migrate()
 	// defer eventsDynamo.FlushDb()
 

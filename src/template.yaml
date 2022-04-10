@@ -28,7 +28,7 @@ Resources:
             Method: ANY
       Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
         Variables:
-          ENV: development
+          ENVIRONMENT: development
           ENDPOINT: http://customer_experience-db:8000
           JWT_SERVICE: DEV
   SessionFunction:
@@ -48,6 +48,6 @@ Resources:
             Method: POST
       Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
         Variables:
-          ENV: development
+          ENVIRONMENT: development
           ENDPOINT: http://customer_experience-db:8000
           JWT_SERVICE: DEV
