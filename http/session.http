@@ -22,7 +22,7 @@ POST https://api.zero-reais-lab.cloud/v1/recover-password
 POST https://api.zero-reais-lab.cloud/v1/reset-password
 
 {
-	"otp": 874084,
+	"otp": 494101,
 	"password": "123456",
 	"confirm_password": "123456"
 }
