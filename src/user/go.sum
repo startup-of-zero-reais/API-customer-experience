@@ -66,6 +66,8 @@ github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZN
 github.com/russross/blackfriday/v2 v2.1.0/go.mod h1:+Rmxgy9KzJVeS9/2gXHxylqXiyQDYRxCVz55jmeOWTM=
 github.com/startup-of-zero-reais/API-customer-experience/src/common v0.0.0-20220409213911-56fdf09c44ce h1:x3ubI/++IVyzPLfTmrWTQoUTFPLL98xCT17naT15gXg=
 github.com/startup-of-zero-reais/API-customer-experience/src/common v0.0.0-20220409213911-56fdf09c44ce/go.mod h1:Qp5mKVh2JpyD1iEz93RVlaqUv7+5/kIpHzSGA3W6/ZE=
+github.com/startup-of-zero-reais/API-customer-experience/src/common v0.0.0-20220410191202-da9d483194ba h1:yG/iYmxZRFLeafgqgp3P4sc6HSGSrn1E7qshSrl37oY=
+github.com/startup-of-zero-reais/API-customer-experience/src/common v0.0.0-20220410191202-da9d483194ba/go.mod h1:+BsfK5jARG8a3mk3YWHJre8Ns3lyv1iZuuHsaPHkqQ8=
 github.com/startup-of-zero-reais/dynamo-for-lambda v0.0.0-20220409204618-22cd1bc20870 h1:aUUYdBZzYs7br4AQgLNAstX4fg55TvxVg1ZLV0Ul0vg=
 github.com/startup-of-zero-reais/dynamo-for-lambda v0.0.0-20220409204618-22cd1bc20870/go.mod h1:MgPoDMzTqRojlnA925RKElWvzwsd3XPfIagjyZskfNs=
 github.com/startup-of-zero-reais/dynamo-for-lambda v0.0.0-20220410144324-5894ca4a2ed9 h1:5jAb9JSEj5OCvVt4Q9YOM9olzWDJceBAqFZL6v6SUes=
