@@ -19,4 +19,10 @@ type (
 		Avatar    string `diinamo:"type:string" json:"avatar,omitempty"`
 		Addresses string `diinamo:"type:string" json:"addresses,omitempty"`
 	}
+
+	PassTokens struct {
+		Email     string `diinamo:"type:string;hash"`
+		OTP       int    `diinamo:"type:int;range;gsi:OtpIndex;keyPairs:OTP=ExpiresIn"`
+		ExpiresIn int64  `diinamo:"type:int;"`
+	}
 )

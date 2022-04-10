@@ -36,6 +36,8 @@ github.com/aws/aws-sdk-go-v2/service/internal/endpoint-discovery v1.7.3/go.mod h
 github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.6.0/go.mod h1:wTgFkG6t7jS/6Y0SILXwfspV3IXowb6ngsAlSajW0Kc=
 github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.9.3 h1:Gh1Gpyh01Yvn7ilO/b/hr01WgNpaszfbKMUgqM186xQ=
 github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.9.3/go.mod h1:wlY6SVjuwvh3TVRpTqdy4I1JpBFLX4UGeKZdWntaocw=
+github.com/aws/aws-sdk-go-v2/service/sns v1.17.4 h1:7TdmoJJBwLFyakXjfrGztejwY5Ie1JEto7YFfznCmAw=
+github.com/aws/aws-sdk-go-v2/service/sns v1.17.4/go.mod h1:kElt+uCcXxcqFyc+bQqZPFD9DME/eC6oHBXvFzQ9Bcw=
 github.com/aws/aws-sdk-go-v2/service/sso v1.8.0/go.mod h1:AB6v3BedyhVRIbPQbJnUsBmtup2pFiikpp5n3YyB6Ac=
 github.com/aws/aws-sdk-go-v2/service/sso v1.11.3 h1:frW4ikGcxfAEDfmQqWgMLp+F1n4nRo9sF39OcIb5BkQ=
 github.com/aws/aws-sdk-go-v2/service/sso v1.11.3/go.mod h1:7UQ/e69kU7LDPtY40OyoHYgRmgfGM4mgsLYtcObdveU=
@@ -66,10 +68,8 @@ github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZN
 github.com/russross/blackfriday/v2 v2.1.0/go.mod h1:+Rmxgy9KzJVeS9/2gXHxylqXiyQDYRxCVz55jmeOWTM=
 github.com/startup-of-zero-reais/API-customer-experience/src/common v0.0.0-20220407014119-22287ae58ac0 h1:zx/9VFDYH0qvk9CIr8uG6vS2MSi/IHm8kuOw0bEflBk=
 github.com/startup-of-zero-reais/API-customer-experience/src/common v0.0.0-20220407014119-22287ae58ac0/go.mod h1:0nVtW0QbYavSmB3S77Y49lF8Zo76dUuf8/FyI0h8goA=
-github.com/startup-of-zero-reais/dynamo-for-lambda v0.0.0-20220409203611-dc8223f1c892 h1:BXdwICoBXJc/Nr/gp0WCIFHtsSdO43iQDh7P/zWvIq4=
-github.com/startup-of-zero-reais/dynamo-for-lambda v0.0.0-20220409203611-dc8223f1c892/go.mod h1:MgPoDMzTqRojlnA925RKElWvzwsd3XPfIagjyZskfNs=
-github.com/startup-of-zero-reais/dynamo-for-lambda v0.0.0-20220409204450-595da3bfd9d9 h1:CVY3X66iNuAlm/RFFcxI8q3NTdLxIzB1k5R3xp+eY18=
-github.com/startup-of-zero-reais/dynamo-for-lambda v0.0.0-20220409204450-595da3bfd9d9/go.mod h1:MgPoDMzTqRojlnA925RKElWvzwsd3XPfIagjyZskfNs=
+github.com/startup-of-zero-reais/API-customer-experience/src/common v0.0.0-20220409213911-56fdf09c44ce h1:x3ubI/++IVyzPLfTmrWTQoUTFPLL98xCT17naT15gXg=
+github.com/startup-of-zero-reais/API-customer-experience/src/common v0.0.0-20220409213911-56fdf09c44ce/go.mod h1:Qp5mKVh2JpyD1iEz93RVlaqUv7+5/kIpHzSGA3W6/ZE=
 github.com/startup-of-zero-reais/dynamo-for-lambda v0.0.0-20220409204618-22cd1bc20870 h1:aUUYdBZzYs7br4AQgLNAstX4fg55TvxVg1ZLV0Ul0vg=
 github.com/startup-of-zero-reais/dynamo-for-lambda v0.0.0-20220409204618-22cd1bc20870/go.mod h1:MgPoDMzTqRojlnA925RKElWvzwsd3XPfIagjyZskfNs=
 github.com/stretchr/objx v0.1.0 h1:4G4v2dO3VZwixGIRoQ5Lfboy6nUhCyYzaqnIAPPhYs4=

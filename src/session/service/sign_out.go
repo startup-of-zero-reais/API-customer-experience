@@ -3,7 +3,10 @@ package service
 import (
 	"errors"
 	"log"
+	"time"
 
+	"github.com/google/uuid"
+	d "github.com/startup-of-zero-reais/API-customer-experience/src/common/domain"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/session/domain"
 )
 
@@ -15,13 +18,16 @@ type (
 	SignOutImpl struct {
 		userRepository    domain.UserRepository
 		sessionRepository domain.SessionRepository
+
+		evtRepository d.EventRepository
 	}
 )
 
-func NewSignOut(userRepository domain.UserRepository, sessionRepository domain.SessionRepository) SignOut {
+func NewSignOut(userRepository domain.UserRepository, sessionRepository domain.SessionRepository, evtRepository d.EventRepository) SignOut {
 	return &SignOutImpl{
 		userRepository:    userRepository,
 		sessionRepository: sessionRepository,
+		evtRepository:     evtRepository,
 	}
 }
 
@@ -41,6 +47,16 @@ func (s *SignOutImpl) ClearSession(usrId string) error {
 		if err != nil {
 			return err
 		}
+	}
+	err = s.evtRepository.Emit(
+		sessions[0].UserID,
+		uuid.NewString(),
+		d.SessionEnded,
+		sessions[0],
+		time.Now().Unix(),
+	)
+	if err != nil {
+		return err
 	}
 
 	return nil

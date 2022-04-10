@@ -1,6 +1,9 @@
 package domain
 
-import "github.com/startup-of-zero-reais/API-customer-experience/src/common/providers"
+import (
+	"github.com/startup-of-zero-reais/API-customer-experience/src/common/providers"
+	"github.com/startup-of-zero-reais/API-customer-experience/src/common/validation"
+)
 
 type (
 	Password interface {
@@ -37,5 +40,10 @@ func (p *PasswordImpl) Hash() string {
 }
 
 func (p *PasswordImpl) Validate(password string) error {
-	return p.encryptProvider.Compare(password, p.hash)
+	err := p.encryptProvider.Compare(password, p.hash)
+	if err != nil {
+		return validation.UnauthorizedError("credenciais inválidas")
+	}
+
+	return nil
 }

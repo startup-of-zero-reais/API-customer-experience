@@ -2,6 +2,7 @@ package data
 
 import (
 	"context"
+	"os"
 	"time"
 
 	"github.com/google/uuid"
@@ -32,7 +33,8 @@ func NewSessionRepository(jwtService s.JwtService) domain.SessionRepository {
 				"UserSession",
 				UserSession{},
 			),
-			Endpoint: "http://customer_experience-db:8000",
+			Environment: domayn.Environment(os.Getenv("ENVIRONMENT")),
+			Endpoint:    os.Getenv("ENDPOINT"),
 		},
 	)
 
@@ -84,9 +86,11 @@ func (s *SessionRepositoryImpl) UserSessions(usrId string) ([]domain.UserSession
 		return nil, err
 	}
 
-	sortedSessions := sort(sessions)
+	if len(sessions) > 0 {
+		sessions = sort(sessions)
+	}
 
-	return sortedSessions, nil
+	return sessions, nil
 }
 
 func (s *SessionRepositoryImpl) DeleteSession(userID string, createdAt int64) error {

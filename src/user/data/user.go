@@ -3,6 +3,7 @@ package data
 import (
 	"context"
 	"log"
+	"os"
 
 	"github.com/startup-of-zero-reais/dynamo-for-lambda/expressions"
 
@@ -40,7 +41,8 @@ func NewUserRepository() UserRepository {
 				"UserModel",
 				UserModel{},
 			),
-			Endpoint: "http://customer_experience-db:8000",
+			Environment: domayn.Environment(os.Getenv("ENVIRONMENT")),
+			Endpoint:    os.Getenv("ENDPOINT"),
 		},
 	)
 	modelDynamo.Migrate()

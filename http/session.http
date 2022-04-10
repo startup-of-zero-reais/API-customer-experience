@@ -3,7 +3,7 @@ POST http://127.0.0.1:3000/session/sign-in
 Content-Type: application/json
 
 {
-	"email": "john@doe.com",
+	"email": "john1@doe.com",
 	"password": "123456"
 }
 
@@ -17,6 +17,15 @@ POST http://127.0.0.1:3000/session/recover-password
 Content-Type: application/json
 
 {
-	"email": "john@doe.com",
-	"password": "123456"
+	"email": "john1@doe.com"
+}
+
+###
+POST http://127.0.0.1:3000/session/reset-password
+Content-Type: application/json
+
+{
+	"otp": 732092,
+	"password": "123456",
+	"confirm_password": "123456"
 }

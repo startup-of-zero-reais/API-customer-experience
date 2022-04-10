@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"os"
 	"reflect"
 
 	"github.com/startup-of-zero-reais/API-customer-experience/src/common/domain"
@@ -27,7 +28,8 @@ func NewEventRepository() domain.EventRepository {
 				"UserEvent",
 				UserEvent{},
 			),
-			Endpoint: "http://customer_experience-db:8000",
+			Environment: domayn.Environment(os.Getenv("ENVIRONMENT")),
+			Endpoint:    os.Getenv("ENDPOINT"),
 		},
 	)
 	eventsDynamo.Migrate()

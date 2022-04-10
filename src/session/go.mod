@@ -4,13 +4,14 @@ go 1.17
 
 require (
 	github.com/aws/aws-lambda-go v1.29.0
+	github.com/aws/aws-sdk-go-v2/config v1.15.3
+	github.com/aws/aws-sdk-go-v2/service/sns v1.17.4
 	github.com/google/uuid v1.3.0
 	github.com/startup-of-zero-reais/dynamo-for-lambda v0.0.0-20220409204618-22cd1bc20870
 )
 
 require (
 	github.com/aws/aws-sdk-go-v2 v1.16.2 // indirect
-	github.com/aws/aws-sdk-go-v2/config v1.15.3 // indirect
 	github.com/aws/aws-sdk-go-v2/credentials v1.11.2 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue v1.8.4 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.12.3 // indirect
@@ -30,6 +31,6 @@ require (
 
 require (
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
-	github.com/startup-of-zero-reais/API-customer-experience/src/common v0.0.0-20220407014119-22287ae58ac0
+	github.com/startup-of-zero-reais/API-customer-experience/src/common v0.0.0-20220409213911-56fdf09c44ce
 	golang.org/x/crypto v0.0.0-20220331220935-ae2d96664a29 // indirect
 )

@@ -1,6 +1,6 @@
 GET http://127.0.0.1:3000/user
 Content-Type: application/json
-Cookie: usess=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDkyMTUzODIsImp0aSI6ImpvaG5AZG9lLmNvbSIsInN1YiI6ImNkMzA1NTE2LTlmMzUtNDYxYy04YWY0LTZmOGE1MzI3ODM5OCJ9.Q4TxZRWPWAguVF_GANio9sYjqoeOjWuKzfoIg8m8CXE;
+Cookie: usess=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDk2MjU4MDgsImp0aSI6ImpvaG5AZG9lLmNvbSIsInN1YiI6ImNkMzA1NTE2LTlmMzUtNDYxYy04YWY0LTZmOGE1MzI3ODM5OCJ9.Z_wdS0Y5Nn1WgWXQGmpwQgaY_byYlfz_ibhJ5l620_8;
 
 ###
 POST http://127.0.0.1:3000/user
@@ -10,7 +10,7 @@ Content-Type: application/json
 	"name": "John",
 	"lastname": "Doe",
 	"email": "john1@doe.com",
-	"phone": "+5562982622387",
+	"phone": "+5548984377151",
 	"password": "123456",
 	"confirm_password": "123456",
 	"avatar": "https://randomuser.me/api/portraits/men/24.jpg"
@@ -19,7 +19,7 @@ Content-Type: application/json
 ###
 PUT http://127.0.0.1:3000/user
 Content-Type: application/json
-Cookie: usess=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDkyMTUzODIsImp0aSI6ImpvaG5AZG9lLmNvbSIsInN1YiI6ImNkMzA1NTE2LTlmMzUtNDYxYy04YWY0LTZmOGE1MzI3ODM5OCJ9.Q4TxZRWPWAguVF_GANio9sYjqoeOjWuKzfoIg8m8CXE;
+Cookie: usess=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDk2MjU4MDgsImp0aSI6ImpvaG5AZG9lLmNvbSIsInN1YiI6ImNkMzA1NTE2LTlmMzUtNDYxYy04YWY0LTZmOGE1MzI3ODM5OCJ9.Z_wdS0Y5Nn1WgWXQGmpwQgaY_byYlfz_ibhJ5l620_8;
 
 {
 	"name": "Johnny",
@@ -33,7 +33,7 @@ Cookie: usess=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDkyMTUzODIsImp0a
 
 DELETE  http://127.0.0.1:3000/user
 Content-Type: application/json
-Cookie: usess=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDkyMTUzODIsImp0aSI6ImpvaG5AZG9lLmNvbSIsInN1YiI6ImNkMzA1NTE2LTlmMzUtNDYxYy04YWY0LTZmOGE1MzI3ODM5OCJ9.Q4TxZRWPWAguVF_GANio9sYjqoeOjWuKzfoIg8m8CXE;
+Cookie: usess=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDk2MjU4MDgsImp0aSI6ImpvaG5AZG9lLmNvbSIsInN1YiI6ImNkMzA1NTE2LTlmMzUtNDYxYy04YWY0LTZmOGE1MzI3ODM5OCJ9.Z_wdS0Y5Nn1WgWXQGmpwQgaY_byYlfz_ibhJ5l620_8;
 
 {
 	"password": "123456",

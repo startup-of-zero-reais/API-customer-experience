@@ -23,6 +23,7 @@ func handleRoutes(event events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTP
 	signInCase := regexp.MustCompile(`\/sign-in$`).MatchString(event.RequestContext.HTTP.Path)
 	signOutCase := regexp.MustCompile(`\/sign-out$`).MatchString(event.RequestContext.HTTP.Path)
 	recoverPasswordCase := regexp.MustCompile(`\/recover-password$`).MatchString(event.RequestContext.HTTP.Path)
+	resetPasswordCase := regexp.MustCompile(`\/reset-password$`).MatchString(event.RequestContext.HTTP.Path)
 
 	switch {
 	case signInCase:
@@ -31,6 +32,8 @@ func handleRoutes(event events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTP
 		return domain.WrapResponse(handler.SignOut(request))
 	case recoverPasswordCase:
 		return domain.WrapResponse(handler.RecoverPassword(request))
+	case resetPasswordCase:
+		return domain.WrapResponse(handler.ResetPassword(request))
 	default:
 		log.Println("[ERROR] Invalid path:", event.RequestContext.HTTP.Path)
 		r := domain.NewResponse()
