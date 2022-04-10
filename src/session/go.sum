@@ -72,6 +72,8 @@ github.com/startup-of-zero-reais/API-customer-experience/src/common v0.0.0-20220
 github.com/startup-of-zero-reais/API-customer-experience/src/common v0.0.0-20220409213911-56fdf09c44ce/go.mod h1:Qp5mKVh2JpyD1iEz93RVlaqUv7+5/kIpHzSGA3W6/ZE=
 github.com/startup-of-zero-reais/dynamo-for-lambda v0.0.0-20220409204618-22cd1bc20870 h1:aUUYdBZzYs7br4AQgLNAstX4fg55TvxVg1ZLV0Ul0vg=
 github.com/startup-of-zero-reais/dynamo-for-lambda v0.0.0-20220409204618-22cd1bc20870/go.mod h1:MgPoDMzTqRojlnA925RKElWvzwsd3XPfIagjyZskfNs=
+github.com/startup-of-zero-reais/dynamo-for-lambda v0.0.0-20220410144324-5894ca4a2ed9 h1:5jAb9JSEj5OCvVt4Q9YOM9olzWDJceBAqFZL6v6SUes=
+github.com/startup-of-zero-reais/dynamo-for-lambda v0.0.0-20220410144324-5894ca4a2ed9/go.mod h1:MgPoDMzTqRojlnA925RKElWvzwsd3XPfIagjyZskfNs=
 github.com/stretchr/objx v0.1.0 h1:4G4v2dO3VZwixGIRoQ5Lfboy6nUhCyYzaqnIAPPhYs4=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.6.1/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
