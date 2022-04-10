@@ -33,17 +33,22 @@ type (
 )
 
 func NewUserRepository() UserRepository {
+	config := &domayn.Config{
+		TableName: "UserModel",
+		Table: table.NewTable(
+			"UserModel",
+			UserModel{},
+		),
+	}
+
+	if os.Getenv("ENVIRONMENT") == "local" {
+		config.Environment = domayn.Environment(os.Getenv("ENVIRONMENT"))
+		config.Endpoint = os.Getenv("ENDPOINT")
+	}
+
 	modelDynamo := drivers.NewDynamoClient(
 		context.TODO(),
-		&domayn.Config{
-			TableName: "UserModel",
-			Table: table.NewTable(
-				"UserModel",
-				UserModel{},
-			),
-			Environment: domayn.Environment(os.Getenv("ENVIRONMENT")),
-			Endpoint:    os.Getenv("ENDPOINT"),
-		},
+		config,
 	)
 	modelDynamo.Migrate()
 	// defer modelDynamo.FlushDb()
