@@ -9,7 +9,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.15.3
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/google/uuid v1.3.0
-	github.com/startup-of-zero-reais/dynamo-for-lambda v0.0.0-20220410183112-58d3c9aa7ab6
+	github.com/startup-of-zero-reais/dynamo-for-lambda v0.0.0-20220410184219-ad2291f72dc5
 	golang.org/x/crypto v0.0.0-20220331220935-ae2d96664a29
 )
 
