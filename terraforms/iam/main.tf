@@ -82,7 +82,7 @@ resource "aws_iam_policy" "lambda_db" {
       "Action": [
         "dynamodb:*"
       ],
-      "Resource": "arn:aws:dynamodb:us-east-1:599981017555:table/*",
+      "Resource": "arn:aws:dynamodb:us-east-1:599981017555:*",
       "Effect": "Allow"
     }
   ]
