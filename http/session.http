@@ -1,10 +1,11 @@
-@baseURL = http://127.0.0.1:3000/session
 @baseURL = https://api.zero-reais-lab.cloud/v1/customer-experience
+@baseURL = http://127.0.0.1:3000/session
 
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDk3MDc0MTMsImp0aSI6ImpvaG4xQGRvZS5jb20iLCJzdWIiOiI5MjExNTZkYy00OTE5LTRiNjctYmI5Ny1iZGE5Y2FkZTBlY2YifQ.ddvN7Hn1wAtEJpByHIlJeGl633Om64ZbMvfmPweXIzQ
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDk3MDg4OTksImp0aSI6ImpvaG4xQGRvZS5jb20iLCJzdWIiOiI5MjExNTZkYy00OTE5LTRiNjctYmI5Ny1iZGE5Y2FkZTBlY2YifQ.E-aFVi4LGCkzxpdOCy0tQ3V1kTGfov0U6IXFMlT9B4c
 
 ### @name signIn
 POST {{baseURL}}/sign-in
+Content-Type: application/json
 
 {
 	"email": "john1@doe.com",
@@ -26,7 +27,7 @@ POST {{baseURL}}/recover-password
 POST {{baseURL}}/reset-password
 
 {
-	"otp": 299814,
+	"otp": 789906,
 	"password": "123456",
 	"confirm_password": "123456"
 }

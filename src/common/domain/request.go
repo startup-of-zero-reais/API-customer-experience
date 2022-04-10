@@ -2,6 +2,7 @@ package domain
 
 import (
 	"encoding/base64"
+	"log"
 	"strings"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -28,10 +29,10 @@ func ParseRequest(request events.APIGatewayV2HTTPRequest) Request {
 	if content := request.Headers["Content-Type"]; content != "application/json" {
 		decodedBody, err := base64.StdEncoding.DecodeString(request.Body)
 		if err != nil {
-			panic(err)
+			log.Println("[ERROR] parsing body with header:", request.Headers["Content-Type"], err)
+		} else {
+			request.Body = string(decodedBody)
 		}
-
-		request.Body = string(decodedBody)
 	}
 
 	if request.Headers["Authorization"] != "" {
@@ -49,7 +50,9 @@ func ParseRequest(request events.APIGatewayV2HTTPRequest) Request {
 func WrapResponse(response Response) (events.APIGatewayV2HTTPResponse, error) {
 	return events.APIGatewayV2HTTPResponse{
 		StatusCode:      response.StatusCode,
+		Headers:         response.Headers,
 		Body:            response.Body.ToJson(),
+		Cookies:         response.Cookies,
 		IsBase64Encoded: false,
 	}, nil
 }

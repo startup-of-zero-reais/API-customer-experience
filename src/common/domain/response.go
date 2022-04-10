@@ -60,6 +60,12 @@ func (r *Response) SetMetadata(metadata interface{}) *Response {
 	return r
 }
 
+func (r *Response) AddHeader(key, value string) *Response {
+	r.Headers[key] = value
+
+	return r
+}
+
 func (b *Body) ToJson() string {
 	jsonBody, err := json.Marshal(b)
 	if err != nil {
