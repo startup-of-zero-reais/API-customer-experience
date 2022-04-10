@@ -1,9 +1,9 @@
 # DEVELOPMENT URL
 @baseURL = http://127.0.0.1:3000/user
 # PRODUCTION URL
-@baseURL = https://api.zero-reais-lab.cloud/v1/customer-experience/user
+# @baseURL = https://api.zero-reais-lab.cloud/v1/customer-experience/user
 
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDk3MDQ5NjYsImp0aSI6ImpvaG4xQGRvZS5jb20iLCJzdWIiOiI5MjExNTZkYy00OTE5LTRiNjctYmI5Ny1iZGE5Y2FkZTBlY2YifQ.wXzODHm4VSaIEMsA-bfspuPRX6Q83BqBFwX-NojUIpo
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDk3MTMwODQsImp0aSI6ImpvaG4xQGRvZS5jb20iLCJzdWIiOiI5MjExNTZkYy00OTE5LTRiNjctYmI5Ny1iZGE5Y2FkZTBlY2YifQ.EhnFlwPLYnVEQ8xdpIKdwxeVnfiQTgPkwF8Kf7HA4jw
 
 ### @name getProfile
 GET {{baseURL}}

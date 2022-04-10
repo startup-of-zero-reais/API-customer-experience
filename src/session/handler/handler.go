@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"log"
 	"net/http"
 	"time"
 
@@ -74,13 +73,9 @@ func (h *Handler) SignIn(r domain.Request) domain.Response {
 	}
 
 	tokenCookie := fmt.Sprintf("usess=%s; domain=zero-reais-lab.cloud; expires=%s;", session.SessionToken, time.Unix(session.ExpiresIn, 0).Format(time.RFC1123))
-	h.response.Headers["set-cookie"] = tokenCookie
-	h.response.Headers["x-auth-token"] = session.SessionToken
+	h.response.Headers["Set-Cookie"] = tokenCookie
+	h.response.Headers["X-Auth-Token"] = session.SessionToken
 	h.response.Cookies = []string{tokenCookie}
-
-	log.Printf("\n\n\nSet-Cookie:\n\n%s\n\n", tokenCookie)
-	log.Printf("\n\n\nAuth Token:\n\n%s\n\n", session.SessionToken)
-	log.Printf("\n\n\nHeaders:\n\n%+v\n\n", h.response.Headers)
 
 	return *h.response
 }
