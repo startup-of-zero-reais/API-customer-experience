@@ -75,7 +75,10 @@ func (h *Handler) SignIn(r domain.Request) domain.Response {
 
 	tokenCookie := fmt.Sprintf("usess=%s; domain=zero-reais-lab.cloud; expires=%s;", session.SessionToken, time.Unix(session.ExpiresIn, 0).Format(time.RFC1123))
 	h.response.MultiValueHeaders["Set-Cookie"] = []string{tokenCookie}
-	h.response.MultiValueHeaders["set-Cookie"] = []string{tokenCookie}
+	h.response.MultiValueHeaders["set-cookie"] = []string{tokenCookie}
+	h.response.Headers["Set-Cookie"] = tokenCookie
+	h.response.Headers["set-cookie"] = tokenCookie
+	h.response.Headers["x-auth-token"] = session.SessionToken
 	h.response.Cookies = []string{tokenCookie}
 
 	log.Printf("\n\n\nSet-Cookie:\n\n%s\n\n", tokenCookie)

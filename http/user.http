@@ -1,10 +1,16 @@
-# GET http://127.0.0.1:3000/user
-GET https://api.zero-reais-lab.cloud/v1/customer-experience/user
-Cookie: usess=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDk3MDQ5NjYsImp0aSI6ImpvaG4xQGRvZS5jb20iLCJzdWIiOiI5MjExNTZkYy00OTE5LTRiNjctYmI5Ny1iZGE5Y2FkZTBlY2YifQ.wXzODHm4VSaIEMsA-bfspuPRX6Q83BqBFwX-NojUIpo;
+# DEVELOPMENT URL
+@baseURL = http://127.0.0.1:3000/user
+# PRODUCTION URL
+@baseURL = https://api.zero-reais-lab.cloud/v1/customer-experience/user
 
-###
-# POST http://127.0.0.1:3000/user
-POST https://api.zero-reais-lab.cloud/v1/customer-experience/user
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDk3MDQ5NjYsImp0aSI6ImpvaG4xQGRvZS5jb20iLCJzdWIiOiI5MjExNTZkYy00OTE5LTRiNjctYmI5Ny1iZGE5Y2FkZTBlY2YifQ.wXzODHm4VSaIEMsA-bfspuPRX6Q83BqBFwX-NojUIpo
+
+### @name getProfile
+GET {{baseURL}}
+Cookie: usess={{authToken}};
+
+### @name createCustomer
+POST {{baseURL}}
 
 {
 	"name": "John",
@@ -16,10 +22,9 @@ POST https://api.zero-reais-lab.cloud/v1/customer-experience/user
 	"avatar": "https://randomuser.me/api/portraits/men/24.jpg"
 }
 
-###
-PUT http://127.0.0.1:3000/user
-Content-Type: application/json
-Cookie: usess=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDk3MDQ5NjYsImp0aSI6ImpvaG4xQGRvZS5jb20iLCJzdWIiOiI5MjExNTZkYy00OTE5LTRiNjctYmI5Ny1iZGE5Y2FkZTBlY2YifQ.wXzODHm4VSaIEMsA-bfspuPRX6Q83BqBFwX-NojUIpo;
+### @name updateProfile
+PUT {{baseURL}}
+Cookie: usess={{authToken}};
 
 {
 	"name": "Johnny",
@@ -29,11 +34,9 @@ Cookie: usess=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDk3MDQ5NjYsImp0a
 	"confirm_new_password": "123456"
 }
 
-###
-
-DELETE  http://127.0.0.1:3000/user
-Content-Type: application/json
-Cookie: usess=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDk3MDQ5NjYsImp0aSI6ImpvaG4xQGRvZS5jb20iLCJzdWIiOiI5MjExNTZkYy00OTE5LTRiNjctYmI5Ny1iZGE5Y2FkZTBlY2YifQ.wXzODHm4VSaIEMsA-bfspuPRX6Q83BqBFwX-NojUIpo;
+### @name deleteProfile
+DELETE  {{baseURL}}
+Cookie: usess={{authToken}};
 
 {
 	"password": "123456",

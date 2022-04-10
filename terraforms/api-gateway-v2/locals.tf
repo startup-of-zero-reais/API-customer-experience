@@ -8,7 +8,7 @@ locals {
       path        = "user"
       method      = "POST"
       invoke_arn  = data.aws_lambda_function.user.invoke_arn
-      description = "User resources lambda - Method: POST"
+      description = "Customer user resources lambda - Method: POST"
     }
 
     get_user = {
@@ -17,7 +17,7 @@ locals {
       path        = "user"
       method      = "GET"
       invoke_arn  = data.aws_lambda_function.user.invoke_arn
-      description = "User resources lambda - Method: GET"
+      description = "Customer user resources lambda - Method: GET"
     }
 
     put_user = {
@@ -26,7 +26,7 @@ locals {
       path        = "user"
       method      = "PUT"
       invoke_arn  = data.aws_lambda_function.user.invoke_arn
-      description = "User resources lambda - Method: PUT"
+      description = "Customer user resources lambda - Method: PUT"
     }
 
     delete_user = {
@@ -35,12 +35,12 @@ locals {
       path        = "user"
       method      = "DELETE"
       invoke_arn  = data.aws_lambda_function.user.invoke_arn
-      description = "User resources lambda - Method: DELETE"
+      description = "Customer user resources lambda - Method: DELETE"
     }
 
     sign_in = {
       version     = "v1"
-      prefix      = ""
+      prefix      = "customer-experience/"
       path        = "sign-in"
       method      = "POST"
       invoke_arn  = data.aws_lambda_function.session.invoke_arn
@@ -49,7 +49,7 @@ locals {
 
     sign_out = {
       version     = "v1"
-      prefix      = ""
+      prefix      = "customer-experience/"
       path        = "sign-out"
       method      = "POST"
       invoke_arn  = data.aws_lambda_function.session.invoke_arn
@@ -58,7 +58,7 @@ locals {
 
     recover_password = {
       version     = "v1"
-      prefix      = ""
+      prefix      = "customer-experience/"
       path        = "recover-password"
       method      = "POST"
       invoke_arn  = data.aws_lambda_function.session.invoke_arn
@@ -67,7 +67,7 @@ locals {
 
     reset_password = {
       version     = "v1"
-      prefix      = ""
+      prefix      = "customer-experience/"
       path        = "reset-password"
       method      = "POST"
       invoke_arn  = data.aws_lambda_function.session.invoke_arn

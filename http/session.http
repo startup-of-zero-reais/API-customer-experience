@@ -1,28 +1,32 @@
-###
-POST https://api.zero-reais-lab.cloud/v1/sign-in
+@baseURL = http://127.0.0.1:3000/session
+@baseURL = https://api.zero-reais-lab.cloud/v1/customer-experience
+
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDk3MDc0MTMsImp0aSI6ImpvaG4xQGRvZS5jb20iLCJzdWIiOiI5MjExNTZkYy00OTE5LTRiNjctYmI5Ny1iZGE5Y2FkZTBlY2YifQ.ddvN7Hn1wAtEJpByHIlJeGl633Om64ZbMvfmPweXIzQ
+
+### @name signIn
+POST {{baseURL}}/sign-in
 
 {
 	"email": "john1@doe.com",
 	"password": "123456"
 }
 
-###
-POST http://127.0.0.1:3000/session/sign-out
-Content-Type: application/json
-Cookie: usess=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDk2MjM3ODMsImp0aSI6ImpvaG5AZG9lLmNvbSIsInN1YiI6ImNkMzA1NTE2LTlmMzUtNDYxYy04YWY0LTZmOGE1MzI3ODM5OCJ9.OwnFIUQqh3iWHLPhk5pJfi2s48qaT5qL491QcjgsOac;
+### @name signOut
+POST {{baseURL}}/sign-out
+Cookie: usess={{authToken}}
 
-###
-POST https://api.zero-reais-lab.cloud/v1/recover-password
+### @name recoverPassword
+POST {{baseURL}}/recover-password
 
 {
 	"email": "john1@doe.com"
 }
 
-###
-POST https://api.zero-reais-lab.cloud/v1/reset-password
+### @name resetPassword
+POST {{baseURL}}/reset-password
 
 {
-	"otp": 494101,
+	"otp": 299814,
 	"password": "123456",
 	"confirm_password": "123456"
 }

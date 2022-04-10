@@ -71,7 +71,6 @@ EOF
 
 resource "aws_iam_policy" "lambda_db" {
   name        = "lambda_dynamodb_access"
-  path        = "/"
   description = "IAM policy for dynamodb access from a lambda"
 
   policy = <<EOF
@@ -92,7 +91,6 @@ EOF
 
 resource "aws_iam_policy" "lambda_sns" {
   name        = "lambda_sns_access"
-  path        = "/"
   description = "IAM policy for sns access from a lambda"
 
   policy = <<EOF
