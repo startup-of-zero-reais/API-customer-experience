@@ -3,8 +3,9 @@ package data
 import (
 	"context"
 	"log"
-	"os"
 
+	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/startup-of-zero-reais/dynamo-for-lambda/expressions"
 
 	"github.com/startup-of-zero-reais/API-customer-experience/src/common/providers"
@@ -33,20 +34,21 @@ type (
 )
 
 func NewUserRepository() UserRepository {
+	var awsConfs []func(*config.LoadOptions) error
+	awsConf := append(awsConfs, config.WithRegion("us-east-1"))
+
+	cfg, err := config.LoadDefaultConfig(context.TODO(), awsConf...)
+	if err != nil {
+		log.Fatalf("unable to load SDK config, %v", err)
+	}
+
 	config := &domayn.Config{
 		TableName: "UserModel",
 		Table: table.NewTable(
 			"UserModel",
 			UserModel{},
 		),
-	}
-
-	if os.Getenv("ENVIRONMENT") != "" {
-		config.Environment = domayn.Environment(os.Getenv("ENVIRONMENT"))
-	}
-
-	if os.Getenv("ENDPOINT") != "" {
-		config.Endpoint = os.Getenv("ENDPOINT")
+		Client: dynamodb.NewFromConfig(cfg),
 	}
 
 	modelDynamo := drivers.NewDynamoClient(
