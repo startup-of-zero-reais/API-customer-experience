@@ -1,7 +1,10 @@
 @baseURL = https://api.zero-reais-lab.cloud/v1/customer-experience
 @baseURL = http://127.0.0.1:3000/session
 
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDk3MTE0NjEsImp0aSI6ImpvaG4xQGRvZS5jb20iLCJzdWIiOiI5MjExNTZkYy00OTE5LTRiNjctYmI5Ny1iZGE5Y2FkZTBlY2YifQ.Yx2zhLeLkBs_Ho-Aze15p-NUd6VWX5MCTWj-bI1TNEA
+### LOCAL TOKEN
+# @authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDk3MTE0NjEsImp0aSI6ImpvaG4xQGRvZS5jb20iLCJzdWIiOiI5MjExNTZkYy00OTE5LTRiNjctYmI5Ny1iZGE5Y2FkZTBlY2YifQ.Yx2zhLeLkBs_Ho-Aze15p-NUd6VWX5MCTWj-bI1TNEA
+### PROD TOKEN
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDk3MTIwNjMsImp0aSI6ImpvaG4xQGRvZS5jb20iLCJzdWIiOiI5MjExNTZkYy00OTE5LTRiNjctYmI5Ny1iZGE5Y2FkZTBlY2YifQ.C1cisw_3I_F1glsG3UyHW9zPnI0WEp-y9M4r1C5B7v0
 
 ### @name signIn
 POST {{baseURL}}/sign-in
@@ -27,7 +30,7 @@ POST {{baseURL}}/recover-password
 POST {{baseURL}}/reset-password
 
 {
-	"otp": 789906,
-	"password": "123456",
+	"otp": 466411,
+	"password": "1234567",
 	"confirm_password": "123456"
 }

@@ -128,6 +128,14 @@ func (h *Handler) RecoverPassword(r domain.Request) domain.Response {
 
 	err = h.app.RecoverPassword.SendOTP(authInput.Email)
 	if err != nil {
+		var notFound *validation.NotFound
+		if errors.As(err, &notFound) {
+			h.response.SetStatusCode(http.StatusNotFound)
+			h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
+
+			return *h.response
+		}
+
 		h.response.SetStatusCode(http.StatusInternalServerError)
 		h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
 
