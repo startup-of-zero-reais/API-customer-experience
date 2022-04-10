@@ -90,6 +90,27 @@ resource "aws_iam_policy" "lambda_db" {
 EOF
 }
 
+resource "aws_iam_policy" "lambda_sns" {
+  name        = "lambda_sns_access"
+  path        = "/"
+  description = "IAM policy for sns access from a lambda"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "sns:*"
+      ],
+      "Resource": "arn:aws:sns:us-east-1:*:*",
+      "Effect": "Allow"
+    }
+  ]
+}
+EOF
+}
+
 resource "aws_iam_role_policy_attachment" "lambda_logs" {
   role       = aws_iam_role.iam_for_lambda.name
   policy_arn = aws_iam_policy.lambda_logging.arn
@@ -98,6 +119,11 @@ resource "aws_iam_role_policy_attachment" "lambda_logs" {
 resource "aws_iam_role_policy_attachment" "lambda_db" {
   role       = aws_iam_role.iam_for_lambda.name
   policy_arn = aws_iam_policy.lambda_db.arn
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_sns" {
+  role       = aws_iam_role.iam_for_lambda.name
+  policy_arn = aws_iam_policy.lambda_sns.arn
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_policy" {

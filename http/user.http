@@ -1,12 +1,10 @@
 # GET http://127.0.0.1:3000/user
 GET https://api.zero-reais-lab.cloud/v1/customer-experience/user
-Content-Type: application/json
-Cookie: usess=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDk2MjU4MDgsImp0aSI6ImpvaG5AZG9lLmNvbSIsInN1YiI6ImNkMzA1NTE2LTlmMzUtNDYxYy04YWY0LTZmOGE1MzI3ODM5OCJ9.Z_wdS0Y5Nn1WgWXQGmpwQgaY_byYlfz_ibhJ5l620_8;
+Cookie: usess=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDk3MDQ5NjYsImp0aSI6ImpvaG4xQGRvZS5jb20iLCJzdWIiOiI5MjExNTZkYy00OTE5LTRiNjctYmI5Ny1iZGE5Y2FkZTBlY2YifQ.wXzODHm4VSaIEMsA-bfspuPRX6Q83BqBFwX-NojUIpo;
 
 ###
 # POST http://127.0.0.1:3000/user
 POST https://api.zero-reais-lab.cloud/v1/customer-experience/user
-Content-Type: application/json
 
 {
 	"name": "John",
@@ -21,7 +19,7 @@ Content-Type: application/json
 ###
 PUT http://127.0.0.1:3000/user
 Content-Type: application/json
-Cookie: usess=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDk2MjU4MDgsImp0aSI6ImpvaG5AZG9lLmNvbSIsInN1YiI6ImNkMzA1NTE2LTlmMzUtNDYxYy04YWY0LTZmOGE1MzI3ODM5OCJ9.Z_wdS0Y5Nn1WgWXQGmpwQgaY_byYlfz_ibhJ5l620_8;
+Cookie: usess=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDk3MDQ5NjYsImp0aSI6ImpvaG4xQGRvZS5jb20iLCJzdWIiOiI5MjExNTZkYy00OTE5LTRiNjctYmI5Ny1iZGE5Y2FkZTBlY2YifQ.wXzODHm4VSaIEMsA-bfspuPRX6Q83BqBFwX-NojUIpo;
 
 {
 	"name": "Johnny",
@@ -35,7 +33,7 @@ Cookie: usess=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDk2MjU4MDgsImp0a
 
 DELETE  http://127.0.0.1:3000/user
 Content-Type: application/json
-Cookie: usess=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDk2MjU4MDgsImp0aSI6ImpvaG5AZG9lLmNvbSIsInN1YiI6ImNkMzA1NTE2LTlmMzUtNDYxYy04YWY0LTZmOGE1MzI3ODM5OCJ9.Z_wdS0Y5Nn1WgWXQGmpwQgaY_byYlfz_ibhJ5l620_8;
+Cookie: usess=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDk3MDQ5NjYsImp0aSI6ImpvaG4xQGRvZS5jb20iLCJzdWIiOiI5MjExNTZkYy00OTE5LTRiNjctYmI5Ny1iZGE5Y2FkZTBlY2YifQ.wXzODHm4VSaIEMsA-bfspuPRX6Q83BqBFwX-NojUIpo;
 
 {
 	"password": "123456",

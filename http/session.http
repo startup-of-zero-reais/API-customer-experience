@@ -1,6 +1,5 @@
 ###
-POST http://127.0.0.1:3000/session/sign-in
-Content-Type: application/json
+POST https://api.zero-reais-lab.cloud/v1/sign-in
 
 {
 	"email": "john1@doe.com",
@@ -13,19 +12,17 @@ Content-Type: application/json
 Cookie: usess=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDk2MjM3ODMsImp0aSI6ImpvaG5AZG9lLmNvbSIsInN1YiI6ImNkMzA1NTE2LTlmMzUtNDYxYy04YWY0LTZmOGE1MzI3ODM5OCJ9.OwnFIUQqh3iWHLPhk5pJfi2s48qaT5qL491QcjgsOac;
 
 ###
-POST http://127.0.0.1:3000/session/recover-password
-Content-Type: application/json
+POST https://api.zero-reais-lab.cloud/v1/recover-password
 
 {
 	"email": "john1@doe.com"
 }
 
 ###
-POST http://127.0.0.1:3000/session/reset-password
-Content-Type: application/json
+POST https://api.zero-reais-lab.cloud/v1/reset-password
 
 {
-	"otp": 732092,
+	"otp": 874084,
 	"password": "123456",
 	"confirm_password": "123456"
 }
