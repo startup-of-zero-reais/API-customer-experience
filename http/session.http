@@ -1,7 +1,7 @@
 @baseURL = https://api.zero-reais-lab.cloud/v1/customer-experience
 @baseURL = http://127.0.0.1:3000/session
 
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDk3MDg4OTksImp0aSI6ImpvaG4xQGRvZS5jb20iLCJzdWIiOiI5MjExNTZkYy00OTE5LTRiNjctYmI5Ny1iZGE5Y2FkZTBlY2YifQ.E-aFVi4LGCkzxpdOCy0tQ3V1kTGfov0U6IXFMlT9B4c
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDk3MTE0NjEsImp0aSI6ImpvaG4xQGRvZS5jb20iLCJzdWIiOiI5MjExNTZkYy00OTE5LTRiNjctYmI5Ny1iZGE5Y2FkZTBlY2YifQ.Yx2zhLeLkBs_Ho-Aze15p-NUd6VWX5MCTWj-bI1TNEA
 
 ### @name signIn
 POST {{baseURL}}/sign-in
@@ -14,7 +14,7 @@ Content-Type: application/json
 
 ### @name signOut
 POST {{baseURL}}/sign-out
-Cookie: usess={{authToken}}
+Cookie: usess={{authToken}}; Path=/; domain=.zero-reais-lab.cloud
 
 ### @name recoverPassword
 POST {{baseURL}}/recover-password
