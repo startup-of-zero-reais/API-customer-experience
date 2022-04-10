@@ -26,7 +26,7 @@ resource "aws_lambda_function" "this" {
   role          = data.aws_iam_role.lambda_iam_role.arn
   handler       = each.key
   description   = lookup(each.value, "description", each.key)
-  timeout       = 10000
+  timeout       = 10
 
   source_code_hash = filebase64sha256(format("./functions/%s.zip", each.key))
 
