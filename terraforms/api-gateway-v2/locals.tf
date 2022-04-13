@@ -74,6 +74,14 @@ locals {
       description = "Reset pass resource lambda - Method: POST"
     }
 
+    company = {
+      version     = "v1"
+      prefix      = "customer-experience/"
+      path        = "company/{slug}"
+      method      = "GET"
+      invoke_arn  = data.aws_lambda_function.company.invoke_arn
+      description = "Company food menu resource lambda - Method: GET"
+    }
 
     # route-2 = {
     #   version       = "v1"

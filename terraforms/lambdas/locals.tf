@@ -1,20 +1,22 @@
 locals {
   lambda_functions = {
-    # company = {
-    #   function_name = format("%s-%s", var.project_name, "company")
-    #   description   = "Company resources"
-    #   runtime       = "go1.x"
-    #   env_vars = {
-    #     ENV = "prod"
-    #   }
-    # }
+    company = {
+      function_name = format("%s-%s", var.project_name, "company")
+      description   = "Company resources"
+      runtime       = "go1.x"
+      env_vars = {
+        ENVIRONMENT = "prod"
+        JWT_SERVICE = "DEV"
+        LOG_LEVEL   = 2
+      }
+    }
 
     # favorites = {
     #   function_name = format("%s-%s", var.project_name, "favorites")
     #   description   = "Favorites resources"
     #   runtime       = "go1.x"
     #   env_vars = {
-    #     ENV = "prod"
+    #     ENVIRONMENT = "prod"
     #   }
     # }
 
@@ -23,7 +25,7 @@ locals {
     #   description   = "Orders resources"
     #   runtime       = "go1.x"
     #   env_vars = {
-    #     ENV = "prod"
+    #     ENVIRONMENT = "prod"
     #   }
     # }
 
