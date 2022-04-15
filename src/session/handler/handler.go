@@ -72,6 +72,7 @@ func (h *Handler) SignIn(r domain.Request) domain.Response {
 		return *h.response
 	}
 
+	h.response.SetStatusCode(http.StatusNoContent)
 	// tokenCookie := fmt.Sprintf("usess=%s; domain=zero-reais-lab.cloud; expires=%s;", session.SessionToken, time.Unix(session.ExpiresIn, 0).Format(time.RFC1123))
 	localCookie := fmt.Sprintf("usess=%s; expires=%s;", session.SessionToken, time.Unix(session.ExpiresIn, 0).Format(time.RFC1123))
 	// h.response.Headers["Set-Cookie"] = tokenCookie
