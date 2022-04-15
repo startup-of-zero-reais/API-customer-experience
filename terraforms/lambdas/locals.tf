@@ -5,9 +5,10 @@ locals {
       description   = "Company resources"
       runtime       = "go1.x"
       env_vars = {
-        ENVIRONMENT = "prod"
+        ENVIRONMENT = "lab"
         JWT_SERVICE = "DEV"
         LOG_LEVEL   = 2
+        APP_URL     = "https://customer-experience.zero-reais-lab.cloud"
       }
     }
 
@@ -16,7 +17,7 @@ locals {
     #   description   = "Favorites resources"
     #   runtime       = "go1.x"
     #   env_vars = {
-    #     ENVIRONMENT = "prod"
+    #     ENVIRONMENT = "lab"
     #   }
     # }
 
@@ -25,7 +26,7 @@ locals {
     #   description   = "Orders resources"
     #   runtime       = "go1.x"
     #   env_vars = {
-    #     ENVIRONMENT = "prod"
+    #     ENVIRONMENT = "lab"
     #   }
     # }
 
@@ -34,7 +35,7 @@ locals {
       description   = "Session resources"
       runtime       = "go1.x"
       env_vars = {
-        ENVIRONMENT = "prod"
+        ENVIRONMENT = "lab"
         JWT_SERVICE = "DEV"
         LOG_LEVEL   = 2
       }
@@ -44,7 +45,7 @@ locals {
       description   = "User resources"
       runtime       = "go1.x"
       env_vars = {
-        ENVIRONMENT = "prod"
+        ENVIRONMENT = "lab"
         JWT_SERVICE = "DEV"
         LOG_LEVEL   = 2
       }

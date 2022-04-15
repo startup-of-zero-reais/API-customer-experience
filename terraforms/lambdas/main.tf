@@ -4,7 +4,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 4.8.0"
+      version = "~> 4.9.0"
     }
   }
 
@@ -48,4 +48,28 @@ resource "aws_lambda_permission" "this" {
   principal     = "apigateway.amazonaws.com"
 
   source_arn = "${data.aws_apigatewayv2_api.this.execution_arn}/*/*"
+}
+
+resource "aws_cloudwatch_log_group" "this" {
+  for_each = local.lambda_functions
+
+  name              = format("/aws/lambda/%s", lookup(each.value, "function_name"))
+  retention_in_days = 7
+
+  tags = { "Name" = format("%s-%s", var.project_name, each.key) }
+}
+
+resource "aws_cloudwatch_log_stream" "foo" {
+  for_each = local.lambda_functions
+
+  name           = format("/first-log/group/%s", lookup(each.value, "function_name"))
+  log_group_name = aws_cloudwatch_log_group.this[each.key].name
+}
+resource "aws_cloudwatch_log_subscription_filter" "lambda_logs" {
+  for_each = local.lambda_functions
+
+  name            = lookup(each.value, "function_name")
+  log_group_name  = aws_cloudwatch_log_group.this[each.key].name
+  filter_pattern  = ""
+  destination_arn = data.aws_lambda_function.logs_destination.arn
 }
