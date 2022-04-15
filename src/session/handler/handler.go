@@ -72,11 +72,12 @@ func (h *Handler) SignIn(r domain.Request) domain.Response {
 		return *h.response
 	}
 
-	tokenCookie := fmt.Sprintf("usess=%s; domain=zero-reais-lab.cloud; expires=%s;", session.SessionToken, time.Unix(session.ExpiresIn, 0).Format(time.RFC1123))
-	localCookie := fmt.Sprintf("usess=%s; domain=localhost; expires=%s;", session.SessionToken, time.Unix(session.ExpiresIn, 0).Format(time.RFC1123))
-	h.response.Headers["Set-Cookie"] = tokenCookie
+	// tokenCookie := fmt.Sprintf("usess=%s; domain=zero-reais-lab.cloud; expires=%s;", session.SessionToken, time.Unix(session.ExpiresIn, 0).Format(time.RFC1123))
+	localCookie := fmt.Sprintf("usess=%s; expires=%s;", session.SessionToken, time.Unix(session.ExpiresIn, 0).Format(time.RFC1123))
+	// h.response.Headers["Set-Cookie"] = tokenCookie
 	h.response.Headers["X-Auth-Token"] = session.SessionToken
-	h.response.Cookies = []string{tokenCookie, localCookie}
+	// h.response.Cookies = []string{tokenCookie, localCookie}
+	h.response.Cookies = []string{localCookie}
 
 	return *h.response
 }
