@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/startup-of-zero-reais/API-customer-experience/src/common/domain"
@@ -72,13 +73,12 @@ func (h *Handler) SignIn(r domain.Request) domain.Response {
 		return *h.response
 	}
 
-	h.response.SetStatusCode(http.StatusNoContent)
-	// tokenCookie := fmt.Sprintf("usess=%s; domain=zero-reais-lab.cloud; expires=%s;", session.SessionToken, time.Unix(session.ExpiresIn, 0).Format(time.RFC1123))
-	localCookie := fmt.Sprintf("usess=%s; expires=%s;", session.SessionToken, time.Unix(session.ExpiresIn, 0).Format(time.RFC1123))
-	// h.response.Headers["Set-Cookie"] = tokenCookie
+	tokenCookie := fmt.Sprintf("usess=%s; expires=%s;", session.SessionToken, time.Unix(session.ExpiresIn, 0).Format(time.RFC1123))
+	if os.Getenv("ENVIRONMENT") == "production" {
+		tokenCookie = fmt.Sprintf("usess=%s; domain=zero-reais-lab.cloud; expires=%s;", session.SessionToken, time.Unix(session.ExpiresIn, 0).Format(time.RFC1123))
+	}
 	h.response.Headers["X-Auth-Token"] = session.SessionToken
-	// h.response.Cookies = []string{tokenCookie, localCookie}
-	h.response.Cookies = []string{localCookie}
+	h.response.Cookies = []string{tokenCookie}
 
 	return *h.response
 }

@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/startup-of-zero-reais/API-customer-experience/src/common/validation"
 
 	"github.com/startup-of-zero-reais/API-customer-experience/src/session/domain"
 
@@ -52,9 +51,7 @@ func (s *SignInImpl) SignIn(email, password string) (*domain.UserSession, error)
 
 	if len(sessions) > 0 {
 		lastSession := sessions[0]
-		if lastSession.IsExpired() {
-			return nil, validation.BadRequestError("sessão expirada")
-		} else {
+		if !lastSession.IsExpired() {
 			return &lastSession, nil
 		}
 	}
