@@ -83,6 +83,33 @@ locals {
       description = "Company food menu resource lambda - Method: GET"
     }
 
+    list_favorites = {
+      version     = "v1"
+      prefix      = "customer-experience/"
+      path        = "favorites"
+      method      = "GET"
+      invoke_arn  = data.aws_lambda_function.favorites.invoke_arn
+      description = "Favorites Meals resource lambda - Method: GET"
+    }
+
+    add_favorites = {
+      version     = "v1"
+      prefix      = "customer-experience/"
+      path        = "favorites"
+      method      = "POST"
+      invoke_arn  = data.aws_lambda_function.favorites.invoke_arn
+      description = "Favorites Meals resource lambda - Method: POST"
+    }
+
+    delete_favorites = {
+      version     = "v1"
+      prefix      = "customer-experience/"
+      path        = "favorites/{favoriteID}"
+      method      = "DELETE"
+      invoke_arn  = data.aws_lambda_function.favorites.invoke_arn
+      description = "Favorites Meals resource lambda - Method: DELETE"
+    }
+
     # route-2 = {
     #   version       = "v1"
     #   prefix        = "application-resource/"

@@ -21,7 +21,7 @@ Cookie: usess={{authToken}};
 
 ###
 # @name listMyFavorites
-GET {{baseURL}}
+GET {{baseURL}} HTTP/2
 Content-Type: application/json
 Cookie: usess={{authToken}};
 

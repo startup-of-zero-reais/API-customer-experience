@@ -6,9 +6,9 @@ data "aws_apigatewayv2_api" "this" {
 #   function_name = format("%s-%s", var.project_name, "company")
 # }
 
-# data "aws_lambda_function" "favorites" {
-#   function_name = format("%s-%s", var.project_name, "favorites")
-# }
+data "aws_lambda_function" "favorites" {
+  function_name = format("%s-%s", var.project_name, "favorites")
+}
 
 # data "aws_lambda_function" "orders" {
 #   function_name = format("%s-%s", var.project_name, "orders")

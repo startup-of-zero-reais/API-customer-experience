@@ -88,7 +88,7 @@ func (h *Handler) SignOut(r domain.Request) domain.Response {
 	isValid, err := h.jwtService.ValidateToken(r.Cookies["usess"])
 
 	if err != nil {
-		if !strings.Contains(err.Error(), "token expired") {
+		if !strings.Contains(err.Error(), "token is expired by") {
 			h.response.SetStatusCode(http.StatusInternalServerError)
 			h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
 
