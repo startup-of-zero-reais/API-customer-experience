@@ -11,9 +11,11 @@ import (
 type (
 	// Request represents the parsed request from the API Gateway
 	Request struct {
-		Headers map[string]string
-		Cookies map[string]string
-		Body    string
+		Headers     map[string]string
+		Cookies     map[string]string
+		Body        string
+		PathParams  map[string]string
+		QueryParams map[string]string
 	}
 )
 
@@ -41,9 +43,11 @@ func ParseRequest(request events.APIGatewayV2HTTPRequest) Request {
 	}
 
 	return Request{
-		Headers: request.Headers,
-		Cookies: cookies,
-		Body:    request.Body,
+		Headers:     request.Headers,
+		Cookies:     cookies,
+		Body:        request.Body,
+		PathParams:  request.PathParameters,
+		QueryParams: request.QueryStringParameters,
 	}
 }
 
