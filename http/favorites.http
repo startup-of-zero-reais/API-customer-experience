@@ -8,9 +8,9 @@
 
 # @mealID = bb73b635-921f-43a0-a2ea-5430744caaae
 @mealID = a12d8a5e-8e46-4402-84d5-45349acb3230
-@favoriteID = b4bf1140-77cb-4d54-8aa9-cb98836e4273
 
-### @name addFavorite
+###
+# @name addFavorite
 POST {{baseURL}}
 Content-Type: application/json
 Cookie: usess={{authToken}};
@@ -19,12 +19,14 @@ Cookie: usess={{authToken}};
   "meal": "{{mealID}}"
 }
 
-### @name removeFavorite
-DELETE {{baseURL}}/{{favoriteID}}
+###
+# @name listMyFavorites
+GET {{baseURL}}
 Content-Type: application/json
 Cookie: usess={{authToken}};
 
-### @name listMyFavorites
-GET {{baseURL}}
+###
+# @name removeFavorite
+DELETE {{baseURL}}/{{listMyFavorites.response.body.data[0].id}}
 Content-Type: application/json
 Cookie: usess={{authToken}};

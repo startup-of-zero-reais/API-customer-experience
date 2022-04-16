@@ -55,12 +55,8 @@ func NewMealRepository() domain.MealRepository {
 		context.TODO(),
 		config,
 	)
+
 	dynamo.Migrate()
-	// defer dynamo.FlushDb()
-	// err = dynamo.Seed(CompanyMealsSeed()...)
-	// if err != nil {
-	// 	dynamo.Log.Error("%s\n", err.Error())
-	// }
 
 	return &MealRepositoryImpl{
 		dynamo: dynamo,

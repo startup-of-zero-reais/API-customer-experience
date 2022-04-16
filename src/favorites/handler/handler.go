@@ -54,6 +54,8 @@ func (h *Handler) AddToFavorite(r domain.Request) domain.Response {
 		return h.response.HandleError(err)
 	}
 
+	h.response.SetStatusCode(http.StatusCreated)
+
 	return *h.response
 }
 
@@ -81,6 +83,8 @@ func (h *Handler) RemoveFavorite(r domain.Request) domain.Response {
 	if err != nil {
 		return h.response.HandleError(err)
 	}
+
+	h.response.SetStatusCode(http.StatusNoContent)
 
 	return *h.response
 }
