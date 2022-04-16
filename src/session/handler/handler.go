@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/startup-of-zero-reais/API-customer-experience/src/common/domain"
@@ -87,10 +88,12 @@ func (h *Handler) SignOut(r domain.Request) domain.Response {
 	isValid, err := h.jwtService.ValidateToken(r.Cookies["usess"])
 
 	if err != nil {
-		h.response.SetStatusCode(http.StatusInternalServerError)
-		h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
+		if !strings.Contains(err.Error(), "token expired") {
+			h.response.SetStatusCode(http.StatusInternalServerError)
+			h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
 
-		return *h.response
+			return *h.response
+		}
 	}
 
 	if !isValid {
