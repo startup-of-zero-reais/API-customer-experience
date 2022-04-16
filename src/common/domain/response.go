@@ -2,7 +2,10 @@ package domain
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
+
+	"github.com/startup-of-zero-reais/API-customer-experience/src/common/validation"
 )
 
 type (
@@ -66,6 +69,38 @@ func (r *Response) AddHeader(key, value string) *Response {
 	return r
 }
 
+func (r *Response) HandleError(err error) Response {
+	r.SetStatusCode(http.StatusInternalServerError)
+	r.SetMetadata(WrapError(err))
+
+	var notFound *validation.NotFound
+	if errors.As(err, &notFound) {
+		r.SetStatusCode(http.StatusNotFound)
+	}
+
+	var unauthorized *validation.Unauthorized
+	if errors.As(err, &unauthorized) {
+		r.SetStatusCode(http.StatusUnauthorized)
+	}
+
+	var conflict *validation.EntityAlreadyExists
+	if errors.As(err, &conflict) {
+		r.SetStatusCode(http.StatusConflict)
+	}
+
+	var badRequest *validation.BadRequest
+	if errors.As(err, &badRequest) {
+		r.SetStatusCode(http.StatusBadRequest)
+	}
+
+	var fieldValidator *validation.FieldValidator
+	if errors.As(err, &fieldValidator) {
+		r.SetStatusCode(http.StatusBadRequest)
+	}
+
+	return *r
+}
+
 func (b *Body) ToJson() string {
 	jsonBody, err := json.Marshal(b)
 	if err != nil {
@@ -73,4 +108,10 @@ func (b *Body) ToJson() string {
 	}
 
 	return string(jsonBody)
+}
+
+func WrapError(err error) map[string]string {
+	return map[string]string{
+		"error": err.Error(),
+	}
 }
