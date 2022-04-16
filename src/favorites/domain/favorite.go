@@ -1,6 +1,8 @@
 package domain
 
 import (
+	"encoding/json"
+
 	"github.com/google/uuid"
 	"github.com/gosimple/slug"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/common/validation"
@@ -12,28 +14,28 @@ import (
 type (
 	// Price represents the price of a meal with value and currency
 	Price struct {
-		Formatted string
-		Value     int
+		Formatted string `json:"formatted"`
+		Value     int    `json:"value"`
 	}
 
 	// Meal represents a meal item
 	Meal struct {
-		ID          string
-		Flavour     string
-		Slug        string
-		Ingredients string
-		Photo       string
-		Price       Price
-		Self        string
-		Company     string
+		ID          string `json:"id"`
+		Flavour     string `json:"flavour"`
+		Slug        string `json:"-"`
+		Ingredients string `json:"ingredients"`
+		Photo       string `json:"photo"`
+		Price       Price  `json:"price"`
+		Self        string `json:"_self"`
+		Company     string `json:"-"`
 	}
 
 	// Favorite is a struct which represents a favorite meal from a restaurant
 	Favorite struct {
-		ID      string
-		UserID  string
-		Meal    Meal
-		Company string
+		ID      string `json:"id"`
+		UserID  string `json:"-"`
+		Meal    Meal   `json:"meal"`
+		Company string `json:"company"`
 	}
 
 	MealRepository interface {
@@ -43,11 +45,11 @@ type (
 	FavoriteRepository interface {
 		Add(favorite *Favorite) error
 		UsrFavorites(loggedUsrID string) ([]Favorite, error)
-		Delete(id string) error
+		Delete(loggedUsrID, id string) error
 	}
 )
 
-func NewFavorite(id, company string, meal *Meal) (*Favorite, error) {
+func NewFavorite(id, userID, company string, meal *Meal) (*Favorite, error) {
 	if id == "" {
 		id = uuid.NewString()
 	}
@@ -62,12 +64,13 @@ func NewFavorite(id, company string, meal *Meal) (*Favorite, error) {
 
 	return &Favorite{
 		ID:      id,
+		UserID:  userID,
 		Meal:    *meal,
 		Company: company,
 	}, nil
 }
 
-func NewMeal(id, flavour, ingredients, photo, self string, price *Price) (*Meal, error) {
+func NewMeal(id, flavour, ingredients, photo, self string, price *Price, company string) (*Meal, error) {
 	if id == "" {
 		return nil, validation.BadRequestError("o campo de identificação é obrigatório")
 	}
@@ -96,6 +99,7 @@ func NewMeal(id, flavour, ingredients, photo, self string, price *Price) (*Meal,
 		Photo:       photo,
 		Price:       *price,
 		Self:        self,
+		Company:     company,
 	}, nil
 }
 
@@ -104,13 +108,35 @@ func NewPrice(value int) (*Price, error) {
 		return nil, validation.BadRequestError("o preço é obrigatório")
 	}
 
-	brlPrice := number.Decimal(float64(value) / float64(100.00))
+	brlPrice := number.Decimal(
+		float64(value)/float64(100.00),
+		number.MinFractionDigits(2),
+		number.MaxFractionDigits(2),
+	)
 	formatted := message.NewPrinter(language.Portuguese).Sprintf("R$ %d", brlPrice)
 
 	return &Price{
 		Value:     value,
 		Formatted: formatted,
 	}, nil
+}
+
+func (p *Price) UnmarshalJSON(data []byte) error {
+	var value int
+	err := json.Unmarshal(data, &value)
+	if err != nil {
+		return err
+	}
+
+	price, err := NewPrice(value)
+	if err != nil {
+		return err
+	}
+
+	p.Formatted = price.Formatted
+	p.Value = price.Value
+
+	return nil
 }
 
 func slugify(text string) string {

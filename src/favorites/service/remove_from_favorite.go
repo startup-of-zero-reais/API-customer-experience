@@ -7,7 +7,7 @@ import (
 
 type (
 	RemoveFromFavorite interface {
-		Favorite(favoriteID string) error
+		Favorite(loggedUsrId, favoriteID string) error
 	}
 
 	RemoveFromFavoriteImpl struct {
@@ -21,10 +21,10 @@ func NewRemoveFromFavorite(repository domain.FavoriteRepository) *RemoveFromFavo
 	}
 }
 
-func (a *RemoveFromFavoriteImpl) Favorite(favoriteID string) error {
+func (a *RemoveFromFavoriteImpl) Favorite(loggedUsrId, favoriteID string) error {
 	if favoriteID == "" {
 		return validation.BadRequestError("o prato favorito deve ser informado")
 	}
 
-	return a.Repository.Delete(favoriteID)
+	return a.Repository.Delete(loggedUsrId, favoriteID)
 }

@@ -1,3 +1,4 @@
 **/.terraform**
 terraforms/lambdas/functions/*.zip
 src/.aws-sam/
+**/seed.go

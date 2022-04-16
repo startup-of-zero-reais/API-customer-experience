@@ -28,5 +28,20 @@ func (a *ListMyFavoritesImpl) List(loggedUsrID string) ([]domain.Favorite, error
 		return nil, validation.BadRequestError("usuário não encontrado")
 	}
 
-	return a.Repository.UsrFavorites(loggedUsrID)
+	favorites, err := a.Repository.UsrFavorites(loggedUsrID)
+	if err != nil {
+		return nil, err
+	}
+
+	for i, favorite := range favorites {
+		meal, err := a.MealRepository.GetMeal(favorite.Meal.ID)
+		if err != nil {
+			return nil, err
+		}
+
+		favorites[i].Meal = *meal
+		favorites[i].Company = meal.Company
+	}
+
+	return favorites, nil
 }

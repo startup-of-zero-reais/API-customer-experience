@@ -72,6 +72,7 @@ Resources:
           ENDPOINT: http://customer_experience-db:8000
           JWT_SERVICE: DEV
           APP_URL: http://localhost:3000
+          LOG_LEVEL: 1
   FavoritesFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
@@ -98,3 +99,4 @@ Resources:
           ENDPOINT: http://customer_experience-db:8000
           JWT_SERVICE: DEV
           APP_URL: http://localhost:3000
+          LOG_LEVEL: 1

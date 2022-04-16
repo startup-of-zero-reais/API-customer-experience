@@ -32,12 +32,23 @@ func (a *AddToFavoriteImpl) Meal(loggedUsrID, mealID string) error {
 		return validation.BadRequestError("o prato favorito deve ser informado")
 	}
 
+	usrFavs, err := a.Repository.UsrFavorites(loggedUsrID)
+	if err != nil {
+		return err
+	}
+
+	for _, usrFav := range usrFavs {
+		if usrFav.Meal.ID == mealID {
+			return validation.BadRequestError("prato já adicionado aos favoritos")
+		}
+	}
+
 	meal, err := a.MealRepository.GetMeal(mealID)
 	if err != nil {
 		return validation.NotFoundError("prato não encontrado")
 	}
 
-	favorite, err := domain.NewFavorite("", meal.Company, meal)
+	favorite, err := domain.NewFavorite("", loggedUsrID, meal.Company, meal)
 	if err != nil {
 		return err
 	}

@@ -2,7 +2,6 @@ package handler
 
 import (
 	"encoding/json"
-	"errors"
 	"net/http"
 
 	"github.com/startup-of-zero-reais/API-customer-experience/src/common/service"
@@ -30,7 +29,7 @@ func NewHandler() *Handler {
 func (h *Handler) AddToFavorite(r domain.Request) domain.Response {
 	err := h.validateAuth(r)
 	if err != nil {
-		return h.ProperlyError(err)
+		return h.response.HandleError(err)
 	}
 
 	loggedUsrId := h.jwt.DecodedToken("id").(string)
@@ -41,18 +40,18 @@ func (h *Handler) AddToFavorite(r domain.Request) domain.Response {
 
 	err = json.Unmarshal([]byte(r.Body), &mealInput)
 	if err != nil {
-		return h.ProperlyError(err)
+		return h.response.HandleError(err)
 	}
 
 	if mealInput.ID == "" {
-		return h.ProperlyError(
+		return h.response.HandleError(
 			validation.BadRequestError("o prato favorito deve ser informado"),
 		)
 	}
 
 	err = h.app.Commands.AddToFavorite.Meal(loggedUsrId, mealInput.ID)
 	if err != nil {
-		return h.ProperlyError(err)
+		return h.response.HandleError(err)
 	}
 
 	return *h.response
@@ -61,27 +60,26 @@ func (h *Handler) AddToFavorite(r domain.Request) domain.Response {
 func (h *Handler) RemoveFavorite(r domain.Request) domain.Response {
 	err := h.validateAuth(r)
 	if err != nil {
-		return h.ProperlyError(err)
+		return h.response.HandleError(err)
 	}
+
+	loggedUsrId := h.jwt.DecodedToken("id").(string)
 
 	favorite := struct {
 		ID string `json:"favorite"`
-	}{}
-
-	err = json.Unmarshal([]byte(r.Body), &favorite)
-	if err != nil {
-		return h.ProperlyError(err)
+	}{
+		ID: r.PathParams["favoriteID"],
 	}
 
 	if favorite.ID == "" {
-		return h.ProperlyError(
+		return h.response.HandleError(
 			validation.BadRequestError("o favorito deve ser informado"),
 		)
 	}
 
-	err = h.app.Commands.RemoveFromFavorite.Favorite(favorite.ID)
+	err = h.app.Commands.RemoveFromFavorite.Favorite(loggedUsrId, favorite.ID)
 	if err != nil {
-		return h.ProperlyError(err)
+		return h.response.HandleError(err)
 	}
 
 	return *h.response
@@ -90,37 +88,18 @@ func (h *Handler) RemoveFavorite(r domain.Request) domain.Response {
 func (h *Handler) MyFavorites(r domain.Request) domain.Response {
 	err := h.validateAuth(r)
 	if err != nil {
-		return h.ProperlyError(err)
+		return h.response.HandleError(err)
 	}
 
 	loggedUsrId := h.jwt.DecodedToken("id").(string)
 
 	favorites, err := h.app.Queries.ListMyFavorites.List(loggedUsrId)
 	if err != nil {
-		return h.ProperlyError(err)
+		return h.response.HandleError(err)
 	}
 
 	h.response.SetStatusCode(http.StatusOK)
 	h.response.SetData(favorites)
-
-	return *h.response
-}
-
-func (h *Handler) ProperlyError(err error) domain.Response {
-	h.response.SetStatusCode(http.StatusInternalServerError)
-	h.response.SetMetadata(wrapError(err))
-
-	var notFound *validation.NotFound
-	if errors.As(err, &notFound) {
-		h.response.SetStatusCode(http.StatusNotFound)
-		return *h.response
-	}
-
-	var badRequest *validation.BadRequest
-	if errors.As(err, &badRequest) {
-		h.response.SetStatusCode(http.StatusBadRequest)
-		return *h.response
-	}
 
 	return *h.response
 }

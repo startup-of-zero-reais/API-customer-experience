@@ -6,8 +6,9 @@
 ### PROD TOKEN
 # @authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDk3MTMwODQsImp0aSI6ImpvaG4xQGRvZS5jb20iLCJzdWIiOiI5MjExNTZkYy00OTE5LTRiNjctYmI5Ny1iZGE5Y2FkZTBlY2YifQ.EhnFlwPLYnVEQ8xdpIKdwxeVnfiQTgPkwF8Kf7HA4jw
 
-@mealID = 1
-@favoriteID = 1
+# @mealID = bb73b635-921f-43a0-a2ea-5430744caaae
+@mealID = a12d8a5e-8e46-4402-84d5-45349acb3230
+@favoriteID = b4bf1140-77cb-4d54-8aa9-cb98836e4273
 
 ### @name addFavorite
 POST {{baseURL}}
@@ -15,7 +16,7 @@ Content-Type: application/json
 Cookie: usess={{authToken}};
 
 {
-  "meal": {{mealID}}
+  "meal": "{{mealID}}"
 }
 
 ### @name removeFavorite
