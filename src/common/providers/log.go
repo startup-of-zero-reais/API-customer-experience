@@ -19,7 +19,11 @@ type (
 func NewLogProvider() *LogProvider {
 	log := logrus.New()
 
-	log.SetFormatter(&logrus.JSONFormatter{})
+	if os.Getenv("ENVIRONMENT") != "development" {
+		log.SetFormatter(&logrus.JSONFormatter{})
+	} else {
+		log.SetFormatter(&logrus.TextFormatter{})
+	}
 	log.SetOutput(os.Stdout)
 
 	l := &LogProvider{
