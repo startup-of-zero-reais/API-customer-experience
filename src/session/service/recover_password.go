@@ -1,9 +1,11 @@
 package service
 
 import (
+	"encoding/json"
 	"fmt"
-	"log"
 	"time"
+
+	"github.com/startup-of-zero-reais/API-customer-experience/src/common/providers"
 
 	"github.com/google/uuid"
 
@@ -11,6 +13,8 @@ import (
 	"github.com/startup-of-zero-reais/API-customer-experience/src/common/validation"
 
 	"github.com/startup-of-zero-reais/API-customer-experience/src/session/domain"
+
+	log "github.com/sirupsen/logrus"
 )
 
 type (
@@ -26,10 +30,11 @@ type (
 		sender domain.Sender
 
 		evtRepository d.EventRepository
+		logger        *providers.LogProvider
 	}
 )
 
-func NewRecoverPassword(userRepository domain.UserRepository, otpRepository domain.OTPRepository, sender domain.Sender, evtRepository d.EventRepository) RecoverPassword {
+func NewRecoverPassword(userRepository domain.UserRepository, otpRepository domain.OTPRepository, sender domain.Sender, evtRepository d.EventRepository, logger *providers.LogProvider) RecoverPassword {
 	return &RecoverPasswordImpl{
 		userRepository: userRepository,
 		otpRepository:  otpRepository,
@@ -37,6 +42,7 @@ func NewRecoverPassword(userRepository domain.UserRepository, otpRepository doma
 		sender: sender,
 
 		evtRepository: evtRepository,
+		logger:        logger,
 	}
 }
 
@@ -70,6 +76,16 @@ func (r *RecoverPasswordImpl) SendOTP(email string) error {
 		return err
 	}
 
+	bytes, err := json.Marshal(passToken)
+	if err != nil {
+		return err
+	}
+
+	r.logger.WithFields(log.Fields{
+		"user_id": user.ID,
+		"event":   d.RequestPasswordRecover,
+	}).Infoln(string(bytes))
+
 	return nil
 }
 
@@ -86,8 +102,8 @@ func (r *RecoverPasswordImpl) ResetPassword(otp int, password string) error {
 	var validToken *domain.PassTokens
 	allExpired := true
 	for _, passToken := range passTokens {
-		log.Printf("\npassToken: %+v\n", passToken)
-		log.Printf("\nisExpired: %+v\n", passToken.IsExpired())
+		r.logger.Debugln("passToken:", passToken)
+		r.logger.Debugln("isExpired:", passToken.IsExpired())
 
 		if !passToken.IsExpired() {
 			allExpired = false
@@ -114,16 +130,15 @@ func (r *RecoverPasswordImpl) ResetPassword(otp int, password string) error {
 		return err
 	}
 
-	err = r.evtRepository.Emit(
-		validToken.Email,
-		uuid.NewString(),
-		d.PasswordRecovered,
-		validToken,
-		time.Now().Unix(),
-	)
+	bytes, err := json.Marshal(validToken)
 	if err != nil {
 		return err
 	}
+
+	r.logger.WithFields(log.Fields{
+		"email": validToken.Email,
+		"event": d.PasswordRecovered,
+	}).Infoln(string(bytes))
 
 	return nil
 }

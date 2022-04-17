@@ -1,14 +1,10 @@
 @baseURL = https://api.zero-reais-lab.cloud/v1/customer-experience
-@baseURL = http://127.0.0.1:3000/session
+# @baseURL = http://127.0.0.1:3000/session
 
-### LOCAL TOKEN
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTAxNjU4MTAsImp0aSI6ImpvaG4xQGRvZS5jb20iLCJzdWIiOiI5MjExNTZkYy00OTE5LTRiNjctYmI5Ny1iZGE5Y2FkZTBlY2YifQ.L8qOe2xL-7NnQM5VKmBVe01oVggZcX7MIz7CoBlwJlM
-### PROD TOKEN
-# @authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTAxNjU4MTAsImp0aSI6ImpvaG4xQGRvZS5jb20iLCJzdWIiOiI5MjExNTZkYy00OTE5LTRiNjctYmI5Ny1iZGE5Y2FkZTBlY2YifQ.L8qOe2xL-7NnQM5VKmBVe01oVggZcX7MIz7CoBlwJlM
-
-### @name signIn
+###
+# @name signIn
 POST {{baseURL}}/sign-in
-Content-Type: application/json
+# Content-Type: application/json
 
 {
 	"email": "john1@doe.com",
@@ -17,7 +13,7 @@ Content-Type: application/json
 
 ### @name signOut
 POST {{baseURL}}/sign-out
-Cookie: usess={{authToken}}; Path=/; domain=.zero-reais-lab.cloud
+Cookie: usess={{signIn.response.headers.X-Auth-Token}}; Path=/; domain=.zero-reais-lab.cloud
 
 ### @name recoverPassword
 POST {{baseURL}}/recover-password
@@ -30,7 +26,7 @@ POST {{baseURL}}/recover-password
 POST {{baseURL}}/reset-password
 
 {
-	"otp": 466411,
-	"password": "1234567",
+	"otp": 987807,
+	"password": "123456",
 	"confirm_password": "123456"
 }

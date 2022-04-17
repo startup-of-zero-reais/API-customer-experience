@@ -1,13 +1,14 @@
 package service
 
 import (
-	"time"
+	"encoding/json"
 
-	"github.com/google/uuid"
+	log "github.com/sirupsen/logrus"
 
 	"github.com/startup-of-zero-reais/API-customer-experience/src/session/domain"
 
 	d "github.com/startup-of-zero-reais/API-customer-experience/src/common/domain"
+	"github.com/startup-of-zero-reais/API-customer-experience/src/common/providers"
 )
 
 type (
@@ -20,15 +21,17 @@ type (
 		sessionRepository domain.SessionRepository
 
 		evtRepository d.EventRepository
+		logger        *providers.LogProvider
 	}
 )
 
-func NewSignIn(userRepository domain.UserRepository, sessionRepository domain.SessionRepository, evtRepository d.EventRepository) SignIn {
+func NewSignIn(userRepository domain.UserRepository, sessionRepository domain.SessionRepository, evtRepository d.EventRepository, logger *providers.LogProvider) SignIn {
 	return &SignInImpl{
 		userRepository:    userRepository,
 		sessionRepository: sessionRepository,
 
 		evtRepository: evtRepository,
+		logger:        logger,
 	}
 }
 
@@ -61,16 +64,15 @@ func (s *SignInImpl) SignIn(email, password string) (*domain.UserSession, error)
 		return nil, err
 	}
 
-	err = s.evtRepository.Emit(
-		user.ID,
-		uuid.NewString(),
-		d.SessionStarted,
-		session,
-		time.Now().Unix(),
-	)
+	sessionBytes, err := json.Marshal(session)
 	if err != nil {
 		return nil, err
 	}
+
+	s.logger.WithFields(log.Fields{
+		"user_id": user.ID,
+		"event":   d.SessionStarted,
+	}).Info(string(sessionBytes))
 
 	return session, nil
 }

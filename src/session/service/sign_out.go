@@ -1,12 +1,13 @@
 package service
 
 import (
-	"errors"
-	"log"
-	"time"
+	"encoding/json"
 
-	"github.com/google/uuid"
+	"github.com/startup-of-zero-reais/API-customer-experience/src/common/validation"
+
+	log "github.com/sirupsen/logrus"
 	d "github.com/startup-of-zero-reais/API-customer-experience/src/common/domain"
+	"github.com/startup-of-zero-reais/API-customer-experience/src/common/providers"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/session/domain"
 )
 
@@ -20,14 +21,16 @@ type (
 		sessionRepository domain.SessionRepository
 
 		evtRepository d.EventRepository
+		logger        *providers.LogProvider
 	}
 )
 
-func NewSignOut(userRepository domain.UserRepository, sessionRepository domain.SessionRepository, evtRepository d.EventRepository) SignOut {
+func NewSignOut(userRepository domain.UserRepository, sessionRepository domain.SessionRepository, evtRepository d.EventRepository, logger *providers.LogProvider) SignOut {
 	return &SignOutImpl{
 		userRepository:    userRepository,
 		sessionRepository: sessionRepository,
 		evtRepository:     evtRepository,
+		logger:            logger,
 	}
 }
 
@@ -38,26 +41,25 @@ func (s *SignOutImpl) ClearSession(usrId string) error {
 	}
 
 	if len(sessions) == 0 {
-		return errors.New("o usuário não está logado")
+		return validation.UnauthorizedError("o usuário não está logado")
 	}
 
 	for _, session := range sessions {
-		log.Printf("\nSESSION: %+v\n\n", session)
+		s.logger.Debugln("SESSION:", session)
 		err = s.sessionRepository.DeleteSession(session.UserID, session.CreatedAt)
 		if err != nil {
 			return err
 		}
 	}
-	err = s.evtRepository.Emit(
-		sessions[0].UserID,
-		uuid.NewString(),
-		d.SessionEnded,
-		sessions[0],
-		time.Now().Unix(),
-	)
+	sessionBytes, err := json.Marshal(sessions[0])
 	if err != nil {
 		return err
 	}
+
+	s.logger.WithFields(log.Fields{
+		"user_id": sessions[0].UserID,
+		"event":   d.SessionEnded,
+	}).Info(string(sessionBytes))
 
 	return nil
 }

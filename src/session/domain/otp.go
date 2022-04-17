@@ -7,9 +7,9 @@ import (
 
 type (
 	PassTokens struct {
-		Email     string
-		OTP       int
-		ExpiresIn int64
+		Email     string `json:"email"`
+		OTP       int    `json:"otp"`
+		ExpiresIn int64  `json:"expires_in"`
 	}
 
 	OTPRepository interface {

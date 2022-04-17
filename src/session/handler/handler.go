@@ -35,6 +35,7 @@ func NewHandler(l *providers.LogProvider) Handler {
 
 		app: NewApplication(
 			jwt,
+			l,
 		),
 		LogProvider: l,
 

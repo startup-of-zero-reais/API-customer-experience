@@ -2,6 +2,7 @@ package handler
 
 import (
 	dt "github.com/startup-of-zero-reais/API-customer-experience/src/common/data"
+	"github.com/startup-of-zero-reais/API-customer-experience/src/common/providers"
 	s "github.com/startup-of-zero-reais/API-customer-experience/src/common/service"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/session/data"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/session/service"
@@ -23,7 +24,7 @@ type (
 	}
 )
 
-func NewApplication(jwtService s.JwtService) *Application {
+func NewApplication(jwtService s.JwtService, logger *providers.LogProvider) *Application {
 	usrRepository := data.NewUserRepository()
 	sessRepository := data.NewSessionRepository(jwtService)
 	otpRepository := data.NewOTPRepository()
@@ -37,21 +38,24 @@ func NewApplication(jwtService s.JwtService) *Application {
 				usrRepository,
 				sessRepository,
 				evtRepository,
+				logger,
 			),
 			SignOut: service.NewSignOut(
 				usrRepository,
 				sessRepository,
 				evtRepository,
+				logger,
 			),
 			RecoverPassword: service.NewRecoverPassword(
 				usrRepository,
 				otpRepository,
 				sender,
 				evtRepository,
+				logger,
 			),
 		},
 		Queries: Queries{
-			GetUser: service.NewGetUser(usrRepository),
+			GetUser: service.NewGetUser(usrRepository, logger),
 		},
 	}
 }
