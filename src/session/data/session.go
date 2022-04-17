@@ -47,11 +47,6 @@ func NewSessionRepository(jwtService s.JwtService) domain.SessionRepository {
 		},
 	)
 
-	err = dynamo.Migrate()
-	if err != nil {
-		panic(err)
-	}
-
 	return &SessionRepositoryImpl{
 		dynamo:     dynamo,
 		jwtService: jwtService,

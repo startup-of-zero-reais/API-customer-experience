@@ -45,11 +45,6 @@ func NewOTPRepository() domain.OTPRepository {
 		},
 	)
 
-	err = dynamo.Migrate()
-	if err != nil {
-		panic(err)
-	}
-
 	return &OTPRepositoryImpl{
 		dynamo: dynamo,
 	}
