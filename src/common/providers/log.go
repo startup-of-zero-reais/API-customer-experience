@@ -11,7 +11,8 @@ import (
 
 type (
 	LogProvider struct {
-		*logrus.Logger
+		client *logrus.Logger
+		*logrus.Entry
 	}
 )
 
@@ -21,15 +22,19 @@ func NewLogProvider() *LogProvider {
 	log.SetFormatter(&logrus.JSONFormatter{})
 	log.SetOutput(os.Stdout)
 
-	return &LogProvider{
-		Logger: log,
+	l := &LogProvider{
+		client: log,
 	}
+
+	l.Entry = l.client.WithTime(time.Now())
+
+	return l
 }
 
 func (l *LogProvider) LoggerConfig(event events.APIGatewayV2HTTPRequest) {
 	http := event.RequestContext.HTTP
 
-	l.WithFields(logrus.Fields{
+	l.Entry = l.WithFields(logrus.Fields{
 		"method":    http.Method,
 		"path":      http.Path,
 		"protocol":  http.Protocol,
@@ -37,11 +42,10 @@ func (l *LogProvider) LoggerConfig(event events.APIGatewayV2HTTPRequest) {
 		"userAgent": http.UserAgent,
 	})
 
-	l.WithTime(time.Now())
 }
 
 func (l *LogProvider) LogResponse(res domain.Response) {
-	l.WithFields(logrus.Fields{
+	l.Entry = l.Entry.WithFields(logrus.Fields{
 		"status":  res.StatusCode,
 		"headers": res.Headers,
 		"cookies": res.Cookies,
