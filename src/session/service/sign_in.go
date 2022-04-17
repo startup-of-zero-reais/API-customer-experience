@@ -55,6 +55,10 @@ func (s *SignInImpl) SignIn(email, password string) (*domain.UserSession, error)
 	if len(sessions) > 0 {
 		lastSession := sessions[0]
 		if !lastSession.IsExpired() {
+			err = s.logEvent(&lastSession, true)
+			if err != nil {
+				return nil, err
+			}
 			return &lastSession, nil
 		}
 	}
@@ -64,15 +68,25 @@ func (s *SignInImpl) SignIn(email, password string) (*domain.UserSession, error)
 		return nil, err
 	}
 
-	sessionBytes, err := json.Marshal(session)
+	err = s.logEvent(session, false)
 	if err != nil {
 		return nil, err
 	}
 
+	return session, nil
+}
+
+func (s *SignInImpl) logEvent(session *domain.UserSession, recovered_session bool) error {
+	sessionBytes, err := json.Marshal(session)
+	if err != nil {
+		return err
+	}
+
 	s.logger.WithFields(log.Fields{
-		"user_id": user.ID,
-		"event":   d.SessionStarted,
+		"user_id":   session.UserID,
+		"event":     d.SessionStarted,
+		"recovered": recovered_session,
 	}).Info(string(sessionBytes))
 
-	return session, nil
+	return nil
 }
