@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"regexp"
 
+	"github.com/startup-of-zero-reais/API-customer-experience/src/common/providers"
+
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/common/domain"
@@ -16,7 +18,11 @@ func main() {
 }
 
 func handleRoutes(event events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
-	handler := handler.NewHandler()
+	l := providers.NewLogProvider()
+	l.LoggerConfig(event)
+	l.Infoln("configured")
+
+	handler := handler.NewHandler(l)
 
 	request := domain.ParseRequest(event)
 
