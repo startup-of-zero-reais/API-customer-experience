@@ -83,7 +83,7 @@ func (f *FavoritesRepositoryImpl) Add(favorite *domain.Favorite) error {
 func (f *FavoritesRepositoryImpl) UsrFavorites(loggedUsrID string) ([]domain.Favorite, error) {
 	sql := f.dynamo.NewExpressionBuilder().Where(
 		expressions.NewKeyCondition("UserID", loggedUsrID),
-	)
+	).SetIndex("MealIndex")
 
 	var dbFavorites []Favorites
 	err := f.dynamo.Perform(drivers.QUERY, sql, &dbFavorites)
