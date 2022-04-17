@@ -20,7 +20,6 @@ func main() {
 func handleRoutes(event events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
 	l := providers.NewLogProvider()
 	l.LoggerConfig(event)
-	l.Infoln("configured")
 
 	handler := handler.NewHandler(l)
 
