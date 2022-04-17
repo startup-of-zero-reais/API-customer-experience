@@ -22,7 +22,9 @@ func NewLogProvider() *LogProvider {
 	if os.Getenv("ENVIRONMENT") != "development" {
 		log.SetFormatter(&logrus.JSONFormatter{})
 	} else {
-		log.SetFormatter(&logrus.TextFormatter{})
+		log.SetFormatter(&logrus.TextFormatter{
+			ForceColors: true,
+		})
 	}
 	log.SetOutput(os.Stdout)
 
