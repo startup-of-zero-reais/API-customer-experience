@@ -1,6 +1,8 @@
 package service
 
 import (
+	d "github.com/startup-of-zero-reais/API-customer-experience/src/common/domain"
+	"github.com/startup-of-zero-reais/API-customer-experience/src/common/providers"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/common/validation"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/favorites/domain"
 )
@@ -13,13 +15,16 @@ type (
 	AddToFavoriteImpl struct {
 		Repository     domain.FavoriteRepository
 		MealRepository domain.MealRepository
+
+		logger *providers.LogProvider
 	}
 )
 
-func NewAddToFavorite(repository domain.FavoriteRepository, mealRepository domain.MealRepository) *AddToFavoriteImpl {
+func NewAddToFavorite(repository domain.FavoriteRepository, mealRepository domain.MealRepository, logger *providers.LogProvider) *AddToFavoriteImpl {
 	return &AddToFavoriteImpl{
 		Repository:     repository,
 		MealRepository: mealRepository,
+		logger:         logger,
 	}
 }
 
@@ -52,6 +57,11 @@ func (a *AddToFavoriteImpl) Meal(loggedUsrID, mealID string) error {
 	if err != nil {
 		return err
 	}
+
+	a.logger.WithFields(map[string]interface{}{
+		"user_id": loggedUsrID,
+		"event":   d.FavoriteAdded,
+	}).Infoln("adding favorite to user")
 
 	return a.Repository.Add(favorite)
 }

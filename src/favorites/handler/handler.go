@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/startup-of-zero-reais/API-customer-experience/src/common/providers"
+
 	"github.com/startup-of-zero-reais/API-customer-experience/src/common/service"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/common/validation"
 
@@ -15,14 +17,16 @@ type (
 		response *domain.Response
 		app      *Application
 		jwt      service.JwtService
+		*providers.LogProvider
 	}
 )
 
-func NewHandler() *Handler {
+func NewHandler(logger *providers.LogProvider) *Handler {
 	return &Handler{
-		response: domain.NewResponse(),
-		app:      NewApplication(),
-		jwt:      service.NewJwtService(),
+		response:    domain.NewResponse(),
+		app:         NewApplication(logger),
+		jwt:         service.NewJwtService(),
+		LogProvider: logger,
 	}
 }
 
