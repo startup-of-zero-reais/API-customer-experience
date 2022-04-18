@@ -32,5 +32,5 @@ func (c *CompanyFoodImpl) FoodList(slug string) ([]domain.CompanyFood, error) {
 		"company": slug,
 	}).Infoln("listing company menu food")
 
-	return c.Repository.FoodList()
+	return c.Repository.FoodList(slug)
 }
