@@ -51,11 +51,23 @@ func (l *LogProvider) LoggerConfig(event events.APIGatewayV2HTTPRequest) {
 }
 
 func (l *LogProvider) LogResponse(res domain.Response) {
-	l.Entry = l.Entry.WithFields(logrus.Fields{
+	fields := logrus.Fields{
 		"status":  res.StatusCode,
 		"headers": res.Headers,
-		"cookies": res.Cookies,
-	})
+	}
 
-	l.Infoln(res.Body.ToJson())
+	if len(res.Cookies) > 0 {
+		fields["cookies"] = res.Cookies
+	}
+
+	l.Entry = l.Entry.WithFields(fields)
+
+	switch res.StatusCode {
+	case 200, 201, 202, 204:
+		l.Infoln(res.Body.ToJson())
+	case 300, 301, 302, 303, 304, 305, 306, 307:
+		l.Warnln(res.Body.ToJson())
+	default:
+		l.Errorln(res.Body.ToJson())
+	}
 }
