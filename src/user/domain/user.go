@@ -15,7 +15,7 @@ type (
 		Lastname  string            `json:"lastname"`
 		Email     string            `json:"email"`
 		Phone     string            `json:"phone"`
-		Password  *fields.Password  `json:"password,omitempty"`
+		Password  *fields.Password  `json:"-"`
 		Avatar    string            `json:"avatar,omitempty"`
 		Addresses *[]fields.Address `json:"addresses,omitempty"`
 	}

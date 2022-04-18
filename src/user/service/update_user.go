@@ -87,10 +87,17 @@ func (u *UpdateUserImpl) Update(id, email, body string) error {
 			return nil, err
 		}
 
-		u.logger.WithFields(map[string]interface{}{
+		logFields := map[string]interface{}{
 			"user_id": user.ID,
 			"event":   d.UserUpdated,
-		}).Infoln(user.ToString())
+		}
+
+		if input.NewPassword != "" {
+			u.logger.WithFields(logFields).Infoln(user.ToString(), "user updated with password")
+		} else {
+			u.logger.WithFields(logFields).Infoln(user.ToString(), "user updated")
+		}
+
 		return user, nil
 	})
 }
