@@ -10,4 +10,8 @@ const (
 
 	RequestPasswordRecover = Event("request_password_recover")
 	PasswordRecovered      = Event("password_recovered")
+
+	FavoriteAdded   = Event("favorite_added")
+	FavoriteRemoved = Event("favorite_removed")
+	FavoriteQuery   = Event("favorite_query")
 )
