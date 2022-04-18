@@ -26,11 +26,11 @@ func NewCompanyFood(repository data.CompanyFoodsRepository, logger *providers.Lo
 }
 
 func (c *CompanyFoodImpl) FoodList(slug string) ([]domain.CompanyFood, error) {
-	
+
 	c.logger.WithFields(map[string]interface{}{
-		"event": "company_query"
+		"event":   "company_query",
 		"company": slug,
 	}).Infoln("listing company menu food")
-	
+
 	return c.Repository.FoodList()
 }
