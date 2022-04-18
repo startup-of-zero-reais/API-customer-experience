@@ -14,6 +14,7 @@ func main() {
 
 func handleRoutes(event events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
 	l := providers.NewLogProvider()
+	l.LoggerConfig(event)
 	h := handler.NewHandler(l)
 	request := domain.ParseRequest(event)
 

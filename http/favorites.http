@@ -1,10 +1,10 @@
-@baseURL = https://api.zero-reais-lab.cloud/v1/customer-experience/favorites
 @baseURL = http://127.0.0.1:3000/favorites
+@baseURL = https://api.zero-reais-lab.cloud/v1/customer-experience/favorites
 
 ### PROD TOKEN
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTAxNjU4MTAsImp0aSI6ImpvaG4xQGRvZS5jb20iLCJzdWIiOiI5MjExNTZkYy00OTE5LTRiNjctYmI5Ny1iZGE5Y2FkZTBlY2YifQ.L8qOe2xL-7NnQM5VKmBVe01oVggZcX7MIz7CoBlwJlM
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTAzMzE0MTcsImp0aSI6ImpvaG4tMkBkb2UuY29tIiwic3ViIjoiNzc2MmZkMDQtOWM0OS00Y2FiLTk1MjItOTZkZTYyYTdhYzNmIn0.Rcmi8thGJp2LNv7q2dLR18hmntoNhrwFvsIwg_-VzEM
 ### LOCAL TOKEN
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTAxNjU4MTAsImp0aSI6ImpvaG4xQGRvZS5jb20iLCJzdWIiOiI5MjExNTZkYy00OTE5LTRiNjctYmI5Ny1iZGE5Y2FkZTBlY2YifQ.L8qOe2xL-7NnQM5VKmBVe01oVggZcX7MIz7CoBlwJlM
+# @authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTAxNjU4MTAsImp0aSI6ImpvaG4xQGRvZS5jb20iLCJzdWIiOiI5MjExNTZkYy00OTE5LTRiNjctYmI5Ny1iZGE5Y2FkZTBlY2YifQ.L8qOe2xL-7NnQM5VKmBVe01oVggZcX7MIz7CoBlwJlM
 
 # @mealID = bb73b635-921f-43a0-a2ea-5430744caaae
 @mealID = a12d8a5e-8e46-4402-84d5-45349acb3230
