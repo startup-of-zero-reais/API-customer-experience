@@ -7,7 +7,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/config v1.15.3
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.15.3
 	github.com/google/uuid v1.3.0
-	github.com/startup-of-zero-reais/API-customer-experience/src/common v0.0.0-20220418005928-13484ed4876c
+	github.com/startup-of-zero-reais/API-customer-experience/src/common v0.0.0-20220418020119-f64144249f1e
 	github.com/startup-of-zero-reais/dynamo-for-lambda v0.0.0-20220410184837-d85b2a72c69a
 )
 
