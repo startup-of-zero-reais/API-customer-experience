@@ -18,17 +18,27 @@ func handleRoutes(event events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTP
 	h := handler.NewHandler(logger)
 
 	request := domain.ParseRequest(event)
+	responseHandler := handleResponseWithLogger(logger)
 
 	switch event.RequestContext.HTTP.Method {
 	case "GET":
-		return domain.WrapResponse(h.Get(request))
+		return responseHandler(h.Get(request))
 	case "POST":
-		return domain.WrapResponse(h.Post(request))
+		return responseHandler(h.Post(request))
 	case "PUT":
-		return domain.WrapResponse(h.Put(request))
+		return responseHandler(h.Put(request))
 	case "DELETE":
-		return domain.WrapResponse(h.Delete(request))
+		return responseHandler(h.Delete(request))
 	default:
 		panic("Method not implemented")
+	}
+}
+
+// handleResponseWithLogger is a helper function to handle the response and log the response
+func handleResponseWithLogger(logger *providers.LogProvider) func(response domain.Response) (events.APIGatewayV2HTTPResponse, error) {
+	return func(response domain.Response) (events.APIGatewayV2HTTPResponse, error) {
+		logger.LogResponse(response)
+
+		return domain.WrapResponse(response)
 	}
 }

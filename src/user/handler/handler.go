@@ -2,8 +2,9 @@ package handler
 
 import (
 	"encoding/json"
-	"errors"
 	"net/http"
+
+	"github.com/startup-of-zero-reais/API-customer-experience/src/common/validation"
 
 	"github.com/startup-of-zero-reais/API-customer-experience/src/common/providers"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/user/service"
@@ -15,22 +16,16 @@ import (
 type (
 	// Handler struct represents a route handler
 	Handler struct {
-		response *domain.Response
-
-		app *Application
-		*providers.LogProvider
-
+		response   *domain.Response
+		app        *Application
 		jwtService s.JwtService
 	}
 )
 
 func NewHandler(logger *providers.LogProvider) Handler {
 	return Handler{
-		response: domain.NewResponse(),
-
-		app:         NewApplication(logger),
-		LogProvider: logger,
-
+		response:   domain.NewResponse(),
+		app:        NewApplication(logger),
 		jwtService: s.NewJwtService(),
 	}
 }
@@ -42,7 +37,7 @@ func (h *Handler) validateAuth(r domain.Request) error {
 	}
 
 	if authorization == "" {
-		return errors.New("sessão expirada ou inválida")
+		return validation.UnauthorizedError("sessão expirada ou inválida")
 	}
 
 	_, err := h.jwtService.ValidateToken(authorization)
@@ -54,9 +49,7 @@ func (h *Handler) Post(r domain.Request) domain.Response {
 
 	err := h.app.CreateUser.Execute(r.Body)
 	if err != nil {
-		res := h.response.HandleError(err)
-		h.LogResponse(res)
-		return res
+		return h.response.HandleError(err)
 	}
 
 	return *h.response
@@ -65,9 +58,7 @@ func (h *Handler) Post(r domain.Request) domain.Response {
 func (h *Handler) Get(r domain.Request) domain.Response {
 	err := h.validateAuth(r)
 	if err != nil {
-		res := h.response.HandleError(err)
-		h.LogResponse(res)
-		return res
+		return h.response.HandleError(err)
 	}
 
 	id := h.jwtService.DecodedToken("id").(string)
@@ -75,14 +66,11 @@ func (h *Handler) Get(r domain.Request) domain.Response {
 
 	user, err := h.app.GetUser.Execute(id, email)
 	if err != nil {
-		res := h.response.HandleError(err)
-		h.LogResponse(res)
-		return res
+		return h.response.HandleError(err)
 	}
 
 	h.response.SetStatusCode(http.StatusOK)
 	h.response.SetData(user)
-	h.LogResponse(*h.response)
 
 	return *h.response
 }
@@ -90,9 +78,7 @@ func (h *Handler) Get(r domain.Request) domain.Response {
 func (h *Handler) Put(r domain.Request) domain.Response {
 	err := h.validateAuth(r)
 	if err != nil {
-		res := h.response.HandleError(err)
-		h.LogResponse(res)
-		return res
+		return h.response.HandleError(err)
 	}
 
 	id := h.jwtService.DecodedToken("id").(string)
@@ -100,9 +86,7 @@ func (h *Handler) Put(r domain.Request) domain.Response {
 
 	err = h.app.UpdateUser.Update(id, email, r.Body)
 	if err != nil {
-		res := h.response.HandleError(err)
-		h.LogResponse(res)
-		return res
+		return h.response.HandleError(err)
 	}
 
 	return *h.response
@@ -111,9 +95,7 @@ func (h *Handler) Put(r domain.Request) domain.Response {
 func (h *Handler) Delete(r domain.Request) domain.Response {
 	err := h.validateAuth(r)
 	if err != nil {
-		res := h.response.HandleError(err)
-		h.LogResponse(res)
-		return res
+		return h.response.HandleError(err)
 	}
 
 	id := h.jwtService.DecodedToken("id").(string)
@@ -122,18 +104,15 @@ func (h *Handler) Delete(r domain.Request) domain.Response {
 	var user service.User
 	err = json.Unmarshal([]byte(r.Body), &user)
 	if err != nil {
-		res := h.response.HandleError(err)
-		h.LogResponse(res)
-		return res
+		return h.response.HandleError(err)
 	}
 
 	err = h.app.DeleteUser.Execute(id, email, user.Password, user.ConfirmPassword)
 	if err != nil {
-		res := h.response.HandleError(err)
-		h.LogResponse(res)
-		return res
+		return h.response.HandleError(err)
 	}
 
 	h.response.SetStatusCode(http.StatusNoContent)
+
 	return *h.response
 }
