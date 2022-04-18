@@ -15,6 +15,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.9.3 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sso v1.11.3 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sts v1.16.3 // indirect
+	golang.org/x/crypto v0.0.0-20220331220935-ae2d96664a29 // indirect
 )
 
 require (
@@ -33,5 +34,5 @@ require (
 
 require (
 	github.com/google/uuid v1.3.0 // indirect
-	github.com/startup-of-zero-reais/API-customer-experience/src/common v0.0.0-20220410213927-0a83ff7cd13d
+	github.com/startup-of-zero-reais/API-customer-experience/src/common v0.0.0-20220418021947-aa4d656b68ad
 )

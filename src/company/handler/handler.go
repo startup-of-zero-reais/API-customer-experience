@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/startup-of-zero-reais/API-customer-experience/src/common/domain"
+	"github.com/startup-of-zero-reais/API-customer-experience/src/common/providers"
 )
 
 type (
@@ -11,26 +12,25 @@ type (
 		response *domain.Response
 
 		app *Application
+
+		logger *providers.LogProvider
 	}
 )
 
-func NewHandler() *Handler {
+func NewHandler(logger *providers.LogProvider) *Handler {
 	return &Handler{
 		response: domain.NewResponse(),
 
-		app: NewApplication(),
+		app: NewApplication(logger),
+
+		logger: logger,
 	}
 }
 
 func (h *Handler) Get(r domain.Request) domain.Response {
-	foodList, err := h.app.Queries.CompanyFood.FoodList()
+	foodList, err := h.app.Queries.CompanyFood.FoodList(r.PathParams["slug"])
 	if err != nil {
-		h.response.SetStatusCode(http.StatusBadGateway)
-		h.response.SetMetadata(
-			map[string]string{"error": err.Error()},
-		)
-
-		return *h.response
+		return h.response.HandleError(err)
 	}
 
 	h.response.SetStatusCode(http.StatusOK)

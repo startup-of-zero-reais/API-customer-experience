@@ -14,7 +14,7 @@ import (
 
 type (
 	CompanyFoodsRepository interface {
-		FoodList() ([]domain.CompanyFood, error)
+		FoodList(slug string) ([]domain.CompanyFood, error)
 	}
 
 	CompanyFoodsRepositoryImpl struct {
@@ -52,7 +52,7 @@ func NewCompanyFoodsRepository() CompanyFoodsRepository {
 	}
 }
 
-func (c *CompanyFoodsRepositoryImpl) FoodList() ([]domain.CompanyFood, error) {
+func (c *CompanyFoodsRepositoryImpl) FoodList(slug string) ([]domain.CompanyFood, error) {
 	companyFoods := []domain.CompanyFood{
 		{
 			ID:          "1",
@@ -60,7 +60,7 @@ func (c *CompanyFoodsRepositoryImpl) FoodList() ([]domain.CompanyFood, error) {
 			Ingredients: "Massa, molho de tomate e mussarela",
 			Price:       1999,
 			Photo:       "https://randomuser.me/api/portraits/lego/1.jpg",
-			CompanySlug: "pizzaria-del-vitiente",
+			CompanySlug: slug,
 		},
 		{
 			ID:          "2",
@@ -68,7 +68,7 @@ func (c *CompanyFoodsRepositoryImpl) FoodList() ([]domain.CompanyFood, error) {
 			Ingredients: "Massa, molho de tomate, mussarela e calabresa",
 			Price:       1999,
 			Photo:       "https://randomuser.me/api/portraits/lego/1.jpg",
-			CompanySlug: "pizzaria-del-vitiente",
+			CompanySlug: slug,
 		},
 		{
 			ID:          "3",
@@ -76,7 +76,7 @@ func (c *CompanyFoodsRepositoryImpl) FoodList() ([]domain.CompanyFood, error) {
 			Ingredients: "Massa, molho de tomate, mussarela e bacon",
 			Price:       1999,
 			Photo:       "https://randomuser.me/api/portraits/lego/1.jpg",
-			CompanySlug: "pizzaria-del-vitiente",
+			CompanySlug: slug,
 		},
 	}
 
