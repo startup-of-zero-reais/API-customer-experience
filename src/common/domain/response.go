@@ -96,6 +96,7 @@ func (r *Response) HandleError(err error) Response {
 	var fieldValidator *validation.FieldValidator
 	if errors.As(err, &fieldValidator) {
 		r.SetStatusCode(http.StatusBadRequest)
+		r.SetMetadata(err)
 	}
 
 	return *r
