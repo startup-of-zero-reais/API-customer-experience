@@ -1,13 +1,13 @@
-# @baseURL = https://api.zero-reais-lab.cloud/v1/customer-experience
 @baseURL = http://127.0.0.1:3000/session
+@baseURL = https://api.zero-reais-lab.cloud/v1/customer-experience
 
 ###
 # @name signIn
 POST {{baseURL}}/sign-in
-Content-Type: application/json
+# Content-Type: application/json
 
 {
-	"email": "john1@doe.com",
+	"email": "john@doe.com",
 	"password": "123456"
 }
 

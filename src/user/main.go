@@ -4,6 +4,7 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/common/domain"
+	"github.com/startup-of-zero-reais/API-customer-experience/src/common/providers"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/user/handler"
 )
 
@@ -12,7 +13,9 @@ func main() {
 }
 
 func handleRoutes(event events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
-	h := handler.NewHandler()
+	logger := providers.NewLogProvider()
+	logger.LoggerConfig(event)
+	h := handler.NewHandler(logger)
 
 	request := domain.ParseRequest(event)
 

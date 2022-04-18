@@ -24,9 +24,7 @@ type (
 	}
 )
 
-func NewHandler() Handler {
-	logger := providers.NewLogProvider()
-
+func NewHandler(logger *providers.LogProvider) Handler {
 	return Handler{
 		response: domain.NewResponse(),
 
