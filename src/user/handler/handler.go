@@ -5,7 +5,7 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/startup-of-zero-reais/API-customer-experience/src/common/validation"
+	"github.com/startup-of-zero-reais/API-customer-experience/src/common/providers"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/user/service"
 
 	"github.com/startup-of-zero-reais/API-customer-experience/src/common/domain"
@@ -18,16 +18,20 @@ type (
 		response *domain.Response
 
 		app *Application
+		*providers.LogProvider
 
 		jwtService s.JwtService
 	}
 )
 
 func NewHandler() Handler {
+	logger := providers.NewLogProvider()
+
 	return Handler{
 		response: domain.NewResponse(),
 
-		app: NewApplication(),
+		app:         NewApplication(logger),
+		LogProvider: logger,
 
 		jwtService: s.NewJwtService(),
 	}
@@ -52,20 +56,9 @@ func (h *Handler) Post(r domain.Request) domain.Response {
 
 	err := h.app.CreateUser.Execute(r.Body)
 	if err != nil {
-		h.response.SetStatusCode(http.StatusInternalServerError)
-		h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
-
-		var fv *validation.FieldValidator
-		if errors.As(err, &fv) {
-			h.response.SetStatusCode(http.StatusBadRequest)
-			h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
-		}
-
-		var alreadyExists *validation.EntityAlreadyExists
-		if errors.As(err, &alreadyExists) {
-			h.response.SetStatusCode(http.StatusConflict)
-			h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
-		}
+		res := h.response.HandleError(err)
+		h.LogResponse(res)
+		return res
 	}
 
 	return *h.response
@@ -73,12 +66,10 @@ func (h *Handler) Post(r domain.Request) domain.Response {
 
 func (h *Handler) Get(r domain.Request) domain.Response {
 	err := h.validateAuth(r)
-
 	if err != nil {
-		h.response.SetStatusCode(http.StatusUnauthorized)
-		h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
-
-		return *h.response
+		res := h.response.HandleError(err)
+		h.LogResponse(res)
+		return res
 	}
 
 	id := h.jwtService.DecodedToken("id").(string)
@@ -86,18 +77,14 @@ func (h *Handler) Get(r domain.Request) domain.Response {
 
 	user, err := h.app.GetUser.Execute(id, email)
 	if err != nil {
-		h.response.SetStatusCode(http.StatusInternalServerError)
-		h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
-
-		var notFound *validation.NotFound
-		if errors.As(err, &notFound) {
-			h.response.SetStatusCode(http.StatusNotFound)
-			h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
-		}
-	} else {
-		h.response.SetStatusCode(http.StatusOK)
-		h.response.SetData(user)
+		res := h.response.HandleError(err)
+		h.LogResponse(res)
+		return res
 	}
+
+	h.response.SetStatusCode(http.StatusOK)
+	h.response.SetData(user)
+	h.LogResponse(*h.response)
 
 	return *h.response
 }
@@ -105,10 +92,9 @@ func (h *Handler) Get(r domain.Request) domain.Response {
 func (h *Handler) Put(r domain.Request) domain.Response {
 	err := h.validateAuth(r)
 	if err != nil {
-		h.response.SetStatusCode(http.StatusUnauthorized)
-		h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
-
-		return *h.response
+		res := h.response.HandleError(err)
+		h.LogResponse(res)
+		return res
 	}
 
 	id := h.jwtService.DecodedToken("id").(string)
@@ -116,32 +102,9 @@ func (h *Handler) Put(r domain.Request) domain.Response {
 
 	err = h.app.UpdateUser.Update(id, email, r.Body)
 	if err != nil {
-		h.response.SetStatusCode(http.StatusInternalServerError)
-		h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
-
-		var notFound *validation.NotFound
-		if errors.As(err, &notFound) {
-			h.response.SetStatusCode(http.StatusNotFound)
-			h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
-		}
-
-		var fv *validation.FieldValidator
-		if errors.As(err, &fv) {
-			h.response.SetStatusCode(http.StatusBadRequest)
-			h.response.SetMetadata(err)
-		}
-
-		var alreadyExists *validation.EntityAlreadyExists
-		if errors.As(err, &alreadyExists) {
-			h.response.SetStatusCode(http.StatusConflict)
-			h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
-		}
-
-		var unauthorized *validation.Unauthorized
-		if errors.As(err, &unauthorized) {
-			h.response.SetStatusCode(http.StatusUnauthorized)
-			h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
-		}
+		res := h.response.HandleError(err)
+		h.LogResponse(res)
+		return res
 	}
 
 	return *h.response
@@ -150,13 +113,10 @@ func (h *Handler) Put(r domain.Request) domain.Response {
 func (h *Handler) Delete(r domain.Request) domain.Response {
 	err := h.validateAuth(r)
 	if err != nil {
-		h.response.SetStatusCode(http.StatusUnauthorized)
-		h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
-
-		return *h.response
+		res := h.response.HandleError(err)
+		h.LogResponse(res)
+		return res
 	}
-
-	h.response.SetStatusCode(http.StatusNoContent)
 
 	id := h.jwtService.DecodedToken("id").(string)
 	email := h.jwtService.DecodedToken("email").(string)
@@ -164,34 +124,18 @@ func (h *Handler) Delete(r domain.Request) domain.Response {
 	var user service.User
 	err = json.Unmarshal([]byte(r.Body), &user)
 	if err != nil {
-		h.response.SetStatusCode(http.StatusInternalServerError)
-		h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
-		return *h.response
+		res := h.response.HandleError(err)
+		h.LogResponse(res)
+		return res
 	}
 
 	err = h.app.DeleteUser.Execute(id, email, user.Password, user.ConfirmPassword)
 	if err != nil {
-		h.response.SetStatusCode(http.StatusInternalServerError)
-		h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
-
-		var notFound *validation.NotFound
-		if errors.As(err, &notFound) {
-			h.response.SetStatusCode(http.StatusNotFound)
-			h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
-		}
-
-		var fv *validation.FieldValidator
-		if errors.As(err, &fv) {
-			h.response.SetStatusCode(http.StatusUnauthorized)
-			h.response.SetMetadata(err)
-		}
-
-		var unauthorized *validation.Unauthorized
-		if errors.As(err, &unauthorized) {
-			h.response.SetStatusCode(http.StatusUnauthorized)
-			h.response.SetMetadata(map[string]interface{}{"error": err.Error()})
-		}
+		res := h.response.HandleError(err)
+		h.LogResponse(res)
+		return res
 	}
 
+	h.response.SetStatusCode(http.StatusNoContent)
 	return *h.response
 }

@@ -3,9 +3,7 @@ package service
 import (
 	"encoding/json"
 	"errors"
-	"log"
 
-	dt "github.com/startup-of-zero-reais/API-customer-experience/src/common/data"
 	d "github.com/startup-of-zero-reais/API-customer-experience/src/common/domain"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/common/providers"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/common/validation"
@@ -25,7 +23,7 @@ type (
 	CreateUserImpl struct {
 		Repository data.UserRepository
 
-		EventEmitter d.EventEmitter
+		logger *providers.LogProvider
 	}
 
 	// User struct represents a user
@@ -41,13 +39,11 @@ type (
 	}
 )
 
-func NewCreateUser(repository data.UserRepository) *CreateUserImpl {
+func NewCreateUser(repository data.UserRepository, logger *providers.LogProvider) *CreateUserImpl {
 	return &CreateUserImpl{
 		Repository: repository,
 
-		EventEmitter: d.NewEventEmitter(
-			dt.NewEventRepository(),
-		),
+		logger: logger,
 	}
 }
 
@@ -97,6 +93,10 @@ func (c *CreateUserImpl) Execute(body string) error {
 		return err
 	}
 
-	log.Println("[USER UID]:", user.ID)
-	return c.EventEmitter.Emit(user.ID, d.UserCreated, user)
+	c.logger.WithFields(map[string]interface{}{
+		"user_id": user.ID,
+		"event":   d.UserCreated,
+	}).Infoln(user.ToString())
+
+	return nil
 }

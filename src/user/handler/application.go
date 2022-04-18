@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"github.com/startup-of-zero-reais/API-customer-experience/src/common/providers"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/user/data"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/user/service"
 )
@@ -22,17 +23,17 @@ type (
 	}
 )
 
-func NewApplication() *Application {
+func NewApplication(logger *providers.LogProvider) *Application {
 	usrRepository := data.NewUserRepository()
 
 	return &Application{
 		Commands: Commands{
-			CreateUser: service.NewCreateUser(usrRepository),
-			UpdateUser: service.NewUpdateUser(usrRepository),
-			DeleteUser: service.NewDeleteUser(usrRepository),
+			CreateUser: service.NewCreateUser(usrRepository, logger),
+			UpdateUser: service.NewUpdateUser(usrRepository, logger),
+			DeleteUser: service.NewDeleteUser(usrRepository, logger),
 		},
 		Queries: Queries{
-			GetUser: service.NewGetUser(usrRepository),
+			GetUser: service.NewGetUser(usrRepository, logger),
 		},
 	}
 }

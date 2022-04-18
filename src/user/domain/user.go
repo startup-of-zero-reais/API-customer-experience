@@ -1,6 +1,8 @@
 package domain
 
 import (
+	"encoding/json"
+
 	"github.com/startup-of-zero-reais/API-customer-experience/src/common/validation"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/user/domain/fields"
 )
@@ -81,4 +83,10 @@ func (u *User) ConfirmPassword(password string) error {
 	}
 
 	return nil
+}
+
+func (u *User) ToString() string {
+	bytes, _ := json.Marshal(u)
+
+	return string(bytes)
 }

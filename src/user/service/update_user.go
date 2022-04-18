@@ -2,9 +2,7 @@ package service
 
 import (
 	"encoding/json"
-	"log"
 
-	dt "github.com/startup-of-zero-reais/API-customer-experience/src/common/data"
 	d "github.com/startup-of-zero-reais/API-customer-experience/src/common/domain"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/common/providers"
 	"github.com/startup-of-zero-reais/API-customer-experience/src/common/validation"
@@ -23,7 +21,7 @@ type (
 	UpdateUserImpl struct {
 		Repository data.UserRepository
 
-		EventEmitter d.EventEmitter
+		logger *providers.LogProvider
 	}
 
 	// User struct represents a user
@@ -40,13 +38,11 @@ type (
 	}
 )
 
-func NewUpdateUser(repository data.UserRepository) UpdateUser {
+func NewUpdateUser(repository data.UserRepository, logger *providers.LogProvider) UpdateUser {
 	return &UpdateUserImpl{
 		Repository: repository,
 
-		EventEmitter: d.NewEventEmitter(
-			dt.NewEventRepository(),
-		),
+		logger: logger,
 	}
 }
 
@@ -67,7 +63,7 @@ func (u *UpdateUserImpl) Update(id, email, body string) error {
 	}
 
 	return u.Repository.Update(id, email, func(user *domain.User) (*domain.User, error) {
-		log.Printf("[INPUT]: %+v\n", input)
+		u.logger.Debugf("[INPUT]: %+v\n", input)
 		// confirm if is users password
 		err := user.Password.PassToHash().Compare(input.Password)
 		if err != nil {
@@ -91,7 +87,10 @@ func (u *UpdateUserImpl) Update(id, email, body string) error {
 			return nil, err
 		}
 
-		u.EventEmitter.Emit(user.ID, d.UserUpdated, user)
+		u.logger.WithFields(map[string]interface{}{
+			"user_id": user.ID,
+			"event":   d.UserUpdated,
+		}).Infoln(user.ToString())
 		return user, nil
 	})
 }
