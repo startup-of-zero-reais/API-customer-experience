@@ -4,7 +4,7 @@
 ###
 # @name signIn
 POST {{baseURL}}/sign-in
-# Content-Type: application/json
+Content-Type: application/json
 
 {
 	"email": "john@doe.com",

@@ -17,7 +17,12 @@ func handleRoutes(event events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTP
 	logger.LoggerConfig(event)
 	h := handler.NewHandler(logger)
 
-	request := domain.ParseRequest(event)
+	request, err := domain.ParseRequest(event)
+	if err != nil {
+		logger.Errorln("[ERROR] parsing request:", err)
+		panic(err)
+	}
+
 	responseHandler := handleResponseWithLogger(logger)
 
 	switch event.RequestContext.HTTP.Method {

@@ -34,5 +34,5 @@ require (
 
 require (
 	github.com/google/uuid v1.3.0 // indirect
-	github.com/startup-of-zero-reais/API-customer-experience/src/common v0.0.0-20220418021947-aa4d656b68ad
+	github.com/startup-of-zero-reais/API-customer-experience/src/common v0.0.0-20220419011249-293e4f7eca44
 )

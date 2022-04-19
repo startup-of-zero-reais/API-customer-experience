@@ -12,7 +12,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/config v1.15.3
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.15.3
 	github.com/gosimple/slug v1.12.0
-	github.com/startup-of-zero-reais/API-customer-experience/src/common v0.0.0-20220418021626-71fd1beff19f
+	github.com/startup-of-zero-reais/API-customer-experience/src/common v0.0.0-20220419011249-293e4f7eca44
 	github.com/startup-of-zero-reais/dynamo-for-lambda v0.0.0-20220410184837-d85b2a72c69a
 	golang.org/x/text v0.3.7
 )
