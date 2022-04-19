@@ -28,15 +28,13 @@ func ParseRequest(request events.APIGatewayV2HTTPRequest) Request {
 		cookies[cookieSlices[0]] = cookieSlices[1]
 	}
 
-	if content := request.Headers["Content-Type"]; content != "application/json" {
-		decodedBody, err := base64.StdEncoding.DecodeString(request.Body)
-		if err != nil {
-			log.Println("[ERROR] parsing body with header:", request.Headers["Content-Type"], err)
-			panic(err)
-		} else {
-			request.Body = string(decodedBody)
-		}
+	decodedBody, err := base64.StdEncoding.DecodeString(request.Body)
+	if err != nil {
+		log.Println("[ERROR] parsing body with header:", request.Headers["Content-Type"], err)
+		panic(err)
 	}
+
+	request.Body = string(decodedBody)
 
 	if request.Headers["Authorization"] != "" {
 		request.Headers["Authorization"] = strings.Replace(request.Headers["Authorization"], "Bearer ", "", 1)
