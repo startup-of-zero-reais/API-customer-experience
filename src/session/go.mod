@@ -33,6 +33,6 @@ require (
 
 require (
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
-	github.com/startup-of-zero-reais/API-customer-experience/src/common v0.0.0-20220418020119-f64144249f1e
+	github.com/startup-of-zero-reais/API-customer-experience/src/common v0.0.0-20220419011249-293e4f7eca44
 	golang.org/x/crypto v0.0.0-20220331220935-ae2d96664a29 // indirect
 )

@@ -23,7 +23,11 @@ func handleRoutes(event events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTP
 
 	handler := handler.NewHandler(l)
 
-	request := domain.ParseRequest(event)
+	request, err := domain.ParseRequest(event)
+	if err != nil {
+		l.Errorln("[ERROR] parsing request:", err)
+		panic(err)
+	}
 
 	signInCase := regexp.MustCompile(`\/sign-in$`).MatchString(event.RequestContext.HTTP.Path)
 	signOutCase := regexp.MustCompile(`\/sign-out$`).MatchString(event.RequestContext.HTTP.Path)
