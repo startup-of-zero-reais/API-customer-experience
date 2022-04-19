@@ -20,7 +20,7 @@ type (
 )
 
 // ParseRequest parses the request from the API Gateway and returns a Request
-func ParseRequest(request events.APIGatewayV2HTTPRequest) Request {
+func ParseRequest(request events.APIGatewayV2HTTPRequest) (Request, error) {
 	cookies := map[string]string{}
 
 	for _, cookie := range request.Cookies {
@@ -28,13 +28,26 @@ func ParseRequest(request events.APIGatewayV2HTTPRequest) Request {
 		cookies[cookieSlices[0]] = cookieSlices[1]
 	}
 
-	decodedBody, err := base64.StdEncoding.DecodeString(request.Body)
-	if err != nil {
-		log.Println("[ERROR] parsing body with header:", request.Headers["Content-Type"], err)
-		panic(err)
+	content := request.Headers["Content-Type"]
+	if content == "" {
+		content = request.Headers["content-type"]
 	}
 
-	request.Body = string(decodedBody)
+	if content != "application/json" {
+		decodedBody, err := base64.StdEncoding.DecodeString(request.Body)
+		if err != nil {
+			log.Println("[ERROR] parsing body with header:", request.Headers["Content-Type"], err)
+			return Request{
+				Headers:     request.Headers,
+				Cookies:     cookies,
+				Body:        request.Body,
+				PathParams:  request.PathParameters,
+				QueryParams: request.QueryStringParameters,
+			}, err
+		} else {
+			request.Body = string(decodedBody)
+		}
+	}
 
 	if request.Headers["Authorization"] != "" {
 		request.Headers["Authorization"] = strings.Replace(request.Headers["Authorization"], "Bearer ", "", 1)
@@ -46,7 +59,7 @@ func ParseRequest(request events.APIGatewayV2HTTPRequest) Request {
 		Body:        request.Body,
 		PathParams:  request.PathParameters,
 		QueryParams: request.QueryStringParameters,
-	}
+	}, nil
 }
 
 // WrapResponse returns a response with the status code and the body
