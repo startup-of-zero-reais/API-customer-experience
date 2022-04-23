@@ -27,10 +27,11 @@ def applyTerraform(moduleName) {
 }
 
 def destroyTerraform(moduleName) {
-  echo "Destroying ${moduleName}..."
+	initTerraform(moduleName)
+	echo "Destroying ${moduleName}..."
 
-  sh "cd terraforms/${moduleName} && \
-      terraform destroy -var-file=../base-env.tfvars -var-file=../env.tfvars -auto-approve"
+	sh "cd terraforms/${moduleName} && \
+		terraform destroy -var-file=../base-env.tfvars -var-file=../env.tfvars -auto-approve"
 }
 
 pipeline {
